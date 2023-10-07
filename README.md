@@ -23,7 +23,11 @@ npm install
 ```
 
 ```console
-npm run dev
+npm run build
+```
+
+```console
+npm start
 ```
 
 # ⚒️ Tech
