@@ -8,6 +8,7 @@
     "dev": "",
     "build": "rimraf dist && tsc",
     "generate": "drizzle-kit generate:sqlite",
+    "lint": "prettier --check .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
