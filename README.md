@@ -45,4 +45,4 @@ npm start
 - Felipe [@](https://github.com/)
 - Franco [@](https://github.com/)
 - André [@](https://github.com/)
-- Yuvan [@](https://github.com/)
+- Yuvan Thirukumaran [@YuvanTec](https://github.com/YuvanTec)
