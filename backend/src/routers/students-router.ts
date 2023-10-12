@@ -11,7 +11,7 @@ const insertStudentSchema = createInsertSchema(students, {
   maximumMinigameLevel: z.number().min(1).max(4),
 });
 
-studentsRouter.post("/students/therapist/:therapistId", async (req, res) => {
+studentsRouter.post("/students", async (req, res) => {
   const newStudent = insertStudentSchema.parse(req.body);
   const db = await Singleton.getDB();
   const insertedStudents = await db
