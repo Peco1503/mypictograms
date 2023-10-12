@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "sqlite",
-  "id": "5bdd44b3-d88d-4f8e-8411-360a5143bb76",
+  "id": "0a905e94-76cc-44f7-a72a-c8fa69607978",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "admins": {
@@ -62,6 +62,13 @@
         },
         "cognitive_level": {
           "name": "cognitive_level",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "maximum_minigame_level": {
+          "name": "maximum_minigame_level",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
