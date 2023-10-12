@@ -1,5 +1,7 @@
 CREATE TABLE `admins` (
-	`id` integer PRIMARY KEY NOT NULL
+	`id` integer PRIMARY KEY NOT NULL,
+	`user` text,
+	`password` text
 );
 --> statement-breakpoint
 CREATE TABLE `images` (
