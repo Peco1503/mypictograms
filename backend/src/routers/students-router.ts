@@ -1,16 +1,21 @@
 import express from "express";
 import { Singleton } from "../db/connection";
-import { NewStudent, students } from "../db/schema";
+import { students } from "../db/schema";
+import { z } from "zod";
 
 const studentsRouter = express.Router();
 
-studentsRouter.get("/add-student", async (_, res) => {
-  const newStudent: NewStudent = {
-    name: "Pedro Alonso Moreno Salcedo",
-    birthYear: 2003,
-    cognitiveLevel: -1,
-    gender: "male",
-  };
+const studentSchema = z.object({
+  name: z.string(),
+  birthYear: z.number().positive(),
+  cognitiveLevel: z.string(),
+  maximumMinigameLevel: z.number().min(1).max(4),
+  gender: z.enum(students.gender.enumValues),
+  diagnostic: z.string(),
+});
+
+studentsRouter.post("/students", async (req, res) => {
+  const newStudent = studentSchema.parse(req.body);
 
   const db = await Singleton.getDB();
   const insertedStudents = await db
