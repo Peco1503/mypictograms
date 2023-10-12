@@ -4,7 +4,7 @@ GET {{server}}/students
 
 ###
 
-POST {{server}}/students/therapist/1
+POST {{server}}/students
 content-type: application/json
 
 {
@@ -14,6 +14,5 @@ content-type: application/json
     "maximumMinigameLevel": 2,
     "gender": "male",
     "diagnostic": "Very smart guy",
-    "therapistId": 1,
-    "parentId": 2
+    "therapistId": 1
 }

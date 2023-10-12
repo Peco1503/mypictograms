@@ -3,6 +3,8 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const admins = sqliteTable("admins", {
   id: integer("id").primaryKey(),
+  user: text("user"),
+  password: text("password"),
 });
 
 export const students = sqliteTable("students", {
@@ -23,5 +25,10 @@ export const images = sqliteTable("images", {
   id: integer("id").primaryKey(),
 });
 
+// Students
 export type Student = InferSelectModel<typeof students>;
 export type NewStudent = InferInsertModel<typeof students>;
+
+// Admins
+export type Admin = InferSelectModel<typeof admins>;
+export type NewAdmin = InferInsertModel<typeof admins>;
