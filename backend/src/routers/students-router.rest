@@ -1,3 +1,17 @@
 @server = http://localhost:3000/api
 
 GET {{server}}/students
+
+###
+
+POST {{server}}/students
+content-type: application/json
+
+{
+    "name": "Pedro Alonso Moreno Salcedo",
+    "birthYear": 2003,
+    "cognitiveLevel": "Such a low cognitive level",
+    "maximumMinigameLevel": 2,
+    "gender": "male",
+    "diagnostic": "Very smart guy"
+}
