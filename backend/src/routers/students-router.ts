@@ -1,22 +1,18 @@
 import express from "express";
 import { Singleton } from "../db/connection";
 import { students } from "../db/schema";
+import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
 const studentsRouter = express.Router();
 
-const studentSchema = z.object({
-  name: z.string(),
+const insertStudentSchema = createInsertSchema(students, {
   birthYear: z.number().positive(),
-  cognitiveLevel: z.string(),
   maximumMinigameLevel: z.number().min(1).max(4),
-  gender: z.enum(students.gender.enumValues),
-  diagnostic: z.string(),
 });
 
-studentsRouter.post("/students", async (req, res) => {
-  const newStudent = studentSchema.parse(req.body);
-
+studentsRouter.post("/students/therapist/:therapistId", async (req, res) => {
+  const newStudent = insertStudentSchema.parse(req.body);
   const db = await Singleton.getDB();
   const insertedStudents = await db
     .insert(students)

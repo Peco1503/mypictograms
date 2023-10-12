@@ -7,13 +7,15 @@ export const admins = sqliteTable("admins", {
 
 export const students = sqliteTable("students", {
   id: integer("id").primaryKey(),
-  name: text("name"),
-  birthYear: integer("birth_year"),
+  name: text("name").notNull(),
+  birthYear: integer("birth_year").notNull(),
   cognitiveLevel: text("cognitive_level"),
-  maximumMinigameLevel: integer("maximum_minigame_level"),
-  gender: text("gender", { enum: ["male", "female"] }),
+  maximumMinigameLevel: integer("maximum_minigame_level").notNull(),
+  gender: text("gender", { enum: ["male", "female"] }).notNull(),
   diagnostic: text("diagnostic"),
-  therapistId: integer("therapist_id").references(() => admins.id),
+  therapistId: integer("therapist_id")
+    .references(() => admins.id)
+    .notNull(),
   parentId: integer("parent_id").references(() => admins.id),
 });
 

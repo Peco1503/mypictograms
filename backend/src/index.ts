@@ -1,5 +1,7 @@
 import express from "express";
+import "express-async-errors";
 import studentsRouter from "./routers/students-router";
+
 const app = express();
 const PORT = 3000;
 
