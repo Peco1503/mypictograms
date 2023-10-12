@@ -1,0 +1,13 @@
+@server = http://localhost:3000/api
+
+GET {{server}}/admins
+
+###
+
+POST {{server}}/admins
+content-type: application/json
+
+{
+    "user": "Laura Flores",
+    "password": "password123"
+}
