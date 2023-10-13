@@ -1,5 +1,6 @@
 package com.tec.frontend
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -87,10 +89,11 @@ fun startPage() {
         }
         Spacer(modifier = Modifier.height(16.dp))
 
-
+        val context = LocalContext.current
         Button(
             onClick = {
-                // Handle login here
+                context.startActivity(Intent(context, Bienvenido::class.java))
+
             },
             modifier = Modifier
                 .border(2.dp, Orange, RoundedCornerShape(10.dp))
