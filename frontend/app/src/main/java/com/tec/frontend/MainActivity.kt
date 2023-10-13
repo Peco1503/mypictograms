@@ -52,23 +52,22 @@ fun startPage() {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(16.dp),
+            .padding(0.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
 
         Image(
-            painter = painterResource(id = R.drawable.img),
+            painter = painterResource(id = R.drawable.ama),
             contentDescription = null,
             modifier = Modifier
-                .size(400.dp)
-                .clip(MaterialTheme.shapes.medium)
-                .background(Color.White),
-            contentScale = ContentScale.Crop
+                .size(600.dp)
+                .clip(MaterialTheme.shapes.medium),
+            contentScale = ContentScale.Fit
         )
 
-        Spacer(modifier = Modifier.height(30.dp))
+        //Spacer(modifier = Modifier.height(0.dp))
 
 
         Button(
