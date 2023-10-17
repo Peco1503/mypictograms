@@ -3,12 +3,45 @@ import { Singleton } from "../db/connection";
 import { students } from "../db/schema";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
+import { eq } from "drizzle-orm";
 
 const studentsRouter = express.Router();
 
 const insertStudentSchema = createInsertSchema(students, {
   birthYear: z.number().positive(),
   maximumMinigameLevel: z.number().min(1).max(4),
+});
+
+studentsRouter.get("/students", async (req, res) => {
+  const { therapistId } = z
+    .object({ therapistId: z.coerce.number().optional() })
+    .parse(req.query);
+
+  const db = await Singleton.getDB();
+  if (therapistId !== undefined) {
+    const result = await db
+      .select()
+      .from(students)
+      .where(eq(students.therapistId, therapistId));
+    res.json(result);
+    return;
+  }
+
+  const result = await db.select().from(students);
+  res.json(result);
+});
+
+studentsRouter.get("/students/:id", async (req, res) => {
+  const { id } = z.object({ id: z.coerce.number() }).parse(req.params);
+
+  const db = await Singleton.getDB();
+  const result = await db.select().from(students).where(eq(students.id, id));
+
+  if (result.length !== 1) {
+    throw new Error("There is no student with given id");
+  }
+
+  res.json(result);
 });
 
 studentsRouter.post("/students", async (req, res) => {
@@ -18,13 +51,9 @@ studentsRouter.post("/students", async (req, res) => {
     .insert(students)
     .values(newStudent)
     .returning();
-  res.send(insertedStudents);
+  res.json(insertedStudents);
 });
 
-studentsRouter.get("/students", async (_, res) => {
-  const db = await Singleton.getDB();
-  const result = await db.select().from(students);
-  res.send(result);
-});
+studentsRouter.put("/students/", async (_, __) => {});
 
 export default studentsRouter;
