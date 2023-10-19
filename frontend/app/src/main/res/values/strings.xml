@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">frontend</string>
     <string name="title_activity_bienvenido">Bienvenido</string>
+    <string name="title_activity_alumnos_pagina_inicio">AlumnosPaginaInicio</string>
 </resources>
