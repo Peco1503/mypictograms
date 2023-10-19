@@ -71,10 +71,10 @@ fun startPage() {
 
         //Spacer(modifier = Modifier.height(0.dp))
 
-
+        val context1 = LocalContext.current
         Button(
             onClick = {
-                // Handle login here
+                context1.startActivity(Intent(context1, AlumnosPaginaInicio::class.java))
             },
             modifier = Modifier
                 .width(350.dp) // Specify the width you desire
