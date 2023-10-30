@@ -8,6 +8,6 @@ POST {{server}}/admins
 content-type: application/json
 
 {
-    "user": "Laura Flores",
-    "password": "password123"
+    "user": "laura@nuevoamanecer.mx",
+    "password": "123"
 }

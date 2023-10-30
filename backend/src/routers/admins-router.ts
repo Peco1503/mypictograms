@@ -2,20 +2,16 @@ import express from "express";
 import { Singleton } from "../db/connection";
 import { admins } from "../db/schema";
 import { createInsertSchema } from "drizzle-zod";
-import { z } from "zod";
 
 const adminsRouter = express.Router();
 
-const insertAdminSchema = createInsertSchema(admins, {
-  user: z.string(),
-  password: z.string(),
-});
+const insertAdminSchema = createInsertSchema(admins);
 
 adminsRouter.post("/admins", async (req, res) => {
   const newAdmin = insertAdminSchema.parse(req.body);
   const db = await Singleton.getDB();
-  const insertedAdmins = await db.insert(admins).values(newAdmin).returning();
-  res.send(insertedAdmins);
+  await db.insert(admins).values(newAdmin);
+  res.sendStatus(200);
 });
 
 adminsRouter.get("/admins", async (_, res) => {

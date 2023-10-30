@@ -3,7 +3,7 @@ import "express-async-errors";
 import type { ErrorRequestHandler } from "express";
 import loginRouter from "./routers/login-router";
 import studentsRouter from "./routers/students-router";
-import adminsRouter from "./routers/admis-router";
+import adminsRouter from "./routers/admins-router";
 
 const app = express();
 const PORT = 3000;

@@ -6,15 +6,6 @@ import z from "zod";
 
 const loginRouter = express.Router();
 
-loginRouter.get("/initial-admin", async (_, res) => {
-  const db = await Singleton.getDB();
-  await db.insert(admins).values({
-    user: "laura@nuevoamanecer.mx",
-    password: "123",
-  });
-  res.sendStatus(200);
-});
-
 loginRouter.post("/login", async (req, res) => {
   const { user, password } = z
     .object({
@@ -29,7 +20,6 @@ loginRouter.post("/login", async (req, res) => {
     .from(admins)
     .where(and(eq(admins.user, user), eq(admins.password, password)));
 
-  console.log(adminsFound);
   if (adminsFound.length > 0) {
     res.json({ ...adminsFound[0], type: "ADMIN" });
     return;
@@ -40,7 +30,6 @@ loginRouter.post("/login", async (req, res) => {
     .from(parents)
     .where(and(eq(parents.user, user), eq(parents.password, password)));
 
-  console.log(parentsFound);
   if (parentsFound.length > 0) {
     res.json({ ...adminsFound[0], type: "PARENT" });
     return;
