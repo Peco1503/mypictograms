@@ -7,3 +7,13 @@ content-type: application/json
     "user": "laura@nuevoamanecer.mx",
     "password": "123"
 }
+
+###
+
+POST {{server}}/login
+content-type: application/json
+
+{
+    "user": "padre1@nuevoamanecer.mx",
+    "password": "123"
+}

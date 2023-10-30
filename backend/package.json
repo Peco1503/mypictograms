@@ -8,6 +8,7 @@
     "dev": "nodemon src/index.ts",
     "build": "rimraf dist && tsc",
     "db:push": "drizzle-kit push:sqlite",
+    "db:studio": "drizzle-kit studio",
     "lint": "prettier --check .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

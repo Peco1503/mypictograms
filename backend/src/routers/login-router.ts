@@ -31,7 +31,7 @@ loginRouter.post("/login", async (req, res) => {
     .where(and(eq(parents.user, user), eq(parents.password, password)));
 
   if (parentsFound.length > 0) {
-    res.json({ ...adminsFound[0], type: "PARENT" });
+    res.json({ ...parentsFound[0], type: "PARENT" });
     return;
   }
 
