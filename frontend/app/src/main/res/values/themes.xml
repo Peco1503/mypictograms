@@ -5,7 +5,7 @@
 
     <style name="SplashScreen" parent="android:Theme.Material.NoActionBar">
         <item name="android:windowBackground">
-        @drawable/splash
+            @drawable/splash
         </item>
     </style>
 </resources>

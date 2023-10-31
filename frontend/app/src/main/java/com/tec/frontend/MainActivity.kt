@@ -92,7 +92,7 @@ fun startPage() {
         val context = LocalContext.current
         Button(
             onClick = {
-                context.startActivity(Intent(context, Bienvenido::class.java))
+                context.startActivity(Intent(context, InicioSesion::class.java))
 
             },
             modifier = Modifier
