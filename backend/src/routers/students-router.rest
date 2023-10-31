@@ -21,13 +21,12 @@ content-type: application/json
     "cognitiveLevel": "Such a low cognitive level",
     "maximumMinigameLevel": 2,
     "gender": "male",
-    "diagnostic": "Very smart guy",
+    "description": "Very smart guy",
     "therapistId": 1
 }
 
 ###
 PUT {{server}}/students/1
-
 content-type: application/json
 
 {
@@ -36,7 +35,7 @@ content-type: application/json
     "cognitiveLevel": "Test",
     "maximumMinigameLevel": 4,
     "gender": "female",
-    "diagnostic": "Hello world",
+    "description": "Hello world",
     "therapistId": 1
 }
 

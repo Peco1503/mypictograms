@@ -47,13 +47,23 @@ studentsRouter.get("/students/:id", async (req, res) => {
 studentsRouter.post("/students", async (req, res) => {
   const newStudent = insertStudentSchema.parse(req.body);
   const db = await Singleton.getDB();
-  const insertedStudents = await db
-    .insert(students)
-    .values(newStudent)
-    .returning();
-  res.json(insertedStudents);
+  await db.insert(students).values(newStudent).returning();
+  res.sendStatus(200);
 });
 
-studentsRouter.put("/students/", async (_, __) => {});
+studentsRouter.put("/students/:id", async (req, res) => {
+  const { id } = z.object({ id: z.coerce.number() }).parse(req.params);
+  const newStudent = insertStudentSchema.parse(req.body);
+  const db = await Singleton.getDB();
+  await db.update(students).set(newStudent).where(eq(students.id, id));
+  res.sendStatus(200);
+});
+
+studentsRouter.delete("/students/:id", async (req, res) => {
+  const { id } = z.object({ id: z.coerce.number() }).parse(req.params);
+  const db = await Singleton.getDB();
+  await db.delete(students).where(eq(students.id, id));
+  res.sendStatus(200);
+});
 
 export default studentsRouter;

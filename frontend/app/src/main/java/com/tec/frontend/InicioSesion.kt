@@ -141,6 +141,7 @@ fun Inicio() {
                             innerTextField()
                         }
                     )
+                    val context = LocalContext.current
                     Button(
                         modifier = Modifier
                             .padding(top = 45.dp),
