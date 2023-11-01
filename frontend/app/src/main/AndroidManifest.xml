@@ -13,6 +13,11 @@
         android:theme="@style/Theme.Frontend"
         tools:targetApi="31">
         <activity
+            android:name=".NivelSeleccion"
+            android:exported="false"
+            android:label="@string/title_activity_nivel_seleccion"
+            android:theme="@style/Theme.Frontend" />
+        <activity
             android:name=".PerfilAlumnoPadre"
             android:exported="false"
             android:label="@string/title_activity_perfil_alumno_padre"

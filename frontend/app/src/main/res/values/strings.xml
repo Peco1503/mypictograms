@@ -7,4 +7,5 @@
     <string name="title_activity_info_alumno">InfoAlumno</string>
     <string name="title_activity_dashboard_padres">DashboardPadres</string>
     <string name="title_activity_perfil_alumno_padre">PerfilAlumnoPadre</string>
+    <string name="title_activity_nivel_seleccion">NivelSeleccion</string>
 </resources>
