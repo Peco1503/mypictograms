@@ -35,9 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
 
-val Orange1 = Color(0xFFEE6B11)
-
-class DashboardProfe : ComponentActivity() {
+class DashboardPadres : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -47,7 +45,7 @@ class DashboardProfe : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    dashboard()
+                    dashboardPadres()
                 }
             }
         }
@@ -55,7 +53,7 @@ class DashboardProfe : ComponentActivity() {
 }
 
 @Composable
-fun dashboard() {
+fun dashboardPadres() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF)
@@ -67,7 +65,7 @@ fun dashboard() {
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "Hola de nuevo, Laura!",
+                text = "Hola de nuevo, Papa/Mama!",
                 style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal),
                 color = Color.White,
                 textAlign = TextAlign.Center
@@ -75,8 +73,8 @@ fun dashboard() {
 
             Box(
                 modifier = Modifier
-                    .width(950.dp)
-                    .height(446.dp)
+                    .width(771.dp)
+                    .height(300.dp)
                     .background(Color.White)
             ) {
                 Column(
@@ -88,7 +86,7 @@ fun dashboard() {
                 ) {
                     Text(
                         modifier = Modifier.padding(30.dp),
-                        text = "Mis alumnos",
+                        text = "Mi Hij@",
                         style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Bold),
                         color = Color.Black,
                         textAlign = TextAlign.Center
@@ -98,7 +96,9 @@ fun dashboard() {
                             .background(Color.White)
                             .padding(16.dp)
                     ) {
-                        listOf("Alumno 1","Alumno 2").forEach { student ->
+                        listOf(
+                            "Alumno 1"
+                        ).forEach { student ->
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -106,10 +106,23 @@ fun dashboard() {
                                     .padding(8.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(text = student, style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal))
+                                Text(
+                                    text = student,
+                                    style = TextStyle(
+                                        fontSize = 35.sp,
+                                        fontWeight = FontWeight.Normal
+                                    )
+                                )
                                 val context = LocalContext.current
                                 Button(
-                                    onClick = { context.startActivity(Intent(context, InfoAlumno::class.java)) },
+                                    onClick = {
+                                        context.startActivity(
+                                            Intent(
+                                                context,
+                                                PerfilAlumnoPadre::class.java
+                                            )
+                                        )
+                                    },
                                     modifier = Modifier
                                         .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                                         .width(80.dp)
@@ -120,50 +133,12 @@ fun dashboard() {
                                     Text("Info", color = Color.White)
                                 }
                             }
-                            Spacer(modifier = Modifier.height(10.dp))
+
                         }
-                    }
-                }
-            }
-
-            Box(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                contentAlignment = Alignment.Center // Center the buttons
-            ) {
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text("Nuevo: ", color = Color.White, style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Normal))
-                    Spacer(modifier = Modifier.width(16.dp))
-                    val context = LocalContext.current
-
-                    Button(
-                        onClick = { context.startActivity(Intent(context, Registro::class.java)) },
-                        modifier = Modifier
-                            .border(2.dp, Orange1, RoundedCornerShape(10.dp))
-                            .width(125.dp)
-                            .height(44.dp),
-                        shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(Orange1)
-                    ) {
-                        Text("Alumn@", color = Color.White, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Normal))
-                    }
-
-                    val context1 = LocalContext.current
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Button(
-                        onClick = {context1.startActivity(Intent(context1, DashboardPadres::class.java)) },
-                        modifier = Modifier
-                            .border(2.dp, Orange1, RoundedCornerShape(10.dp))
-                            .width(125.dp)
-                            .height(44.dp),
-                        shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(Orange1)
-                    ) {
-                        Text("Admin", color = Color.White, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Normal))
                     }
                 }
             }
         }
     }
 }
+
