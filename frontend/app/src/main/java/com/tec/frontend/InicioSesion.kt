@@ -69,7 +69,7 @@ fun Inicio() {
         ) {
             Box(
                 modifier = Modifier
-                    .size(700.dp)
+                    .size(600.dp)
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
             ) {
