@@ -149,7 +149,7 @@ fun Inicio() {
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick =
                             {
-                                context.startActivity(Intent(context, Registro::class.java))
+                                context.startActivity(Intent(context, DashboardProfe::class.java))
                             },
                         )
                         {

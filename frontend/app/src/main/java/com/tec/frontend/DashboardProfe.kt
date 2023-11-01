@@ -1,5 +1,6 @@
 package com.tec.frontend
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -96,7 +98,7 @@ fun dashboard() {
                             .background(Color.White)
                             .padding(16.dp)
                     ) {
-                        listOf("Alumno 1").forEach { student ->
+                        listOf("Alumno 1","Alumno 2","Alumno 3","Alumno 4","Alumno 5").forEach { student ->
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -105,8 +107,9 @@ fun dashboard() {
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(text = student, style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal))
+                                val context = LocalContext.current
                                 Button(
-                                    onClick = { /*TODO*/ },
+                                    onClick = { context.startActivity(Intent(context, AlumnosPaginaInicio::class.java)) },
                                     modifier = Modifier
                                         .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                                         .width(80.dp)
@@ -117,6 +120,7 @@ fun dashboard() {
                                     Text("Info", color = Color.White)
                                 }
                             }
+                            Spacer(modifier = Modifier.height(10.dp))
                         }
                     }
                 }
@@ -131,8 +135,10 @@ fun dashboard() {
                 ) {
                     Text("Nuevo: ", color = Color.White, style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Normal))
                     Spacer(modifier = Modifier.width(16.dp))
+                    val context = LocalContext.current
+
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { context.startActivity(Intent(context, Registro::class.java)) },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)
@@ -143,9 +149,8 @@ fun dashboard() {
                         Text("Alumn@", color = Color.White, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Normal))
                     }
                     Spacer(modifier = Modifier.width(16.dp))
-
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = { },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)
