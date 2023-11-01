@@ -13,6 +13,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -68,7 +71,7 @@ fun infoAlumno()
             Box(
                 modifier = Modifier
                     .width(650.dp)
-                    .height(700.dp)
+                    .height(750.dp)
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
             )
@@ -87,20 +90,45 @@ fun infoAlumno()
                         modifier = Modifier
                             .padding(16.dp)
                     )
-                    Row {
-                        Text(text = "Edad:  ", style = TextStyle())
-                        Text(text = "Texto1")
+                    Row(modifier = Modifier.padding(top=16.dp)) {
+                        Text(text = "Edad:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "Texto1", style = TextStyle(fontSize = 35.sp))
                     }
-                    Row {
-                        Text(text = "Genero:  ")
-                        Text(text = "Texto2")
+                    Row(modifier = Modifier.padding(top=16.dp)) {
+                        Text(text = "Genero:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "Texto2", style = TextStyle( fontSize = 35.sp))
                     }
-                    Row {
-                        Text(text = "Tutor:  ")
-                        Text(text = "Texto3")
+                    Row(modifier = Modifier.padding(top=16.dp)) {
+                        Text(text = "Tutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "Texto3", style = TextStyle( fontSize = 35.sp))
                     }
                     FourOptionsCheckBox()
-
+                    Row(modifier = Modifier.padding(top=16.dp)){
+                        Text(text = "Descripción:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "Texto4", style = TextStyle(fontSize = 35.sp))
+                    }
+                    Row(modifier = Modifier.padding(top=16.dp)){
+                        Text(text = "Nivel Cognitivo:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "Texto5", style = TextStyle(fontSize = 35.sp))
+                    }
+                    Row(modifier = Modifier.padding(top=16.dp), horizontalArrangement = Arrangement.SpaceBetween){
+                        Button(onClick = { /*TODO*/ },
+                                modifier = Modifier
+                                .padding(15.dp),
+                            shape = RoundedCornerShape(30.dp),
+                            colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
+                        ) {
+                            Text(text = "Atras", style = TextStyle(fontSize = 35.sp))
+                        }
+                        Button(onClick = { /*TODO*/ },
+                            modifier = Modifier
+                                .padding(15.dp),
+                            shape = RoundedCornerShape(30.dp),
+                            colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
+                            ) {
+                            Text(text = "Editar", style = TextStyle(fontSize = 35.sp))
+                        }
+                    }
                 }
             }
         }
@@ -119,7 +147,7 @@ fun FourOptionsCheckBox() {
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Nivel Autorizado: ", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
+            Text(text = "Nivel Autorizado: ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp), modifier = Modifier.padding(25.dp))
             Text(text = "1", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
             Checkbox(
                 checked = option1CheckedState,
