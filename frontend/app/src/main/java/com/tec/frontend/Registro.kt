@@ -1,5 +1,6 @@
 package com.tec.frontend
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -32,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -147,13 +149,16 @@ fun Registros() {
                     )
                     Spacer(modifier = Modifier.padding(top = 25.dp))
                     TwoOptionsCheckBox()
+
+                    val context = LocalContext.current
                     Button(
                         modifier = Modifier
                             .padding(top = 15.dp),
                         shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                        onClick = { /*TODO*/
-                        },
+                        onClick = {
+                            context.startActivity(Intent(context, InfoAlumno::class.java))
+                        }
                     )
                     {
                         Text(text = "Registrar",
