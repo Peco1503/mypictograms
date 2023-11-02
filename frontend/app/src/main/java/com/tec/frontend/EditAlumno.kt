@@ -89,6 +89,7 @@ fun Edit()
                 )
                 {
                     Row(modifier = Modifier.padding(top=16.dp)) {
+                        Text(text = "Nombre:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
