@@ -6,4 +6,6 @@
     <string name="title_activity_registro">Registro</string>
     <string name="title_activity_info_alumno">InfoAlumno</string>
     <string name="title_activity_edit_alumno">EditAlumno</string>
+    <string name="title_activity_dashboard_padres">DashboardPadres</string>
+    <string name="title_activity_perfil_alumno_padre">PerfilAlumnoPadre</string>
 </resources>
