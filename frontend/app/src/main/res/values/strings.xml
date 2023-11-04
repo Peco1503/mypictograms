@@ -8,4 +8,5 @@
     <string name="title_activity_edit_alumno">EditAlumno</string>
     <string name="title_activity_dashboard_padres">DashboardPadres</string>
     <string name="title_activity_perfil_alumno_padre">PerfilAlumnoPadre</string>
+    <string name="title_activity_nivel_seleccion">NivelSeleccion</string>
 </resources>
