@@ -104,13 +104,11 @@ fun BienvenidoPage() {
                             .height(45.dp), shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(Color.Transparent),
                     ) {
-                        Text(text = "Registrarse",
+                        Text(
+                            text = "Registrarse",
                             color = Color.White,
                             style = TextStyle(fontSize = 20.sp),
-
-
-                            )
-
+                        )
                     }
                 }
             }
