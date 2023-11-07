@@ -145,6 +145,25 @@ fun PantallaInicioAlum() {
                     
                     Spacer(modifier = Modifier.height(70.dp))
 
+                    val context = LocalContext.current
+                    Button(
+                        onClick = {
+                            context.startActivity(Intent(context, SeleccionNivel::class.java))
+
+                        },
+                        modifier = Modifier
+                            .border(2.dp, Orange, RoundedCornerShape(10.dp))
+                            .width(264.dp) // Specify the width you desire
+                            .height(45.dp), shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Color.Transparent),
+
+
+
+                        ) {
+                        Text("Continuar",
+                            color = Orange)
+                    }
+
                     
                     /*listOf("Alumno 1", "Alumno 2").forEach { student ->
                         Row(
