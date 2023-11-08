@@ -138,7 +138,7 @@ fun dashboard() {
                     val context = LocalContext.current
 
                     Button(
-                        onClick = { context.startActivity(Intent(context, EditAlumno::class.java)) },
+                        onClick = { context.startActivity(Intent(context, NuevoAlumno::class.java)) },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)
