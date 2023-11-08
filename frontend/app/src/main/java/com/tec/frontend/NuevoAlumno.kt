@@ -1,46 +1,45 @@
 package com.tec.frontend
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import com.tec.frontend.ui.theme.FrontendTheme
+import android.content.Intent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tec.frontend.ui.theme.FrontendTheme
 import androidx.compose.foundation.layout.Column as Column
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.runtime.*
 
 
-class InfoAlumno : ComponentActivity() {
+class NuevoAlumno : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -50,15 +49,14 @@ class InfoAlumno : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    infoAlumno()
+                    New()
                 }
             }
         }
     }
 }
-
 @Composable
-fun infoAlumno()
+fun New()
 {
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -83,54 +81,48 @@ fun infoAlumno()
                     horizontalAlignment = Alignment.CenterHorizontally
                 )
                 {
-                    Text(
-                        text = "Alumno",
-                        style = TextStyle(
-                            fontSize = 55.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier
-                            .padding(16.dp)
-                    )
+                    Row(modifier = Modifier.padding(top=16.dp)) {
+                        Text(text = "Nombre:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        EditText()
+                    }
                     Row(modifier = Modifier.padding(top=16.dp)) {
                         Text(text = "Edad:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        Text(text = "Texto1", style = TextStyle(fontSize = 35.sp))
+                        EditText()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
                         Text(text = "Genero:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        Text(text = "Texto2", style = TextStyle( fontSize = 35.sp))
+                        EditText()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
                         Text(text = "Tutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        Text(text = "Texto3", style = TextStyle( fontSize = 35.sp))
+                        EditText()
                     }
                     FourOptionsCheckBox()
                     Row(modifier = Modifier.padding(top=16.dp)){
                         Text(text = "Descripción:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        Text(text = "Texto4", style = TextStyle(fontSize = 35.sp))
+                        EditText()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)){
                         Text(text = "Nivel Cognitivo:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        Text(text = "Texto5", style = TextStyle(fontSize = 35.sp))
+                        EditText()
                     }
                     val context1 = LocalContext.current
-                    val context2 = LocalContext.current
                     Row(modifier = Modifier.padding(top=16.dp), horizontalArrangement = Arrangement.SpaceBetween){
                         Button(onClick = { context1.startActivity(Intent(context1, DashboardProfe::class.java)) },
-                                modifier = Modifier
+                            modifier = Modifier
                                 .padding(15.dp),
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
                             Text(text = "Atrás", style = TextStyle(fontSize = 35.sp))
                         }
-                        Button(onClick = { context2.startActivity(Intent(context2, EditAlumno::class.java)) },
+                        Button(onClick = {  },
                             modifier = Modifier
                                 .padding(15.dp),
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                            ) {
-                            Text(text = "Editar", style = TextStyle(fontSize = 35.sp))
+                        ) {
+                            Text(text = "Agregar Alumno", style = TextStyle(fontSize = 35.sp))
                         }
                     }
                 }
@@ -140,67 +132,30 @@ fun infoAlumno()
     }
 }
 @Composable
-fun FourOptionsCheckBox() {
-    var option1CheckedState by remember { mutableStateOf(false) }
-    var option2CheckedState by remember { mutableStateOf(false) }
-    var option3CheckedState by remember { mutableStateOf(false) }
-    var option4CheckedState by remember { mutableStateOf(false) }
+private fun EditText() {
+    var text by remember { mutableStateOf(TextFieldValue()) }
+    var isPlaceholderVisible by remember { mutableStateOf(true) }
 
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "Nivel Autorizado: ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp), modifier = Modifier.padding(25.dp))
-            Text(text = "1", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option1CheckedState,
-                onCheckedChange = { option1CheckedState = it },
+    BasicTextField(
+        value = text,
+        onValueChange = {
+            text = it
+            isPlaceholderVisible = it.text.isEmpty()
+        },
+        textStyle = TextStyle(color = Color.Black, fontSize = 35.sp),
+        modifier = Modifier
+            .width(350.dp)
+            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium)
+    )
+    {
+        if (isPlaceholderVisible) {
+            Text(
+                text = "Ingrese Información",
+                style = TextStyle(fontSize = 35.sp),
+                color = Color.Gray,
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
+                    .padding(10.dp)
             )
-            Text(text = "2", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option2CheckedState,
-                onCheckedChange = { option2CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-            Text(text = "3", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option3CheckedState,
-                onCheckedChange = { option3CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-            Text(text = "4", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option4CheckedState,
-                onCheckedChange = { option4CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-        }
-
-        // Acciones basadas en la selección de opciones (puedes agregar lógica aquí)
-        if (option1CheckedState) {
-            // Opción 1 seleccionada
-        }
-
-        if (option2CheckedState) {
-            // Opción 2 seleccionada
-        }
-        if (option3CheckedState) {
-            // Opción 3 seleccionada
-        }
-
-        if (option4CheckedState) {
-            // Opción 4 seleccionada
         }
     }
 }
-
