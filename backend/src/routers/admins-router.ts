@@ -1,7 +1,9 @@
 import express from "express";
 import { Singleton } from "../db/connection";
-import { admins } from "../db/schema";
+import { admins, parents } from "../db/schema";
 import { createInsertSchema } from "drizzle-zod";
+import { eq } from "drizzle-orm";
+import { hashPassword, validatePassword } from "../shared/utils";
 
 const adminsRouter = express.Router();
 
@@ -10,7 +12,19 @@ const insertAdminSchema = createInsertSchema(admins);
 adminsRouter.post("/admins", async (req, res) => {
   const newAdmin = insertAdminSchema.parse(req.body);
   const db = await Singleton.getDB();
-  await db.insert(admins).values(newAdmin);
+
+  const existsOnParentsTable =
+    (await db.select().from(parents).where(eq(parents.user, newAdmin.user)))
+      .length > 0;
+
+  if (existsOnParentsTable) {
+    throw new Error("The user is already registered as a parent");
+  }
+
+  validatePassword(newAdmin.password);
+  const hashedPassword = hashPassword(newAdmin.password);
+
+  await db.insert(admins).values({ ...newAdmin, password: hashedPassword });
   res.sendStatus(200);
 });
 

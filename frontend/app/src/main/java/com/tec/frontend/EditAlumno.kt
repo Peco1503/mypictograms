@@ -142,7 +142,7 @@ fun Edit()
 
 
 @Composable
-fun EditText() {
+private fun EditText() {
     var text by remember { mutableStateOf(TextFieldValue()) }
     var isPlaceholderVisible by remember { mutableStateOf(true) }
 

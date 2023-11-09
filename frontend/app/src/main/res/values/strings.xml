@@ -11,4 +11,5 @@
     <string name="title_activity_nivel_seleccion">NivelSeleccion</string>
     <string name="title_activity_seleccion_nivel">SeleccionNivel</string>
     <string name="title_activity_nivel2">Nivel2</string>
+    <string name="title_activity_nuevo_alumno">NuevoAlumno</string>
 </resources>

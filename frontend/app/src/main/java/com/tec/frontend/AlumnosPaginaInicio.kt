@@ -40,6 +40,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -63,6 +64,7 @@ class AlumnosPaginaInicio : ComponentActivity() {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
+@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1040)
 @Composable
 fun PantallaInicioAlum() {
 
@@ -128,7 +130,7 @@ fun PantallaInicioAlum() {
                             colors = ExposedDropdownMenuDefaults.textFieldColors(),
                             modifier = Modifier.menuAnchor()
                         )
-                        
+
                         ExposedDropdownMenu(expanded = isExpaned, onDismissRequest = { isExpaned = false }
                         ) {
                             DropdownMenuItem(
