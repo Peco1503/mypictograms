@@ -3,7 +3,7 @@ import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const admins = sqliteTable("admins", {
   id: integer("id").primaryKey(),
-  user: text("user").notNull(),
+  user: text("user").unique().notNull(),
   password: text("password").notNull(),
 });
 
@@ -12,7 +12,7 @@ export type NewAdmin = InferInsertModel<typeof admins>;
 
 export const parents = sqliteTable("parents", {
   id: integer("id").primaryKey(),
-  user: text("user").notNull(),
+  user: text("user").unique().notNull(),
   password: text("password").notNull(),
 });
 
@@ -21,7 +21,7 @@ export type NewParent = InferInsertModel<typeof parents>;
 
 export const students = sqliteTable("students", {
   id: integer("id").primaryKey(),
-  name: text("name").notNull(),
+  name: text("name").unique().notNull(),
   birthYear: integer("birth_year").notNull(),
   gender: text("gender", { enum: ["male", "female"] }).notNull(),
   parentId: integer("parent_id").references(() => parents.id),

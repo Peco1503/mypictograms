@@ -1,7 +1,3 @@
-<p align="center">
-    <img src="icon.jpg" width="250px">
-</p>
-
 <h2 align="center"> 
     🎮 A series of educational minigames for kids with disabilities at Instituto Nuevo Amanecer
 <h2>
@@ -11,8 +7,6 @@
         <img alt="code style: prettier" src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square">
     </a>
 </p>
-
-![](demo.jpg)
 
 # 📚 Usage
 
