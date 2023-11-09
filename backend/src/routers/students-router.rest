@@ -4,7 +4,7 @@ GET {{server}}/students
 
 ###
 
-GET {{server}}/students/4
+GET {{server}}/students/1
 
 ###
 
@@ -41,4 +41,4 @@ content-type: application/json
 
 ###
 
-DELETE {{server}}/students/1
+DELETE {{server}}/students/2
