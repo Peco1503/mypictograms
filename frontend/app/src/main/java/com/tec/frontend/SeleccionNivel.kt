@@ -38,7 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
 
-class NivelSeleccion : ComponentActivity() {
+class SeleccionNivel : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -48,7 +48,7 @@ class NivelSeleccion : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Nivel_Seleccion()
+                    NivelS()
                 }
             }
         }
@@ -56,7 +56,7 @@ class NivelSeleccion : ComponentActivity() {
 }
 
 @Composable
-fun Nivel_Seleccion() {
+fun NivelS() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF)
@@ -88,7 +88,12 @@ fun Nivel_Seleccion() {
                     val context1 = LocalContext.current
                     Button( //1
                         onClick = {
-                            context1.startActivity(Intent(context1, AlumnosPaginaInicio::class.java))
+                            context1.startActivity(
+                                Intent(
+                                    context1,
+                                    AlumnosPaginaInicio::class.java
+                                )
+                            )
                         },
                         modifier = Modifier
 
@@ -97,7 +102,8 @@ fun Nivel_Seleccion() {
                         colors = ButtonDefaults.buttonColors(Orange)
 
                     ) {
-                        Text("Nivel 1",
+                        Text(
+                            "Nivel 1",
                             style = TextStyle(fontSize = 30.sp)
                         )
 
@@ -106,7 +112,12 @@ fun Nivel_Seleccion() {
                     val context2 = LocalContext.current
                     Button( //2
                         onClick = {
-                            context2.startActivity(Intent(context2, AlumnosPaginaInicio::class.java))
+                            context2.startActivity(
+                                Intent(
+                                    context2,
+                                    AlumnosPaginaInicio::class.java
+                                )
+                            )
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
@@ -114,7 +125,8 @@ fun Nivel_Seleccion() {
                         colors = ButtonDefaults.buttonColors(Orange)
 
                     ) {
-                        Text("Nivel 2",
+                        Text(
+                            "Nivel 2",
                             style = TextStyle(fontSize = 30.sp)
                         )
 
@@ -123,7 +135,12 @@ fun Nivel_Seleccion() {
                     val context3 = LocalContext.current
                     Button( // 3
                         onClick = {
-                            context1.startActivity(Intent(context3, AlumnosPaginaInicio::class.java))
+                            context1.startActivity(
+                                Intent(
+                                    context3,
+                                    AlumnosPaginaInicio::class.java
+                                )
+                            )
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
@@ -131,12 +148,56 @@ fun Nivel_Seleccion() {
                         colors = ButtonDefaults.buttonColors(Orange)
 
                     ) {
-                        Text("Nivel 3",
+                        Text(
+                            "Nivel 3",
                             style = TextStyle(fontSize = 30.sp)
                         )
 
                     }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
+                    ) {
+                        val context4 = LocalContext.current
+                        Button( // Botón existente
+                            onClick = {
+                                context1.startActivity(
+                                    Intent(
+                                        context4,
+                                        AlumnosPaginaInicio::class.java
+                                    )
+                                )
+                            },
+                            modifier = Modifier
+                                .width(230.dp) // Ancho fijo para el botón Comunicador
+                                .height(60.dp), shape = RoundedCornerShape(30.dp),
+                            colors = ButtonDefaults.buttonColors(Orange)
+                        ) {
+                            Text(
+                                "Comunicador",
+                                style = TextStyle(fontSize = 30.sp)
+                            )
+                        }
 
+                        // Asumiendo que quieres mantener el mismo espacio de 16.dp entre los botones
+                        Spacer(modifier = Modifier.width(16.dp))
+
+                        Button( // Nuevo botón
+                            onClick = {
+                                // Acción para el nuevo botón
+                            },
+                            modifier = Modifier
+                                .width(64.dp) // Ancho fijo para el nuevo botón
+                                .height(60.dp), shape = RoundedCornerShape(30.dp),
+                            colors = ButtonDefaults.buttonColors(Orange)
+                        ) {
+                            Text(
+                                "Nuevo Botón",
+                                style = TextStyle(fontSize = 30.sp)
+                            )
+                        }
+                    }
                 }
             }
         }

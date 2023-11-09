@@ -138,7 +138,7 @@ fun dashboard() {
                     val context = LocalContext.current
 
                     Button(
-                        onClick = { context.startActivity(Intent(context, Registro::class.java)) },
+                        onClick = { context.startActivity(Intent(context, NuevoAlumno::class.java)) },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)
@@ -152,7 +152,7 @@ fun dashboard() {
                     val context1 = LocalContext.current
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
-                        onClick = {context1.startActivity(Intent(context1, DashboardPadres::class.java)) },
+                        onClick = {context1.startActivity(Intent(context1, Registro::class.java)) },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)

@@ -13,8 +13,17 @@
         android:theme="@style/Theme.Frontend"
         tools:targetApi="31">
         <activity
+            android:name=".NuevoAlumno"
+            android:exported="false"
+            android:label="@string/title_activity_nuevo_alumno"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".SeleccionNivel"
+            android:exported="false"
+            android:label="@string/title_activity_seleccion_nivel"
+            android:theme="@style/Theme.Frontend" />
+        <activity
             android:name=".EditAlumno"
-            android:name=".NivelSeleccion"
             android:exported="false"
             android:label="@string/title_activity_nivel_seleccion"
             android:theme="@style/Theme.Frontend" />
@@ -69,9 +78,9 @@
             android:label="@string/app_name"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".DashboardProfe"
+            android:name=".DashboardPadres"
             android:exported="false"
-            android:label="DashboardProfe"
+            android:label="DashboardPadres"
             android:theme="@style/Theme.Frontend" />
     </application>
 

@@ -1,5 +1,6 @@
 package com.tec.frontend
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.text.TextStyle
@@ -18,17 +19,25 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -53,6 +62,7 @@ class AlumnosPaginaInicio : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PantallaInicioAlum() {
 
@@ -93,9 +103,69 @@ fun PantallaInicioAlum() {
                         fontWeight = FontWeight.Bold
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    Spacer(modifier = Modifier.height(40.dp))
 
-                    listOf("Alumno 1").forEach { student ->
+                    var isExpaned by remember {
+                        mutableStateOf(false)
+                    }
+
+                    var alumnos by remember {
+                        mutableStateOf("")
+                    }
+
+                    ExposedDropdownMenuBox(
+                        expanded = isExpaned,
+                        onExpandedChange = { isExpaned = it }
+                    ) {
+                        TextField(
+                            value = alumnos,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = isExpaned)
+                            },
+
+                            colors = ExposedDropdownMenuDefaults.textFieldColors(),
+                            modifier = Modifier.menuAnchor()
+                        )
+                        
+                        ExposedDropdownMenu(expanded = isExpaned, onDismissRequest = { isExpaned = false }
+                        ) {
+                            DropdownMenuItem(
+                                text = {
+                                    Text(text = "Alumno 1")
+                                },
+                                onClick = {
+                                    alumnos = "Alumno 1"
+                                    isExpaned = false
+                                }
+                            )
+                        }
+                    }
+                    
+                    Spacer(modifier = Modifier.height(70.dp))
+
+                    val context = LocalContext.current
+                    Button(
+                        onClick = {
+                            context.startActivity(Intent(context, SeleccionNivel::class.java))
+
+                        },
+                        modifier = Modifier
+                            .border(2.dp, Orange, RoundedCornerShape(10.dp))
+                            .width(264.dp) // Specify the width you desire
+                            .height(45.dp), shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Color.Transparent),
+
+
+
+                        ) {
+                        Text("Continuar",
+                            color = Orange)
+                    }
+
+                    
+                    /*listOf("Alumno 1", "Alumno 2").forEach { student ->
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -110,7 +180,7 @@ fun PantallaInicioAlum() {
 
 
                         }
-                    }
+                    }*/
                 }
             }
         }
