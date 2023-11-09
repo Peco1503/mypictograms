@@ -8,6 +8,6 @@ POST {{server}}/parents
 content-type: application/json
 
 {
-    "user": "padre1@nuevoamanecer.mx",
+    "user": "padre2@nuevoamanecer.mx",
     "password": "123"
 }
