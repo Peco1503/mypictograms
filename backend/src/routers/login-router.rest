@@ -4,8 +4,8 @@ POST {{server}}/login
 content-type: application/json
 
 {
-    "user": "laura@nuevoamanecer.mx",
-    "password": "123"
+    "user": "laura.flores@nuevoamanecer.edu.mx",
+    "password": "123456789Ab#"
 }
 
 ###
@@ -14,6 +14,6 @@ POST {{server}}/login
 content-type: application/json
 
 {
-    "user": "padre1@nuevoamanecer.mx",
-    "password": "123"
+    "user": "padre@nuevoamanecer.edu.mx",
+    "password": "123456789Ab#"
 }
