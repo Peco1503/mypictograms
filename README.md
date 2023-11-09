@@ -12,8 +12,6 @@
     </a>
 </p>
 
-![](demo.jpg)
-
 # 📚 Usage
 
 Make sure you have `node` installed
