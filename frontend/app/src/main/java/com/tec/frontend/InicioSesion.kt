@@ -1,7 +1,9 @@
 package com.tec.frontend
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -36,7 +38,13 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.Api.RetrofitInstance
+import com.tec.frontend.Api.loginRequest
 import com.tec.frontend.ui.theme.FrontendTheme
+import androidx.compose.runtime.rememberCoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class InicioSesion : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,6 +69,8 @@ fun Inicio() {
     var text1 by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
     val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF),
@@ -76,9 +86,10 @@ fun Inicio() {
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
             ) {
-                Column(verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally)
-                {
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
                     Text(
                         text = "Inicio Sesión",
                         style = TextStyle(
@@ -144,30 +155,52 @@ fun Inicio() {
                             innerTextField()
                         }
                     )
-                    val context = LocalContext.current
+
                     Button(
                         modifier = Modifier
                             .padding(top = 45.dp),
                         shape = RoundedCornerShape(15.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                        onClick =
-                            {
-                                context.startActivity(Intent(context, DashboardProfe::class.java))
-                            },
-                        )
-                        {
-                            Text(
-                                text = "Iniciar Sesión",
-                                style = TextStyle(
-                                        fontSize = 35.sp
-                                )
+                        onClick = {
+                            coroutineScope.launch {
+                                try {
+                                    // Make Retrofit API call on the background thread
+                                    val response = withContext(Dispatchers.IO) {
+                                        RetrofitInstance.apiService.login(
+                                            loginRequest(user = text1, password = text2)
+                                        )
+                                    }
+
+                                    // Assuming response contains an "id" and "type" field
+                                    val userId = response.id
+                                    val userType = response.type
+
+                                    // Handle successful response
+                                    // You can navigate to the next screen or perform other actions
+
+                                    // Ensure the following line runs on the main thread
+                                    withContext(Dispatchers.Main) {
+                                        val intent = Intent(context, DashboardProfe::class.java)
+                                        context.startActivity(intent)
+                                    }
+
+                                } catch (e: Exception) {
+                                    // Handle error
+                                    // You can display an error message or perform other actions
+                                    Log.d(TAG, e.toString())
+                                }
+                            }
+                        }
+                    ) {
+                        Text(
+                            text = "Iniciar Sesión",
+                            style = TextStyle(
+                                fontSize = 35.sp
                             )
+                        )
                     }
                 }
             }
         }
     }
 }
-
-
-
