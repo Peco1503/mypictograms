@@ -12,4 +12,10 @@
     <string name="title_activity_seleccion_nivel">SeleccionNivel</string>
     <string name="title_activity_nivel2">Nivel2</string>
     <string name="title_activity_nuevo_alumno">NuevoAlumno</string>
+    <string name="title_activity_pantalla_n21">pantallaN2_1</string>
+    <string name="title_activity_pantalla1_n2">Pantalla1N2</string>
+    <string name="title_activity_pantalla2_n2">Pantalla2N2</string>
+    <string name="title_activity_pantalla3_n2">Pantalla3N2</string>
+    <string name="title_activity_pantalla4_n2">Pantalla4N2</string>
+    <string name="title_activity_pantalla5_n2">Pantalla5N2</string>
 </resources>

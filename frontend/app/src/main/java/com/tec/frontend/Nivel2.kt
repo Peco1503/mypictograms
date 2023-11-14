@@ -1,22 +1,40 @@
 package com.tec.frontend
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.layout
-import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.tec.frontend.pantallasNivel2.Pantalla1N2
+import com.tec.frontend.pantallasNivel2.Pantalla2N2
+import com.tec.frontend.pantallasNivel2.Pantalla3N2
+import com.tec.frontend.pantallasNivel2.Pantalla4N2
+import com.tec.frontend.pantallasNivel2.Pantalla5N2
 import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.delay
 import kotlin.random.Random
@@ -31,9 +49,39 @@ class Nivel2 : ComponentActivity() {
                 // A surface container using the full size of the screen
                 Surface(modifier = Modifier.fillMaxSize()) {
                     BackgroundImage()
+                    BackButton()
                     RandomBubbles()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BackButton() {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
+        val context = LocalContext.current
+        Button( // Regresar a pantalla SeleccionNivel
+            onClick = {
+                context.startActivity(
+                    Intent(
+                        context,
+                        SeleccionNivel::class.java
+                    )
+                )
+            },
+            modifier = Modifier
+                .width(116.dp)
+                .height(34.dp), shape = RoundedCornerShape(30.dp),
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
+            Text(
+                "ATRAS",
+                style = TextStyle(fontSize = 12.sp)
+            )
         }
     }
 }
@@ -51,39 +99,51 @@ fun BackgroundImage() {
 
 @Composable
 fun RandomBubbles(modifier: Modifier = Modifier) {
+    val context = LocalContext.current
     val bubbles = remember { mutableStateListOf<Bubble>() }
     val bubblePainter: Painter = painterResource(id = R.drawable.burbuja)
     val bubbleLimit = 10
+
+    val pantallas = listOf(
+        Pantalla1N2::class.java,
+        Pantalla2N2::class.java,
+        Pantalla3N2::class.java,
+        Pantalla4N2::class.java,
+        Pantalla5N2::class.java
+    )
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
         val maxWidth = constraints.maxWidth.toFloat()
         val maxHeight = constraints.maxHeight.toFloat()
 
-        // Iniciar la generación de burbujas
         LaunchedEffect(bubbleLimit) {
             while (bubbles.size < bubbleLimit) {
-                // Asegúrate de obtener el tamaño de la imagen de la burbuja aquí, por ejemplo:
-                // val bubbleSize = 100f // Reemplaza esto con el tamaño real de tu imagen en píxeles
-                // Para este ejemplo, vamos a usar un tamaño ficticio de 100px para la burbuja.
-                val bubbleSize = 100f
+                val bubbleSize = 100f // Asumiendo que es el tamaño de la burbuja
                 val randomX = Random.nextFloat() * (maxWidth - bubbleSize)
                 val randomY = Random.nextFloat() * (maxHeight - bubbleSize)
                 bubbles.add(Bubble(x = randomX, y = randomY))
-                // Añadir un delay entre la generación de cada burbuja
                 delay(500)
             }
         }
 
-        // Dibujar las burbujas en la pantalla
         bubbles.forEach { bubble ->
             Image(
                 painter = bubblePainter,
-                contentDescription = "Bubble",
-                modifier = Modifier.randomBubbleModifier(bubble)
+                contentDescription = null,
+                modifier = Modifier
+                    .randomBubbleModifier(bubble)
+                    .clickable {
+                        // Selecciona aleatoriamente de la lista "pantallas"
+                        val randomIndex = Random.nextInt(pantallas.size)
+                        val nextPantalla = pantallas[randomIndex]
+                        val intent = Intent(context, nextPantalla)
+                        context.startActivity(intent)
+                    }
             )
         }
     }
 }
+
 
 fun Modifier.randomBubbleModifier(bubble: Bubble): Modifier = this.then(
     Modifier.layout { measurable, constraints ->
