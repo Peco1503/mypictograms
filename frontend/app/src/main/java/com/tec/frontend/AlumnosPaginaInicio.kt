@@ -37,6 +37,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -57,8 +58,39 @@ class AlumnosPaginaInicio : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     PantallaInicioAlum()
+                    BackButtonPI()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BackButtonPI() {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
+        val context = LocalContext.current
+        Button( // Regresar a pantalla SeleccionNivel
+            shape = RectangleShape,
+            onClick = {
+                context.startActivity(
+                    Intent(
+                        context,
+                        MainActivity::class.java
+                    )
+                )
+            },
+            modifier = Modifier
+                .width(116.dp)
+                .height(34.dp), //shape = RoundedCornerShape(30.dp),
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
+            Text(
+                "ATRAS",
+                style = TextStyle(fontSize = 12.sp)
+            )
         }
     }
 }
@@ -77,7 +109,7 @@ fun PantallaInicioAlum() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "¿List@ para jugar?",
+                text = "¿LIST@ PARA JUGAR?",
                 color = Color.White,
                 style = TextStyle(fontSize = 30.sp),
                 fontWeight = FontWeight.Bold,
@@ -102,7 +134,7 @@ fun PantallaInicioAlum() {
                         text = "Selecciona tu nombre",
                         color = Color.Black,
                         style = TextStyle(fontSize = 45.sp),
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.SemiBold
                     )
 
                     Spacer(modifier = Modifier.height(40.dp))
@@ -149,40 +181,20 @@ fun PantallaInicioAlum() {
 
                     val context = LocalContext.current
                     Button(
+                        shape = RectangleShape,
                         onClick = {
                             context.startActivity(Intent(context, SeleccionNivel::class.java))
 
                         },
                         modifier = Modifier
-                            .border(2.dp, Orange, RoundedCornerShape(10.dp))
                             .width(264.dp) // Specify the width you desire
-                            .height(45.dp), shape = RoundedCornerShape(10.dp),
-                        colors = ButtonDefaults.buttonColors(Color.Transparent),
-
-
-
+                            .height(45.dp), //shape = RoundedCornerShape(10.dp),
+                        colors = ButtonDefaults.buttonColors(Orange),
                         ) {
                         Text("Continuar",
-                            color = Orange)
+                            color = Color.White
+                        )
                     }
-
-                    
-                    /*listOf("Alumno 1", "Alumno 2").forEach { student ->
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .border(2.dp, Orange, RoundedCornerShape(10.dp))
-                                .padding(8.dp),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Text(
-                                text = student,
-                                style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)
-                            )
-
-
-                        }
-                    }*/
                 }
             }
         }
