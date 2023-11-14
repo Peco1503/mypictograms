@@ -115,8 +115,9 @@
         <activity
             android:name=".DashboardPadres"
             android:exported="false"
-            android:label="DashboardPadres"
-            android:theme="@style/Theme.Frontend" />
+            android:label="DashboardProfe"
+            android:theme="@style/Theme.Frontend"
+            tools:ignore="DuplicateActivity" />
     </application>
 
 </manifest>

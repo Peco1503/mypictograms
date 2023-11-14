@@ -1,7 +1,9 @@
 package com.tec.frontend
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -23,6 +25,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -30,10 +38,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.Api.Alumno
+import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.ui.theme.FrontendTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 val Orange1 = Color(0xFFEE6B11)
 
@@ -56,6 +68,27 @@ class DashboardProfe : ComponentActivity() {
 
 @Composable
 fun dashboard() {
+    var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
+    val context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect(Unit){
+        coroutineScope.launch {
+            try {
+                // Make Retrofit API call on the background thread
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitInstance.apiService.infoAlumo()
+                }
+
+                // Assuming response contains an "id" and "type" field
+                alumnos = response
+
+            } catch (e: Exception) {
+                // Handle error
+                // You can display an error message or perform other actions
+                Log.d(ContentValues.TAG, e.toString())
+            }
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF)
@@ -94,11 +127,12 @@ fun dashboard() {
                         textAlign = TextAlign.Center
                     )
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .background(Color.White)
                             .padding(16.dp)
                     ) {
-                        listOf("Alumno 1","Alumno 2").forEach { student ->
+                        alumnos.forEach { alumno ->
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -106,7 +140,7 @@ fun dashboard() {
                                     .padding(8.dp),
                                 horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                Text(text = student, style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal))
+                                alumno.name?.let { Text(text = it, style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)) }
                                 val context = LocalContext.current
                                 Button(
                                     onClick = { context.startActivity(Intent(context, InfoAlumno::class.java)) },
@@ -127,7 +161,9 @@ fun dashboard() {
             }
 
             Box(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 contentAlignment = Alignment.Center // Center the buttons
             ) {
                 Row(
