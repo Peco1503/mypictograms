@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.layout
@@ -65,6 +66,7 @@ fun BackButton() {
         verticalAlignment = Alignment.Top) {
         val context = LocalContext.current
         Button( // Regresar a pantalla SeleccionNivel
+            shape = RectangleShape,
             onClick = {
                 context.startActivity(
                     Intent(
@@ -75,7 +77,7 @@ fun BackButton() {
             },
             modifier = Modifier
                 .width(116.dp)
-                .height(34.dp), shape = RoundedCornerShape(30.dp),
+                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ){
             Text(
