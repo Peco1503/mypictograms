@@ -162,34 +162,30 @@ fun Inicio() {
                         shape = RoundedCornerShape(15.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
+                            val intent = Intent(context, DashboardProfe::class.java)
+                            context.startActivity(intent)
+                            // Uncomment this block if you want to use Retrofit for API calls
+
                             coroutineScope.launch {
                                 try {
-                                    // Make Retrofit API call on the background thread
                                     val response = withContext(Dispatchers.IO) {
                                         RetrofitInstance.apiService.login(
                                             loginRequest(user = text1, password = text2)
                                         )
                                     }
+                                    // Handle the response here
 
-                                    // Assuming response contains an "id" and "type" field
-                                    val userId = response.id
-                                    val userType = response.type
-
-                                    // Handle successful response
-                                    // You can navigate to the next screen or perform other actions
-
-                                    // Ensure the following line runs on the main thread
                                     withContext(Dispatchers.Main) {
                                         val intent = Intent(context, DashboardProfe::class.java)
                                         context.startActivity(intent)
                                     }
-
                                 } catch (e: Exception) {
                                     // Handle error
-                                    // You can display an error message or perform other actions
                                     Log.d(TAG, e.toString())
                                 }
                             }
+
+                            // Uncomment the code above if you want to handle API calls
                         }
                     ) {
                         Text(
@@ -204,3 +200,4 @@ fun Inicio() {
         }
     }
 }
+

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
@@ -25,21 +24,19 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tec.frontend.Api.registerRequest
 import com.tec.frontend.ui.theme.FrontendTheme
+import kotlinx.coroutines.launch
 
 class Registro : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,6 +59,12 @@ class Registro : ComponentActivity() {
 fun Registros() {
     var text1 by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
+    var option1CheckedState by remember { mutableStateOf(false) }
+    var option2CheckedState by remember { mutableStateOf(false) }
+
+    // ViewModel instance
+    val viewModel: RegistroViewModel = viewModel()
+
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF),
@@ -73,15 +76,15 @@ fun Registros() {
         ) {
             Box(
                 modifier = Modifier
-                    .size(600.dp)
+                    .height(800.dp)
+                    .width(600.dp)
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
-                    )
-                {
+                ) {
                     Text(
                         text = "Registro",
                         style = TextStyle(
@@ -148,20 +151,49 @@ fun Registros() {
                         }
                     )
                     Spacer(modifier = Modifier.padding(top = 25.dp))
-                    TwoOptionsCheckBox()
+                    Column {
+                        Text(
+                            text = "Nota: la contraseña debe:\n" +
+                                    " * Ser de 12 caracteres o más\n" +
+                                    " * Incluir al menos un número\n" +
+                                    " * Incluir al menos una mayúscula\n" +
+                                    " * Incluir al menos una minúscula\n" +
+                                    " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)"
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.padding(top = 25.dp))
+
+                    TwoOptionsCheckBox(
+                        option1CheckedState = option1CheckedState,
+                        option2CheckedState = option2CheckedState,
+                        onOption1CheckedChange = { option1CheckedState = it },
+                        onOption2CheckedChange = { option2CheckedState = it }
+                    )
 
                     val context = LocalContext.current
+
                     Button(
                         modifier = Modifier
                             .padding(top = 15.dp),
                         shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
-                            context.startActivity(Intent(context, InfoAlumno::class.java))
+                            val user = text1
+                            val password = text2
+
+                            if (option1CheckedState || option2CheckedState) {
+                                val userType = if (option1CheckedState) "admin" else "padre"
+
+                                // Perform registration using ViewModel
+                                viewModel.registerUser(user, password, userType)
+                            } else {
+                                // Show an error or prompt the user to select a user type
+                            }
                         }
-                    )
-                    {
-                        Text(text = "Registrar",
+                    ) {
+                        Text(
+                            text = "Registrar",
                             style = TextStyle(
                                 fontSize = 35.sp
                             )
@@ -174,41 +206,35 @@ fun Registros() {
 }
 
 @Composable
-fun TwoOptionsCheckBox() {
-    var option1CheckedState by remember { mutableStateOf(false) }
-    var option2CheckedState by remember { mutableStateOf(false) }
-
+fun TwoOptionsCheckBox(
+    option1CheckedState: Boolean,
+    option2CheckedState: Boolean,
+    onOption1CheckedChange: (Boolean) -> Unit,
+    onOption2CheckedChange: (Boolean) -> Unit
+) {
     Column {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(text = "Titulo     ", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
-            Text(text = "Admin", style = TextStyle(fontSize = 35.sp),  modifier = Modifier.padding(25.dp))
+            Text(text = "Admin", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
             Checkbox(
                 checked = option1CheckedState,
-                onCheckedChange = { option1CheckedState = it },
+                onCheckedChange = { onOption1CheckedChange(it) },
                 modifier = Modifier
                     .weight(1f)
+                    .height(83.dp)
                     .padding(25.dp)
             )
             Text(text = "Padre", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
             Checkbox(
                 checked = option2CheckedState,
-                onCheckedChange = { option2CheckedState = it },
+                onCheckedChange = { onOption2CheckedChange(it) },
                 modifier = Modifier
                     .weight(1f)
                     .padding(25.dp)
             )
-        }
-
-        // Acciones basadas en la selección de opciones (puedes agregar lógica aquí)
-        if (option1CheckedState) {
-            // Opción 1 seleccionada
-        }
-
-        if (option2CheckedState) {
-            // Opción 2 seleccionada
         }
     }
 }
