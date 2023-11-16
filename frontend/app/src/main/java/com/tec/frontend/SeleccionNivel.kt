@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -20,6 +22,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -28,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -49,8 +53,39 @@ class SeleccionNivel : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NivelS()
+                    BackButtonSN()
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BackButtonSN() {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
+        val context = LocalContext.current
+        Button( // Regresar a pantalla SeleccionNivel
+            shape = RectangleShape,
+            onClick = {
+                context.startActivity(
+                    Intent(
+                        context,
+                        AlumnosPaginaInicio::class.java
+                    )
+                )
+            },
+            modifier = Modifier
+                .width(116.dp)
+                .height(34.dp), //shape = RoundedCornerShape(30.dp),
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
+            Text(
+                "ATRAS",
+                style = TextStyle(fontSize = 12.sp)
+            )
         }
     }
 }
@@ -79,14 +114,15 @@ fun NivelS() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Selecciona el Nivel",
+                        text = "Selecciona el nivel",
                         color = Color.Black,
-                        style = TextStyle(fontSize = 30.sp),
+                        style = TextStyle(fontSize = 32.sp),
                         fontWeight = FontWeight.Bold
                     )
                     Spacer(modifier = Modifier.height(50.dp))
                     val context1 = LocalContext.current
                     Button( //1
+                        shape = RectangleShape,
                         onClick = {
                             context1.startActivity(
                                 Intent(
@@ -98,19 +134,21 @@ fun NivelS() {
                         modifier = Modifier
 
                             .width(300.dp) // Specify the width you desire
-                            .height(60.dp), shape = RoundedCornerShape(30.dp),
+                            .height(60.dp), //shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Orange)
 
                     ) {
                         Text(
                             "Nivel 1",
-                            style = TextStyle(fontSize = 30.sp)
+                            style = TextStyle(fontSize = 25.sp),
+                            fontWeight = FontWeight.SemiBold
                         )
 
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     val context2 = LocalContext.current
                     Button( //2
+                        shape = RectangleShape,
                         onClick = {
                             context2.startActivity(
                                 Intent(
@@ -121,19 +159,21 @@ fun NivelS() {
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
-                            .height(60.dp), shape = RoundedCornerShape(30.dp),
+                            .height(60.dp), //shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Orange)
 
                     ) {
                         Text(
                             "Nivel 2",
-                            style = TextStyle(fontSize = 30.sp)
+                            style = TextStyle(fontSize = 25.sp),
+                            fontWeight = FontWeight.SemiBold
                         )
 
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     val context3 = LocalContext.current
                     Button( // 3
+                        shape = RectangleShape,
                         onClick = {
                             context1.startActivity(
                                 Intent(
@@ -144,13 +184,14 @@ fun NivelS() {
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
-                            .height(60.dp), shape = RoundedCornerShape(30.dp),
+                            .height(60.dp), //shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Orange)
 
                     ) {
                         Text(
                             "Nivel 3",
-                            style = TextStyle(fontSize = 30.sp)
+                            style = TextStyle(fontSize = 25.sp),
+                            fontWeight = FontWeight.SemiBold
                         )
 
                     }
@@ -161,6 +202,7 @@ fun NivelS() {
                     ) {
                         val context4 = LocalContext.current
                         Button( // Botón existente
+                            shape = RectangleShape,
                             onClick = {
                                 context1.startActivity(
                                     Intent(
@@ -170,31 +212,35 @@ fun NivelS() {
                                 )
                             },
                             modifier = Modifier
-                                .width(230.dp) // Ancho fijo para el botón Comunicador
-                                .height(60.dp), shape = RoundedCornerShape(30.dp),
+                                .width(220.dp) // Ancho fijo para el botón Comunicador
+                                .height(60.dp), //shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Orange)
                         ) {
                             Text(
                                 "Comunicador",
-                                style = TextStyle(fontSize = 30.sp)
+                                style = TextStyle(fontSize = 25.sp),
+                                fontWeight = FontWeight.SemiBold
                             )
                         }
 
-                        // Asumiendo que quieres mantener el mismo espacio de 16.dp entre los botones
-                        Spacer(modifier = Modifier.width(16.dp))
+                        // Distancia entre boton 'Comunicador' y 'Camara'
+                        Spacer(modifier = Modifier.width(2.dp))
 
                         Button( // Nuevo botón
+                            shape = RectangleShape,
                             onClick = {
                                 // Acción para el nuevo botón
                             },
                             modifier = Modifier
                                 .width(64.dp) // Ancho fijo para el nuevo botón
-                                .height(60.dp), shape = RoundedCornerShape(30.dp),
+                                .height(60.dp), //shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Orange)
                         ) {
-                            Text(
-                                "Nuevo Botón",
-                                style = TextStyle(fontSize = 30.sp)
+                            Icon(
+                                painter = painterResource(id = R.drawable.baseline_photo_camera_24),
+                                contentDescription = "Icono de Camara",
+                                modifier = Modifier
+                                    .size(24.dp)
                             )
                         }
                     }
