@@ -178,7 +178,7 @@ fun NivelS() {
                             context1.startActivity(
                                 Intent(
                                     context3,
-                                    AlumnosPaginaInicio::class.java
+                                    Nivel3::class.java
                                 )
                             )
                         },
@@ -207,7 +207,7 @@ fun NivelS() {
                                 context1.startActivity(
                                     Intent(
                                         context4,
-                                        AlumnosPaginaInicio::class.java
+                                        Nivel3::class.java
                                     )
                                 )
                             },
