@@ -5,10 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -17,8 +18,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,15 +30,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
-import androidx.compose.foundation.layout.Column as Column
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 
 
 class InfoAlumno : ComponentActivity() {
@@ -141,66 +139,68 @@ fun infoAlumno()
 }
 @Composable
 fun FourOptionsCheckBox() {
-    var option1CheckedState by remember { mutableStateOf(false) }
-    var option2CheckedState by remember { mutableStateOf(false) }
-    var option3CheckedState by remember { mutableStateOf(false) }
-    var option4CheckedState by remember { mutableStateOf(false) }
+    var selectedOption by remember { mutableStateOf<Option?>(null) }
 
     Column {
+        Text(text = "Nivel Autorizado: ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp), modifier = Modifier.padding(25.dp))
+
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Nivel Autorizado: ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp), modifier = Modifier.padding(25.dp))
-            Text(text = "1", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option1CheckedState,
-                onCheckedChange = { option1CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-            Text(text = "2", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option2CheckedState,
-                onCheckedChange = { option2CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-            Text(text = "3", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option3CheckedState,
-                onCheckedChange = { option3CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-            Text(text = "4", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(top = 25.dp))
-            Checkbox(
-                checked = option4CheckedState,
-                onCheckedChange = { option4CheckedState = it },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
+            OptionRadioButton("1", Option.OPTION1, selectedOption, onOptionSelected = { selectedOption = it })
+            OptionRadioButton("2", Option.OPTION2, selectedOption, onOptionSelected = { selectedOption = it })
+            OptionRadioButton("3", Option.OPTION3, selectedOption, onOptionSelected = { selectedOption = it })
+            OptionRadioButton("4", Option.OPTION4, selectedOption, onOptionSelected = { selectedOption = it })
         }
 
-        // Acciones basadas en la selección de opciones (puedes agregar lógica aquí)
-        if (option1CheckedState) {
-            // Opción 1 seleccionada
-        }
-
-        if (option2CheckedState) {
-            // Opción 2 seleccionada
-        }
-        if (option3CheckedState) {
-            // Opción 3 seleccionada
-        }
-
-        if (option4CheckedState) {
-            // Opción 4 seleccionada
+        // Actions based on the selected option (you can add logic here)
+        when (selectedOption) {
+            Option.OPTION1 -> {
+                // Option 1 selected
+            }
+            Option.OPTION2 -> {
+                // Option 2 selected
+                // Option 2 selected
+            }
+            Option.OPTION3 -> {
+                // Option 3 selected
+            }
+            Option.OPTION4 -> {
+                // Option 4 selected
+            }
+            null -> {
+                // No option selected
+            }
         }
     }
 }
+
+@Composable
+private fun OptionRadioButton(
+    text: String,
+    option: Option,
+    selectedOption: Option?,
+    onOptionSelected: (Option) -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier
+            .padding(25.dp)
+            .clickable {
+                if (selectedOption != option) {
+                    onOptionSelected(option)
+                }
+            }
+    ) {
+        Text(text = text, style = TextStyle(fontSize = 35.sp))
+        RadioButton(
+            selected = selectedOption == option,
+            onClick = { onOptionSelected(option) }
+        )
+    }
+}
+
+
 
