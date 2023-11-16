@@ -12,6 +12,10 @@ interface ApiService {
     @POST("/api/admins")
     suspend fun admins(@Body request: registerRequest): registerResponse
 
+    @POST("/api/students")
+    suspend fun insertalumno(@Body request: Alumno)
+
     @GET("/api/students?therapistId=1")
     suspend fun infoAlumo() : List<Alumno>
+
 }
