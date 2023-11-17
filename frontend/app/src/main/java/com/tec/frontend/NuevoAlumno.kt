@@ -2,6 +2,7 @@ package com.tec.frontend
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -40,6 +41,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 
 class NuevoAlumno : ComponentActivity() {
@@ -68,7 +70,7 @@ fun New()
     var text5 by remember { mutableStateOf("") }
     var text6 by remember { mutableStateOf("") }
     var text7 by remember { mutableStateOf(0) }
-    val coroutineScope = rememberCoroutineScope()
+    val viewModel: RegistroViewModel = viewModel()
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF)
@@ -128,7 +130,8 @@ fun New()
                             Text(text = "Atrás", style = TextStyle(fontSize = 35.sp))
                         }
                         Button(onClick = {
-
+                            Log.d("New", "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7")
+                            viewModel.registerAlumno(text1, text2.toInt(), text3, text4.toInt(), text7, text5, text6)
                         },
                             modifier = Modifier
                                 .padding(15.dp),
@@ -144,6 +147,7 @@ fun New()
 
     }
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun EditText(txt: String, onTextChange: (String) -> Unit) {
