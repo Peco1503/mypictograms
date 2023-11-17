@@ -76,7 +76,7 @@ fun dashboard() {
             try {
                 // Make Retrofit API call on the background thread
                 val response = withContext(Dispatchers.IO) {
-                    RetrofitInstance.apiService.infoAlumo()
+                    RetrofitInstance.apiService.infoAlumno()
                 }
 
                 // Assuming response contains an "id" and "type" field
