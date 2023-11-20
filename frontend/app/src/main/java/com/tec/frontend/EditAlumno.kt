@@ -45,7 +45,6 @@ class EditAlumno : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -182,7 +181,6 @@ private fun fourOptionsCheckBox(): Int {
             OptionRadioButton("4", Option.OPTION4, selectedOption, onOptionSelected = { selectedOption = it })
         }
 
-        // Actions based on the selected option (you can add logic here)
         when (selectedOption) {
             Option.OPTION1 -> {
                 num = 1

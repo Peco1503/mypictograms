@@ -54,7 +54,6 @@ class DashboardProfe : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -164,7 +163,7 @@ fun dashboard() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-                contentAlignment = Alignment.Center // Center the buttons
+                contentAlignment = Alignment.Center
             ) {
                 Row(
                     horizontalArrangement = Arrangement.SpaceBetween

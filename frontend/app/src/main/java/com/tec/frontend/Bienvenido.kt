@@ -23,7 +23,6 @@ class Bienvenido : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -72,12 +71,11 @@ fun BienvenidoPage() {
 
                     Button(
                         onClick = {
-                            // Handle login button click here
                         },
                         modifier = Modifier
                             .background(Orange)
                             .border(2.dp, Orange, RoundedCornerShape(10.dp))
-                            .width(264.dp) // Specify the width you desire
+                            .width(264.dp)
                             .height(45.dp), shape = RoundedCornerShape(10.dp)
                         ,
                         colors = ButtonDefaults.buttonColors(Color.Transparent),
@@ -95,11 +93,10 @@ fun BienvenidoPage() {
 
                     Button(
                         onClick = {
-                            // Handle login button click here
                         },
                         modifier = Modifier
                             .border(2.dp, Orange, RoundedCornerShape(10.dp))
-                            .width(264.dp) // Specify the width you desire
+                            .width(264.dp)
                             .background(Orange)
                             .height(45.dp), shape = RoundedCornerShape(10.dp),
                         colors = ButtonDefaults.buttonColors(Color.Transparent),

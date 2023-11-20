@@ -52,7 +52,6 @@ class AlumnosPaginaInicio : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -72,7 +71,7 @@ fun BackButtonPI() {
         .padding(16.dp),
         verticalAlignment = Alignment.Top) {
         val context = LocalContext.current
-        Button( // Regresar a pantalla SeleccionNivel
+        Button(
             shape = RectangleShape,
             onClick = {
                 context.startActivity(
@@ -84,7 +83,7 @@ fun BackButtonPI() {
             },
             modifier = Modifier
                 .width(116.dp)
-                .height(34.dp), //shape = RoundedCornerShape(30.dp),
+                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ){
             Text(
@@ -187,8 +186,8 @@ fun PantallaInicioAlum() {
 
                         },
                         modifier = Modifier
-                            .width(264.dp) // Specify the width you desire
-                            .height(45.dp), //shape = RoundedCornerShape(10.dp),
+                            .width(264.dp)
+                            .height(45.dp),
                         colors = ButtonDefaults.buttonColors(Orange),
                         ) {
                         Text("Continuar",
