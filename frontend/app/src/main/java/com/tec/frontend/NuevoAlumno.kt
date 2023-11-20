@@ -83,7 +83,7 @@ fun New()
         ) {
             Box(
                 modifier = Modifier
-                    .width(650.dp)
+                    .width(750.dp)
                     .height(775.dp)
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
@@ -99,7 +99,7 @@ fun New()
                         EditText(text1) { newText -> text1 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "Edad:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "Año de nacimiento:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text2) { newText -> text2 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
@@ -107,7 +107,7 @@ fun New()
                         EditText(text3) { newText -> text3 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "Tutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text(text = "IdTutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text4) { newText -> text4 = newText }
                     }
                     text7 = fourOptionsCheckBox()
