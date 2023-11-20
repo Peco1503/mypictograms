@@ -5,8 +5,11 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.Arrangement
@@ -22,12 +25,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
@@ -48,31 +56,92 @@ import com.tec.frontend.ui.theme.FrontendTheme
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.consumeAllChanges
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.text.font.FontWeight
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
-class Nivel3 : ComponentActivity() {
 
-    private val animals = listOf(
-        Animal("coco", R.drawable.cococolor, R.drawable.cocogris),
-        Animal("koala", R.drawable.koalacolor, R.drawable.koalagris),
-        Animal("lobo", R.drawable.lobocolor, R.drawable.lobogris),
-        Animal("pelicano", R.drawable.pelicolor, R.drawable.peligris),
-        Animal("serpiente", R.drawable.serpcolor, R.drawable.serpgris),
-        Animal("tortuga", R.drawable.tortucolor, R.drawable.tortugris)
-    )
+class Nivel3 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the full size of the screen
-                Surface(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxSize()) {
                     BackgroundImageN3()
                     BackButtonN3()
-                    ShadowMatchingGame(animals = animals)
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(horizontal = 32.dp)
+                            .padding(top = 60.dp), // Espacio entre las columnas de imagenes con respecto a la parte superior de la pantalla
+                        horizontalArrangement = Arrangement.Center, // Espacia las columnas uniformemente
+                        verticalAlignment = Alignment.Top
+                    ) {
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            MultipleDraggableObject(imageRes = R.drawable.tortucolor)
+                            MultipleDraggableObject(imageRes = R.drawable.serpcolor)
+                            MultipleDraggableObject(imageRes = R.drawable.pelicolor)
+                            MultipleDraggableObject(imageRes = R.drawable.lobocolor)
+                            MultipleDraggableObject(imageRes = R.drawable.cococolor)
+                            MultipleDraggableObject(imageRes = R.drawable.koalacolor)
+                        }
+
+                        Spacer(modifier = Modifier.width(400.dp)) // Espacio entre las columnas
+
+                        Column(
+                            verticalArrangement = Arrangement.spacedBy(4.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            MultipleDraggableObject(imageRes = R.drawable.tortugris)
+                            MultipleDraggableObject(imageRes = R.drawable.serpgris)
+                            MultipleDraggableObject(imageRes = R.drawable.peligris)
+                            MultipleDraggableObject(imageRes = R.drawable.lobogris)
+                            MultipleDraggableObject(imageRes = R.drawable.cocogris)
+                            MultipleDraggableObject(imageRes = R.drawable.koalagris)
+                        }
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun MultipleDraggableObject(imageRes: Int, modifier: Modifier = Modifier) {
+    val offsetX = remember { mutableStateOf(0f) }
+    val offsetY = remember { mutableStateOf(0f) }
+
+    Box(
+        modifier = modifier
+            .offset {
+                IntOffset(
+                    offsetX.value.roundToInt(),
+                    offsetY.value.roundToInt()
+                )
+            }
+            .pointerInput(Unit) {
+                detectDragGestures { change, dragAmount ->
+                    change.consumeAllChanges()
+                    offsetX.value += dragAmount.x
+                    offsetY.value += dragAmount.y
+                }
+            }
+            .size(120.dp) // o el tamaño que desees para las imágenes
+            .background(Color.Transparent), // o cualquier otro color de fondo si es necesario
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = "Draggable Image"
+        )
     }
 }
 
@@ -115,124 +184,6 @@ fun BackgroundImageN3() {
         contentScale = ContentScale.Crop // or ContentScale.FillBounds to fill the bounds
     )
 }
-
-data class Animal(
-    val name: String,
-    val imageRes: Int,
-    val shadowRes: Int,
-    var isMatched: Boolean = false,
-    var position: Offset = Offset(0f, 0f) // Posición inicial del animal
-)
-
-
-@Composable
-fun DraggableAnimal(
-    animal: Animal,
-    currentPosition: Offset,
-    onPositionChange: (Offset) -> Unit
-) {
-    // This state will be used to handle the offset from the drag gesture
-    var position by remember { mutableStateOf(currentPosition) }
-    // This will tell us whether the animal is being dragged
-    var isDragging by remember { mutableStateOf(false) }
-
-    Box(
-        modifier = Modifier
-            .offset { IntOffset(position.x.roundToInt(), position.y.roundToInt()) }
-            .draggable(
-                state = rememberDraggableState { delta ->
-                    // Actualiza solo la coordenada x para el movimiento horizontal
-                    position = position.copy(x = position.x + delta)
-                    onPositionChange(position)
-                },
-                onDragStarted = { isDragging = true },
-                onDragStopped = { isDragging = false },
-                orientation = Orientation.Horizontal,
-            )
-    ) {
-        Image(
-            painter = painterResource(id = if (isDragging) animal.imageRes else animal.shadowRes),
-            contentDescription = "Draggable image of ${animal.name}"
-        )
-    }
-}
-
-@Composable
-fun ShadowTarget(animal: Animal, onSelectShadow: (Animal) -> Unit) {
-    Box(modifier = Modifier
-        .size(100.dp)
-        .padding(8.dp)
-        .clickable { onSelectShadow(animal) }) {
-        if (!animal.isMatched) {
-            Image(
-                painter = painterResource(id = animal.shadowRes),
-                contentDescription = "Shadow of ${animal.name}",
-                modifier = Modifier.matchParentSize()
-            )
-        }
-    }
-}
-
-
-@Composable
-fun ShadowMatchingGame(animals: List<Animal>) {
-    Row(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(horizontal = 20.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        // Columna para los animales de color en el lado izquierdo con padding agregado
-        Column(modifier = Modifier
-            .weight(1f)
-            .padding(start = 20.dp) // Ajusta este valor según sea necesario para mover las imágenes hacia la derecha
-        ) {
-            animals.forEach { animal ->
-                Image(
-                    painter = painterResource(id = animal.imageRes),
-                    contentDescription = "Image of ${animal.name}",
-                    modifier = Modifier
-                        .size(100.dp)
-                        .padding(8.dp)
-                )
-            }
-        }
-
-        // Columna para las sombras de los animales en el lado derecho
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .wrapContentWidth(Alignment.End)
-        ) {
-            for (i in animals.indices step 2) {
-                Row {
-                    if (i < animals.size) {
-                        ShadowTarget(animal = animals[i], onSelectShadow = {})
-                    }
-                    if (i + 1 < animals.size) {
-                        ShadowTarget(animal = animals[i + 1], onSelectShadow = {})
-                    }
-                }
-            }
-        }
-    }
-}
-
-
-
-fun isNearShadow(animal: Animal, shadow: Animal?, threshold: Float = 100f): Boolean {
-    // Comprueba si la sombra es nula
-    if (shadow == null) return false
-
-    // Calcula la distancia entre el centro del animal y el centro de la sombra
-    val dx = animal.position.x - shadow.position.x
-    val dy = animal.position.y - shadow.position.y
-    val distance = sqrt(dx * dx + dy * dy)
-
-    // Devuelve true si la distancia es menor que el umbral
-    return distance <= threshold
-}
-
 
 @Preview(showBackground = true)
 @Composable
