@@ -69,7 +69,6 @@ class DashboardProfe : ComponentActivity() {
 @Composable
 fun dashboard() {
     var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
-    val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit){
         coroutineScope.launch {
@@ -143,7 +142,11 @@ fun dashboard() {
                                 alumno.name?.let { Text(text = it, style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)) }
                                 val context = LocalContext.current
                                 Button(
-                                    onClick = { context.startActivity(Intent(context, InfoAlumno::class.java)) },
+                                    onClick = {
+                                        val intent = Intent(context, InfoAlumno::class.java)
+                                        intent.putExtra("alumnoId", alumno.id) // Reemplaza "alumnoId" con la clave que desees
+                                        context.startActivity(intent)
+                                              },
                                     modifier = Modifier
                                         .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                                         .width(80.dp)
