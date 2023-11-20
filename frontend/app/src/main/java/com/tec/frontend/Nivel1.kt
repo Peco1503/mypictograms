@@ -128,7 +128,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.abeja),
                 contentDescription = "Imagen de Patito",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Abeja", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -146,7 +150,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.bufalo),
                 contentDescription = "Second Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Bufalo", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -164,7 +172,12 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.camello),
                 contentDescription = "Third Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Camello", tts)
+                    },
+
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -182,7 +195,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.caracol),
                 contentDescription = "Fourth Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Caracol", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -211,7 +228,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.cebra),
                 contentDescription = "Fifth Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Cebra", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -229,7 +250,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.delfin),
                 contentDescription = "Sixth Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("delfin", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -247,7 +272,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.gorila),
                 contentDescription = "Seventh Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Gorila", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -265,7 +294,11 @@ fun CenteredContent(tts: TextToSpeech?) {
             Image(
                 painter = painterResource(id = R.drawable.perro),
                 contentDescription = "Eighth Image",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable{
+                        speakOut("Perro", tts)
+                    },
             )
             Icon(
                 painter = painterResource(id = R.drawable.baseline_volume_up_24),
