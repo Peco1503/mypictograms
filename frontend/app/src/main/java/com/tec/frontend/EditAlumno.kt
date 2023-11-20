@@ -243,8 +243,14 @@ private fun FourOptionsCheckBox(initialSelection: Int, onSelectionChanged: (Int)
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            OptionRadioButton("1", Option.OPTION1, selectedOption, onOptionSelected = {
-                selectedOption = it
+            OptionRadioButton("1", Option.OPTION1, selectedOption, onOptionSelected = { selectedOption = it })
+            OptionRadioButton("2", Option.OPTION2, selectedOption, onOptionSelected = { selectedOption = it })
+            OptionRadioButton("3", Option.OPTION3, selectedOption, onOptionSelected = { selectedOption = it })
+            OptionRadioButton("4", Option.OPTION4, selectedOption, onOptionSelected = { selectedOption = it })
+        }
+
+        when (selectedOption) {
+            Option.OPTION1 -> {
                 num = 1
                 onSelectionChanged(num)
             })

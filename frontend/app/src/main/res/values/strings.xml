@@ -19,4 +19,15 @@
     <string name="title_activity_pantalla4_n2">Pantalla4N2</string>
     <string name="title_activity_pantalla5_n2">Pantalla5N2</string>
     <string name="title_activity_nivel3">Nivel3</string>
+    <string name="title_activity_comunicador">Comunicador</string>
+    <string name="title_activity_comunicador_escuela">ComunicadorEscuela</string>
+    <string name="title_activity_comunicador_deportes">ComunicadorDeportes</string>
+    <string name="title_activity_comunicador_alimentos">ComunicadorAlimentos</string>
+    <string name="title_activity_comunicador_salud">ComunicadorSalud</string>
+    <string name="title_activity_comunicador_animales">ComunicadorAnimales</string>
+    <string name="title_activity_comunicador_transporte">ComunicadorTransporte</string>
+    <string name="title_activity_comunicador_clima">ComunicadorClima</string>
+    <string name="title_activity_comunicador_calendario">ComunicadorCalendario</string>
+    <string name="title_activity_comunicador_oficina">ComunicadorOficina</string>
+    <string name="title_activity_nivel1">Nivel1</string>
 </resources>

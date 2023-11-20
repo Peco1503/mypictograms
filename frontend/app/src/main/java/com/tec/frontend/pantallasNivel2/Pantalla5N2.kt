@@ -2,10 +2,12 @@ package com.tec.frontend.pantallasNivel2
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -40,17 +41,29 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class Pantalla5N2 : ComponentActivity() {
+    private var tts: TextToSpeech? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+                // Set the language here if needed
+            }
+        }
         setContent {
             FrontendTheme {
-                Surface(modifier = Modifier.fillMaxSize()){
-                    BackgroundImage5()
+                Surface(modifier = Modifier.fillMaxSize()) {
+                    BackgroundImage5(tts)
                     BackButton5()
-                    CenteredContent5()
+                    CenteredContent5(tts)
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
     }
 }
 
@@ -74,9 +87,9 @@ fun BackButton5() {
             border = BorderStroke(5.dp, Color.Black),
             modifier = Modifier
                 .width(116.dp)
-                .height(34.dp), //shape = RoundedCornerShape(30.dp),
+                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
-        ){
+        ) {
             Text(
                 "ATRAS",
                 style = TextStyle(fontSize = 12.sp)
@@ -86,38 +99,45 @@ fun BackButton5() {
 }
 
 @Composable
-fun BackgroundImage5() {
+fun BackgroundImage5(tts: TextToSpeech?) {
+    val context = LocalContext.current
+
     Image(
         painter = painterResource(id = R.drawable.habitatalce),
-        contentDescription = null, // Decorative image so no description needed
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop // or ContentScale.FillBounds to fill the bounds
+        contentDescription = null,
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable {
+                speakOut("Alce", tts)
+            },
+        contentScale = ContentScale.Crop
     )
 }
 
 @Composable
-fun CenteredContent5() {
+fun CenteredContent5(tts: TextToSpeech?) {
     Column(
         modifier = Modifier
-            .fillMaxSize() // Para que el Column use todo el espacio disponible
+            .fillMaxSize()
             .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally, // Alinea los hijos horizontalmente en el centro
-        verticalArrangement = Arrangement.Center // Alinea los hijos verticalmente en el centro
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        // Imagen de patito
         Image(
             painter = painterResource(id = R.drawable.alce),
             contentDescription = "Imagen de Tigre",
-            modifier = Modifier.size(300.dp) // Tamaño de la imagen, ajusta según necesidad
+            modifier = Modifier.size(300.dp)
         )
 
-        // Ícono de volumen, debajo de la imagen
         Icon(
             painter = painterResource(id = R.drawable.baseline_volume_up_24),
             contentDescription = "Icono de Volumen",
             modifier = Modifier
                 .padding(top = 16.dp)
-                .size(60.dp),
+                .size(60.dp)
+                .clickable {
+                    speakOut("Alce", tts)
+                },
             tint = Color.Black
         )
     }
@@ -127,8 +147,18 @@ fun CenteredContent5() {
 @Composable
 fun GreetingPreview5() {
     FrontendTheme {
-        Surface(modifier = Modifier.fillMaxSize()){
-            BackgroundImage()
+        Surface(modifier = Modifier.fillMaxSize()) {
+            val context = LocalContext.current
+            val tts = TextToSpeech(context) { status ->
+                if (status != TextToSpeech.ERROR) {
+                    // Set the language here if needed
+                }
+            }
+            BackgroundImage5(tts)
         }
     }
+}
+
+private fun speakOut(animalName: String, tts: TextToSpeech?) {
+    tts?.speak(animalName, TextToSpeech.QUEUE_FLUSH, null, "")
 }

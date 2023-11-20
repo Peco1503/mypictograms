@@ -30,7 +30,6 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -77,7 +76,7 @@ fun startPage() {
                 context1.startActivity(Intent(context1, AlumnosPaginaInicio::class.java))
             },
             modifier = Modifier
-                .width(350.dp) // Specify the width you desire
+                .width(350.dp)
                 .height(111.dp), shape = RoundedCornerShape(30.dp),
             colors = ButtonDefaults.buttonColors(Orange)
 

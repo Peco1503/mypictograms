@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.INTERNET" />
+
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -12,7 +13,63 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Frontend"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".Nivel1"
+            android:exported="false"
+            android:label="@string/title_activity_nivel1"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorOficina"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_oficina"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorCalendario"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_calendario"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorClima"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_clima"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorTransporte"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_transporte"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorAnimales"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_animales"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorSalud"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_salud"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorAlimentos"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_alimentos"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorDeportes"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_deportes"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasNivel3.ComunicadorEscuela"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_escuela"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".Comunicador"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador"
+            android:theme="@style/Theme.Frontend" />
         <activity
             android:name=".Nivel3"
             android:exported="false"
