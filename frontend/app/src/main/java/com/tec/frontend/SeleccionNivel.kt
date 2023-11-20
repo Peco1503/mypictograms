@@ -207,7 +207,7 @@ fun NivelS() {
                                 context1.startActivity(
                                     Intent(
                                         context4,
-                                        Nivel3::class.java
+                                        Comunicador::class.java
                                     )
                                 )
                             },
