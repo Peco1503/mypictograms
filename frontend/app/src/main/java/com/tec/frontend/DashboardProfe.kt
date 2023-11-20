@@ -18,7 +18,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -68,6 +70,7 @@ class DashboardProfe : ComponentActivity() {
 
 @Composable
 fun dashboard() {
+    val scrollState = rememberScrollState()
     var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit){
@@ -110,6 +113,7 @@ fun dashboard() {
                     .width(950.dp)
                     .height(446.dp)
                     .background(Color.White)
+                    .verticalScroll(scrollState)
             ) {
                 Column(
                     modifier = Modifier

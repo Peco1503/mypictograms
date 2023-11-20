@@ -4,6 +4,7 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 
 interface ApiService {
@@ -26,4 +27,6 @@ interface ApiService {
     @GET("/api/students/{alumnoId}")
     suspend fun getEstudiante(@Path("alumnoId") alumnoId: Int): List<Alumno>
 
+    @PUT("/api/students/{alumnoId}")
+    suspend fun actualizarAlumno(@Path("alumnoId") alumnoId: Int, @Body alumno: Alumno): Response<Alumno>
 }
