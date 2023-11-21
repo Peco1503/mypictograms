@@ -21,6 +21,8 @@
             android:name=".pantallasNivel3.Verbos"
             android:exported="false"
             android:label="@string/title_activity_verbos"
+            android:theme="@style/Theme.Frontend" />
+        <activity
             android:name=".Nivel1"
             android:exported="false"
             android:label="@string/title_activity_nivel1"
@@ -104,11 +106,6 @@
             android:name=".pantallasNivel2.Pantalla1N2"
             android:exported="false"
             android:label="@string/title_activity_pantalla1_n2"
-            android:theme="@style/Theme.Frontend" />
-        <activity
-            android:name=".pantallasNivel2.pantallaN2_1"
-            android:exported="false"
-            android:label="@string/title_activity_pantalla_n21"
             android:theme="@style/Theme.Frontend" />
         <activity
             android:name=".Nivel2"
