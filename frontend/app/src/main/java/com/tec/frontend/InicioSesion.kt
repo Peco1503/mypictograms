@@ -162,10 +162,6 @@ fun Inicio() {
                         shape = RoundedCornerShape(15.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
-                            val intent = Intent(context, DashboardProfe::class.java)
-                            context.startActivity(intent)
-                            // Uncomment this block if you want to use Retrofit for API calls
-
                             coroutineScope.launch {
                                 try {
                                     val response = withContext(Dispatchers.IO) {
