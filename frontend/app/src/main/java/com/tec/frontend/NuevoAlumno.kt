@@ -25,12 +25,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,8 +38,9 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tec.frontend.ui.theme.FrontendTheme
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tec.frontend.ui.theme.FrontendTheme
+import androidx.compose.material3.Text as Text1
 
 
 class NuevoAlumno : ComponentActivity() {
@@ -84,7 +83,7 @@ fun New()
             Box(
                 modifier = Modifier
                     .width(750.dp)
-                    .height(775.dp)
+                    .height(790.dp)
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
             )
@@ -95,28 +94,28 @@ fun New()
                 )
                 {
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "Nombre:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text1(text = "Nombre:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text1) { newText -> text1 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "Año de nacimiento:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text1(text = "Año de nacimiento:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text2) { newText -> text2 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "Genero:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        EditText(text3) { newText -> text3 = newText }
+                        Text1(text = "Género:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        text3 = myGenderSelection().toString()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "IdTutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text1(text = "IdTutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text4) { newText -> text4 = newText }
                     }
                     text7 = fourOptionsCheckBox()
                     Row(modifier = Modifier.padding(top=16.dp)){
-                        Text(text = "Descripción:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text1(text = "Descripción:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text5) { newText -> text5 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)){
-                        Text(text = "Nivel Cognitivo:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text1(text = "Nivel Cognitivo:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text6) { newText -> text6 = newText }
                     }
                     val context1 = LocalContext.current
@@ -127,18 +126,18 @@ fun New()
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
-                            Text(text = "Atrás", style = TextStyle(fontSize = 35.sp))
+                            Text1(text = "Atrás", style = TextStyle(fontSize = 35.sp))
                         }
                         Button(onClick = {
                             Log.d("New", "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7")
-                            viewModel.registerAlumno(text1, text2.toInt(), text3, text4.toInt(), text7, text5, text6)
+                            viewModel.registerAlumno(text1, text2.toInt(), text3, if(text4 == "") null else text4.toInt(), text7, text5, text6)
                         },
                             modifier = Modifier
                                 .padding(15.dp),
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
-                            Text(text = "Agregar Alumno", style = TextStyle(fontSize = 35.sp))
+                            Text1(text = "Agregar Alumno", style = TextStyle(fontSize = 35.sp))
                         }
                     }
                 }
@@ -162,7 +161,7 @@ private fun EditText(txt: String, onTextChange: (String) -> Unit) {
             .height(60.dp)
             .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
         placeholder = {
-            Text("Ingrese Informacion",
+            Text1("Ingrese Informacion",
                 style = TextStyle(fontSize = 23.sp),
                 color = Color.Gray
             )
@@ -176,7 +175,7 @@ private fun fourOptionsCheckBox(): Int {
     var num : Int = 0
 
     Column {
-        Text(text = "Nivel Autorizado: ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp), modifier = Modifier.padding(15.dp))
+        Text1(text = "Nivel Autorizado: ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp), modifier = Modifier.padding(5.dp))
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -228,10 +227,45 @@ private fun OptionRadioButton(
                 }
             }
     ) {
-        Text(text = text, style = TextStyle(fontSize = 35.sp))
+        Text1(text = text, style = TextStyle(fontSize = 35.sp))
         RadioButton(
             selected = selectedOption == option,
             onClick = { onOptionSelected(option) }
         )
     }
 }
+
+@Composable
+fun myGenderSelection(): Gender {
+    var selectedGender by remember { mutableStateOf(Gender.male) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        RadioButton(
+            selected = selectedGender == Gender.male,
+            onClick = { selectedGender = Gender.male },
+            modifier = Modifier.padding(5.dp)
+        )
+        Text1("Male", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+
+        RadioButton(
+            selected = selectedGender == Gender.female,
+            onClick = { selectedGender = Gender.female },
+            modifier = Modifier.padding(5.dp)
+        )
+        Text1("Female", style = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 35.sp
+        ))
+    }
+
+    return selectedGender
+}
+
+enum class Gender {
+    male,
+    female
+}
+
