@@ -2,10 +2,12 @@ package com.tec.frontend.pantallasNivel2
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -40,19 +42,30 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class Pantalla2N2 : ComponentActivity() {
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+                // Set the language here if needed
+            }
+        }
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize()){
-                    BackgroundImage2()
+                    BackgroundImage2(tts)
                     BackButton2()
-                    CenteredContent2()
+                    CenteredContent2(tts)
                 }
             }
         }
     }
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
 }
+
 
 @Composable
 fun BackButton2() {
@@ -84,19 +97,24 @@ fun BackButton2() {
         }
     }
 }
-
 @Composable
-fun BackgroundImage2() {
+fun BackgroundImage2(tts: TextToSpeech?) {
+    val context = LocalContext.current
+
     Image(
         painter = painterResource(id = R.drawable.habitatpanda),
-        contentDescription = null, // Decorative image so no description needed
-        modifier = Modifier.fillMaxSize(),
-        contentScale = ContentScale.Crop // or ContentScale.FillBounds to fill the bounds
+        contentDescription = null,
+        modifier = Modifier
+            .fillMaxSize()
+            .clickable {
+                speakOut("Panda", tts)
+            },
+        contentScale = ContentScale.Crop
     )
 }
 
 @Composable
-fun CenteredContent2() {
+fun CenteredContent2(tts: TextToSpeech?) {
     Column(
         modifier = Modifier
             .fillMaxSize() // Para que el Column use todo el espacio disponible
@@ -117,7 +135,10 @@ fun CenteredContent2() {
             contentDescription = "Icono de Volumen",
             modifier = Modifier
                 .padding(top = 16.dp)
-                .size(60.dp),
+                .size(60.dp)
+                .clickable {
+                    speakOut("Panda", tts)
+                },
             tint = Color.Black
         )
     }
@@ -127,8 +148,17 @@ fun CenteredContent2() {
 @Composable
 fun GreetingPreview2() {
     FrontendTheme {
-        Surface(modifier = Modifier.fillMaxSize()){
-            BackgroundImage()
+        Surface(modifier = Modifier.fillMaxSize()) {
+            val context = LocalContext.current
+            val tts = TextToSpeech(context) { status ->
+                if (status != TextToSpeech.ERROR) {
+                    // Set the language here if needed
+                }
+            }
+            BackgroundImage(tts)
         }
     }
+}
+private fun speakOut(animalName: String, tts: TextToSpeech?) {
+    tts?.speak(animalName, TextToSpeech.QUEUE_FLUSH, null, "")
 }

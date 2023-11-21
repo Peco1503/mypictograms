@@ -182,7 +182,10 @@ fun infoAlumno(EstudianteId: Int) {
                         }
                         Button(
                             onClick = {
-                                context1.startActivity(Intent(context1, EditAlumno::class.java))
+                                val intent = Intent(context1, EditAlumno::class.java)
+                                intent.putExtra("alumnoId", EstudianteId)
+                                intent.putExtra("Nivel", Estudiante.maximumMinigameLevel)
+                                context1.startActivity(intent)
                             },
                             modifier = Modifier
                                 .padding(15.dp),

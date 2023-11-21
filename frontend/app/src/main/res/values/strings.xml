@@ -29,5 +29,9 @@
     <string name="title_activity_comunicador_clima">ComunicadorClima</string>
     <string name="title_activity_comunicador_calendario">ComunicadorCalendario</string>
     <string name="title_activity_comunicador_oficina">ComunicadorOficina</string>
+
     <string name="title_activity_verbos">Verbos</string>
+
+    <string name="title_activity_nivel1">Nivel1</string>
+
 </resources>
