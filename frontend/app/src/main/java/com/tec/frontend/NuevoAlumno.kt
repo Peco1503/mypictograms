@@ -44,23 +44,25 @@ import androidx.compose.material3.Text as Text1
 
 
 class NuevoAlumno : ComponentActivity() {
+    private var AdminId: Int = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
+                AdminId = intent.getIntExtra("AdminID", -1)
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    New()
+                    New(AdminId)
                 }
             }
         }
     }
 }
 @Composable
-fun New()
+fun New(adminId: Int)
 {
     var text1 by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
@@ -120,7 +122,11 @@ fun New()
                     }
                     val context1 = LocalContext.current
                     Row(modifier = Modifier.padding(top=16.dp), horizontalArrangement = Arrangement.SpaceBetween){
-                        Button(onClick = { context1.startActivity(Intent(context1, DashboardProfe::class.java)) },
+                        Button(onClick = {
+                            val intent = Intent(context1, DashboardProfe::class.java)
+                            intent.putExtra("AdminID", adminId)
+                            context1.startActivity(intent)
+                                         },
                             modifier = Modifier
                                 .padding(15.dp),
                             shape = RoundedCornerShape(30.dp),
@@ -129,8 +135,11 @@ fun New()
                             Text1(text = "Atrás", style = TextStyle(fontSize = 35.sp))
                         }
                         Button(onClick = {
-                            Log.d("New", "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7")
-                            viewModel.registerAlumno(text1, text2.toInt(), text3, if(text4 == "") null else text4.toInt(), text7, text5, text6)
+                            Log.d("New", "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7 Id tERAPIA: $adminId")
+                            viewModel.registerAlumno(text1, text2.toInt(), text3, if(text4 == "") null else text4.toInt(), text7, text5, text6, adminId)
+                            val intent = Intent(context1, DashboardProfe::class.java)
+                            intent.putExtra("AdminID", adminId)
+                            context1.startActivity(intent)
                         },
                             modifier = Modifier
                                 .padding(15.dp),
