@@ -139,8 +139,8 @@ fun Edit(EstudianteId: Int, Nivel: Int)
                         EditText(text2) { newText -> text2 = newText }
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text(text = "Genero:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-                        EditText(text3) { newText -> text3 = newText }
+                        Text(text = "Género:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        text3 = myGenderSelection().toString()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
                         Text(text = "Tutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
@@ -163,8 +163,7 @@ fun Edit(EstudianteId: Int, Nivel: Int)
                             intent.putExtra("alumnoId", EstudianteId)
                             context1.startActivity(intent)
                                          },
-                            modifier = Modifier
-                                .padding(15.dp),
+                            modifier = Modifier.padding(5.dp),
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
@@ -189,8 +188,7 @@ fun Edit(EstudianteId: Int, Nivel: Int)
                                 intent.putExtra("alumnoId", EstudianteId)
                                 context1.startActivity(intent)
                             },
-                            modifier = Modifier
-                                .padding(15.dp),
+                            modifier = Modifier.padding(5.dp),
                             shape = RoundedCornerShape(30.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
@@ -243,14 +241,8 @@ private fun FourOptionsCheckBox(initialSelection: Int, onSelectionChanged: (Int)
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            OptionRadioButton("1", Option.OPTION1, selectedOption, onOptionSelected = { selectedOption = it })
-            OptionRadioButton("2", Option.OPTION2, selectedOption, onOptionSelected = { selectedOption = it })
-            OptionRadioButton("3", Option.OPTION3, selectedOption, onOptionSelected = { selectedOption = it })
-            OptionRadioButton("4", Option.OPTION4, selectedOption, onOptionSelected = { selectedOption = it })
-        }
-
-        when (selectedOption) {
-            Option.OPTION1 -> {
+            OptionRadioButton("1", Option.OPTION1, selectedOption, onOptionSelected = {
+                selectedOption = it
                 num = 1
                 onSelectionChanged(num)
             })

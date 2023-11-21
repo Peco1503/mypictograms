@@ -48,7 +48,7 @@ class RegistroViewModel : ViewModel() {
         }
     }
 
-    fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int, maximumMinigameLevel: Int, description: String, cognitiveLevel: String) {
+    fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int?, maximumMinigameLevel: Int, description: String, cognitiveLevel: String) {
         viewModelScope.launch {
             try {
                 _registrationState.value = RegistrationState.Loading
