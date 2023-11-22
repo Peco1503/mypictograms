@@ -6,6 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiService {
 
@@ -21,8 +22,8 @@ interface ApiService {
     @POST("/api/students")
     suspend fun insertalumno(@Body alumno: Alumno) : Response<Alumno>
 
-    @GET("/api/students?therapistId=1")
-    suspend fun infoAlumno() : List<Alumno>
+    @GET("/api/students")
+    suspend fun infoAlumno(@Query("therapistId") AdminID: Int) : List<Alumno>
 
     @GET("/api/students/{alumnoId}")
     suspend fun getEstudiante(@Path("alumnoId") alumnoId: Int): List<Alumno>

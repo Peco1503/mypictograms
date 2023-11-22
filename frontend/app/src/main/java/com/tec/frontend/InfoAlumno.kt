@@ -171,7 +171,9 @@ fun infoAlumno(EstudianteId: Int) {
                     ) {
                         Button(
                             onClick = {
-                                context1.startActivity(Intent(context1, DashboardProfe::class.java))
+                                val intent = Intent(context1, DashboardProfe::class.java)
+                                intent.putExtra("AdminID", Estudiante.therapistId)
+                                context1.startActivity(intent)
                             },
                             modifier = Modifier
                                 .padding(15.dp),
