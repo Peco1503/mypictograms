@@ -247,7 +247,7 @@ fun SubirImagenesPantalla() {
                                 )
                             )
                         }
-                        var context = LocalContext.current
+                        val context = LocalContext.current
                         Button(
                             modifier = Modifier
                                 .padding(top = 30.dp),
