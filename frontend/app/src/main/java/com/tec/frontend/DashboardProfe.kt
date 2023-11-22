@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -52,15 +53,18 @@ import kotlinx.coroutines.withContext
 val Orange1 = Color(0xFFEE6B11)
 
 class DashboardProfe : ComponentActivity() {
+    private var AdminId: Int = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
+                AdminId = intent.getIntExtra("AdminID", -1)
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    dashboard()
+                    dashboard(AdminId)
+                    BB()
                 }
             }
         }
@@ -68,7 +72,7 @@ class DashboardProfe : ComponentActivity() {
 }
 
 @Composable
-fun dashboard() {
+fun dashboard(Adminid: Int) {
     val scrollState = rememberScrollState()
     var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
@@ -77,7 +81,7 @@ fun dashboard() {
             try {
                 // Make Retrofit API call on the background thread
                 val response = withContext(Dispatchers.IO) {
-                    RetrofitInstance.apiService.infoAlumno()
+                    RetrofitInstance.apiService.infoAlumno(AdminID = Adminid)
                 }
 
                 // Assuming response contains an "id" and "type" field
@@ -101,7 +105,7 @@ fun dashboard() {
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
-                text = "Hola de nuevo, Laura!",
+                text = "Hola de nuevo, Administrador!",
                 style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal),
                 color = Color.White,
                 textAlign = TextAlign.Center
@@ -148,6 +152,7 @@ fun dashboard() {
                                     onClick = {
                                         val intent = Intent(context, InfoAlumno::class.java)
                                         intent.putExtra("alumnoId", alumno.id) // Reemplaza "alumnoId" con la clave que desees
+                                        intent.putExtra("AdminID", Adminid)
                                         context.startActivity(intent)
                                               },
                                     modifier = Modifier
@@ -180,7 +185,11 @@ fun dashboard() {
                     val context = LocalContext.current
 
                     Button(
-                        onClick = { context.startActivity(Intent(context, NuevoAlumno::class.java)) },
+                        onClick = {
+                            val intent = Intent(context, NuevoAlumno::class.java)
+                            intent.putExtra("AdminID", Adminid)
+                            context.startActivity(intent)
+                                  },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)
@@ -194,7 +203,9 @@ fun dashboard() {
                     val context1 = LocalContext.current
                     Spacer(modifier = Modifier.width(16.dp))
                     Button(
-                        onClick = {context1.startActivity(Intent(context1, Registro::class.java)) },
+                        onClick = {
+                            context1.startActivity(Intent(context1, Registro::class.java))
+                                  },
                         modifier = Modifier
                             .border(2.dp, Orange1, RoundedCornerShape(10.dp))
                             .width(125.dp)
@@ -206,6 +217,36 @@ fun dashboard() {
                     }
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun BB() {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
+        val context = LocalContext.current
+        Button(
+            shape = RectangleShape,
+            onClick = {
+                context.startActivity(
+                    Intent(
+                        context,
+                        InicioSesion::class.java
+                    )
+                )
+            },
+            modifier = Modifier
+                .width(116.dp)
+                .height(34.dp),
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
+            Text(
+                "ATRAS",
+                style = TextStyle(fontSize = 12.sp)
+            )
         }
     }
 }

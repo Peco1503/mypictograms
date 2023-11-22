@@ -48,11 +48,11 @@ class RegistroViewModel : ViewModel() {
         }
     }
 
-    fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int?, maximumMinigameLevel: Int, description: String, cognitiveLevel: String) {
+    fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int?, maximumMinigameLevel: Int, description: String, cognitiveLevel: String, therapistaId: Int) {
         viewModelScope.launch {
             try {
                 _registrationState.value = RegistrationState.Loading
-                val response : Response<Alumno> = RetrofitInstance.apiService.insertalumno(Alumno(null, name, birthYear, gender, idTutor, maximumMinigameLevel, description, cognitiveLevel, 1))
+                val response : Response<Alumno> = RetrofitInstance.apiService.insertalumno(Alumno(null, name, birthYear, gender, idTutor, maximumMinigameLevel, description, cognitiveLevel, therapistaId))
                 if (response.isSuccessful) {
                     val registerResponse = response.body()
                     _registrationState.value = RegistrationState.Success1(registerResponse!!)
