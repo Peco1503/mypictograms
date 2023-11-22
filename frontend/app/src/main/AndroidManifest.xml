@@ -113,6 +113,11 @@
             android:label="@string/title_activity_nivel2"
             android:theme="@style/Theme.Frontend" />
         <activity
+            android:name=".SubirImagenes"
+            android:exported="false"
+            android:label="SubirImagenes"
+            android:theme="@style/Theme.Frontend"/>
+        <activity
             android:name=".NuevoAlumno"
             android:exported="false"
             android:label="@string/title_activity_nuevo_alumno"
