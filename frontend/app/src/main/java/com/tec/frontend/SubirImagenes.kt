@@ -55,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
 import coil.compose.AsyncImage
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.tec.frontend.util.ImageUploader
@@ -80,9 +81,16 @@ class SubirImagenes : ComponentActivity() {
 @Composable
 @Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
 fun SubirImagenesPantalla() {
+    // Variables que identifican a la imagen
     var name by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
+    // var category by remember { mutableStateOf("") }
 
+    // Variables para el dropdown menu de cateogoría
+    val categoryNames = arrayOf("Alimentos", "Familia")
+    val category = remember { mutableStateOf(categoryNames[0])}
+    val expanded = remember { mutableStateOf(false)}
+
+    // Variables para la selección del URI y subir la imagen
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
@@ -153,6 +161,39 @@ fun SubirImagenesPantalla() {
 
                     Spacer(modifier = Modifier.height(40.dp))
 
+                    // Categoria por dropdown list
+                    ExposedDropdownMenuBox(
+                        expanded = expanded.value,
+                        onExpandedChange = {
+                            expanded.value = !expanded.value
+                        }
+                    ) {
+                        TextField(
+                            value = category.value,
+                            onValueChange = {},
+                            readOnly = true,
+                            trailingIcon = {
+                                ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
+                            },
+                            modifier = Modifier.menuAnchor()
+                        )
+                        ExposedDropdownMenu(
+                            expanded = expanded.value,
+                            onDismissRequest = { expanded.value = false}
+                        ) {
+                            categoryNames.forEach {
+                                DropdownMenuItem(
+                                    text = { Text(text = it) },
+                                    onClick = {
+                                        category.value = it
+                                        expanded.value = false
+                                    }
+                                )
+                            }
+                        }
+                    }
+                    /*
+                    // Categoria por text input
                     BasicTextField(
                         modifier = Modifier
                             .width(750.dp)
@@ -181,6 +222,7 @@ fun SubirImagenesPantalla() {
                             innerTextField()
                         }
                     )
+                    */
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
@@ -205,7 +247,7 @@ fun SubirImagenesPantalla() {
                                 )
                             )
                         }
-                        var context = LocalContext.current
+                        val context = LocalContext.current
                         Button(
                             modifier = Modifier
                                 .padding(top = 30.dp),
@@ -214,7 +256,7 @@ fun SubirImagenesPantalla() {
                             onClick =
                             {
                                 selectedImageUri?.let{
-                                    ImageUploader.uploadToStorage(uri=it, context= context, userFolder="1-Felipe González", category = category, imageTitle = name)
+                                    ImageUploader.uploadToStorage(uri=it, context= context, userFolder="1-Felipe González", category = category.value, imageTitle = name)
                                 }
                             },
                         )
@@ -235,8 +277,8 @@ fun SubirImagenesPantalla() {
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(
-                                    width = 500.dp,
-                                    height = 250.dp
+                                        width = 500.dp,
+                                        height = 250.dp
                                     )
                                     .padding(
                                         top = 20.dp
