@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.Api.loginRequest
+import com.tec.frontend.Api.loginResponse
 import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -56,6 +57,7 @@ class InicioSesion : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Inicio()
+                    BackButtonPI()
                 }
             }
         }
@@ -69,6 +71,7 @@ fun Inicio() {
     var text2 by remember { mutableStateOf("") }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    var admin by remember { mutableStateOf(loginResponse(0, "", "")) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -169,10 +172,10 @@ fun Inicio() {
                                             loginRequest(user = text1, password = text2)
                                         )
                                     }
-                                    // Handle the response here
-
+                                   admin = response
                                     withContext(Dispatchers.Main) {
                                         val intent = Intent(context, DashboardProfe::class.java)
+                                        intent.putExtra("AdminID", admin.id)
                                         context.startActivity(intent)
                                     }
                                 } catch (e: Exception) {
@@ -196,4 +199,8 @@ fun Inicio() {
         }
     }
 }
+
+
+
+
 
