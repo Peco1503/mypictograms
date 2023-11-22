@@ -225,11 +225,16 @@ fun NivelS() {
 
                         // Distancia entre boton 'Comunicador' y 'Camara'
                         Spacer(modifier = Modifier.width(2.dp))
-
+                        val context5 = LocalContext.current
                         Button( // Nuevo botón
                             shape = RectangleShape,
                             onClick = {
-                                // Acción para el nuevo botón
+                                context1.startActivity(
+                                    Intent(
+                                        context5,
+                                        SubirImagenes::class.java
+                                    )
+                                )
                             },
                             modifier = Modifier
                                 .width(64.dp) // Ancho fijo para el nuevo botón

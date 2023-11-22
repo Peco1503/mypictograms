@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "359803715575",
+    "project_id": "mypictograms-3d32d",
+    "storage_bucket": "mypictograms-3d32d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:359803715575:android:92f5beccff9d52282478f2",
+        "android_client_info": {
+          "package_name": "com.tec.frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLdZsek6KoC1K-jFCLR61fbZWvCt-_QZQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
