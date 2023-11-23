@@ -1,6 +1,5 @@
-package com.tec.frontend.pantallasNivel3
+package com.tec.frontend.pantallasComunicador
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -24,7 +23,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,26 +37,25 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tec.frontend.BackButtonComunicador
+import com.tec.frontend.BackgroundImage
 import com.tec.frontend.Comunicador
-import com.tec.frontend.ImageGrid
 import com.tec.frontend.Orange
 import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
-class ComunicadorEscuela : ComponentActivity() {
+class Verbos : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
+                    BackButtonVerbos()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicadorEsc()
-                        GridEscuela()
+                        GridVerbos()
                     }
                 }
             }
@@ -67,13 +64,13 @@ class ComunicadorEscuela : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonComunicadorEsc() {
+fun BackButtonVerbos() {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
         verticalAlignment = Alignment.Top) {
         val context = LocalContext.current
-        Button( // Regresar a pantalla SeleccionNivel
+        Button(
             shape = RectangleShape,
             onClick = {
                 context.startActivity(
@@ -97,28 +94,30 @@ fun BackButtonComunicadorEsc() {
 }
 
 @Composable
-fun GridEscuela(){
+fun GridVerbos(){
     val context = LocalContext.current
     val imageIds = listOf(
-        R.drawable.clase,
-        R.drawable.clasearte,
-        R.drawable.nadar,
-        R.drawable.clasecompu,
-        R.drawable.clasemate,
-        R.drawable.gimnasio,
-        R.drawable.pintar,
-        R.drawable.clasemusica
+        R.drawable.hablar,
+        R.drawable.escuchar,
+        R.drawable.cepillar,
+        R.drawable.beber,
+        R.drawable.comer,
+        R.drawable.dormir,
+        R.drawable.lavarcara,
+        R.drawable.lavarmanos,
+        R.drawable.shower,
+        R.drawable.peinar
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(3),
+        columns = GridCells.Fixed(5),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
             Box(
                 modifier = Modifier
-                    .padding(8.dp) // Añadir espacio alrededor de la imagen para "recortar" los bordes negros
-                    .background(Color.White, RoundedCornerShape(10.dp)) // Asumiendo que el fondo es blanco
+                    .padding(8.dp)
+                    .background(Color.White, RoundedCornerShape(10.dp))
             ) {
                 Image(
                     painter = painterResource(id = imageIds[index]),
@@ -128,32 +127,21 @@ fun GridEscuela(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            navigateToVerbosScreen(context)
+                            //navigateToVerbosScreen(context)
                         }
                 )
             }
         }
     }
 }
-fun navigateToVerbosScreen(context: Context) {
-    val intent = Intent(context, Verbos::class.java)
-    context.startActivity(intent)
-}
-
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview8() {
+fun GreetingPreview17() {
     FrontendTheme {
         Surface(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                BackButtonComunicadorEsc()
-                GridEscuela()
-            }
+            BackgroundImage()
+            GridVerbos()
         }
     }
 }

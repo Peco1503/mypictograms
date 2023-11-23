@@ -4,8 +4,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -18,7 +16,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".pantallasNivel3.Verbos"
+            android:name=".NavegationUtils"
+            android:exported="false"
+            android:label="@string/title_activity_navegation_utils"
+            android:theme="@style/Theme.Frontend" />
+        <activity
+            android:name=".pantallasComunicador.Verbos"
             android:exported="false"
             android:label="@string/title_activity_verbos"
             android:theme="@style/Theme.Frontend" />
@@ -28,47 +31,47 @@
             android:label="@string/title_activity_nivel1"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorOficina"
+            android:name=".pantallasComunicador.ComunicadorOficina"
             android:exported="false"
             android:label="@string/title_activity_comunicador_oficina"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorCalendario"
+            android:name=".pantallasComunicador.ComunicadorCalendario"
             android:exported="false"
             android:label="@string/title_activity_comunicador_calendario"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorClima"
+            android:name=".pantallasComunicador.ComunicadorClima"
             android:exported="false"
             android:label="@string/title_activity_comunicador_clima"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorTransporte"
+            android:name=".pantallasComunicador.ComunicadorTransporte"
             android:exported="false"
             android:label="@string/title_activity_comunicador_transporte"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorAnimales"
+            android:name=".pantallasComunicador.ComunicadorAnimales"
             android:exported="false"
             android:label="@string/title_activity_comunicador_animales"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorSalud"
+            android:name=".pantallasComunicador.ComunicadorSalud"
             android:exported="false"
             android:label="@string/title_activity_comunicador_salud"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorAlimentos"
+            android:name=".pantallasComunicador.ComunicadorAlimentos"
             android:exported="false"
             android:label="@string/title_activity_comunicador_alimentos"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorDeportes"
+            android:name=".pantallasComunicador.ComunicadorDeportes"
             android:exported="false"
             android:label="@string/title_activity_comunicador_deportes"
             android:theme="@style/Theme.Frontend" />
         <activity
-            android:name=".pantallasNivel3.ComunicadorEscuela"
+            android:name=".pantallasComunicador.ComunicadorEscuela"
             android:exported="false"
             android:label="@string/title_activity_comunicador_escuela"
             android:theme="@style/Theme.Frontend" />
@@ -116,7 +119,7 @@
             android:name=".SubirImagenes"
             android:exported="false"
             android:label="SubirImagenes"
-            android:theme="@style/Theme.Frontend"/>
+            android:theme="@style/Theme.Frontend" />
         <activity
             android:name=".NuevoAlumno"
             android:exported="false"

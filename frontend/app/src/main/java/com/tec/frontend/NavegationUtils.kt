@@ -1,5 +1,7 @@
-package com.tec.frontend.pantallasNivel3
+package com.tec.frontend
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,9 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.tec.frontend.pantallasComunicador.Verbos
 import com.tec.frontend.ui.theme.FrontendTheme
 
-class Verbos : ComponentActivity() {
+fun navigateToVerbosScreen(context: Context) {
+    val intent = Intent(context, Verbos::class.java)
+    context.startActivity(intent)
+}
+
+class NavegationUtils : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,16 +39,13 @@ class Verbos : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+    Text(text = "Hello $name!", modifier = modifier)
 }
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview17() {
+fun GreetingPreview18() {
     FrontendTheme {
-        Greeting("Android")
+        //Greeting("Android")
     }
 }
