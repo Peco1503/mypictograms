@@ -5,8 +5,18 @@ import { students } from "../db/schema";
 import z from "zod";
 import { FirebaseSingleton } from "../db/firebase";
 import { getDownloadURL, getStorage, listAll, ref } from "firebase/storage";
+import { removeImageExtension } from "../shared/utils";
 
 const imagesRouter = express.Router();
+
+class Image {
+  name: string;
+  url: string;
+  constructor(name: string, url: string) {
+    this.name = name;
+    this.url = url;
+  }
+}
 
 imagesRouter.get(
   "/images/category/:categoryName/student/:studentId",
@@ -33,16 +43,28 @@ imagesRouter.get(
       listAll(ref(storage, `/${student.id}-${student.name}/${categoryName}`)),
     ]);
 
+    const files = [
+      ...defaultCategoryResult.items,
+      ...studentCategoryResult.items,
+    ];
+
     const imageURLSPromises = [];
-    for (const item of defaultCategoryResult.items) {
-      imageURLSPromises.push(getDownloadURL(item));
+    const imageNames = [];
+    for (const file of files) {
+      const imageName = removeImageExtension(file.name);
+      if (imageName != "portada") {
+        imageURLSPromises.push(getDownloadURL(file));
+        imageNames.push(imageName);
+      }
     }
-    for (const item of studentCategoryResult.items) {
-      imageURLSPromises.push(getDownloadURL(item));
+    const imageURLS = await Promise.all(imageURLSPromises);
+
+    const images: Image[] = [];
+    for (let i = 0; i < imageURLS.length; i++) {
+      images.push(new Image(imageNames[i], imageURLS[i]));
     }
 
-    const imageURLS = await Promise.all(imageURLSPromises);
-    res.json(imageURLS);
+    res.json(images);
   }
 );
 

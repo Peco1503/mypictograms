@@ -31,3 +31,8 @@ export const validatePassword = (password: string) => {
     throw new Error("Password must contain at least one Special Symbol.");
   }
 };
+
+export const removeImageExtension = (url: string) => {
+  // https://stackoverflow.com/questions/1818310/regular-expression-to-remove-a-files-extension
+  return url.substring(0, url.indexOf(".")) || url;
+};
