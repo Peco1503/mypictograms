@@ -25,27 +25,14 @@ class RegistroViewModel : ViewModel() {
     private val _registrationState: MutableStateFlow<RegistrationState> = MutableStateFlow(RegistrationState.Loading)
     val registrationState: StateFlow<RegistrationState> get() = _registrationState
 
-    fun registerUser(user: String, password: String, userType: String) {
-        viewModelScope.launch {
-            try {
+    suspend fun registerUser(user: String, password: String, userType: String) {
                 _registrationState.value = RegistrationState.Loading
 
-                val response: Response<registerResponse> = if (userType == "admin") {
+                val response: registerResponse = if (userType == "admin") {
                     RetrofitInstance.apiService.createAdmin(registerRequest(user, password, userType))
                 } else {
                     RetrofitInstance.apiService.createParent(registerRequest(user, password, userType))
                 }
-
-                if (response.isSuccessful) {
-                    val registerResponse = response.body()
-                    _registrationState.value = RegistrationState.Success(registerResponse!!)
-                } else {
-                    _registrationState.value = RegistrationState.Error("Registration failed")
-                }
-            } catch (e: Exception) {
-                _registrationState.value = RegistrationState.Error("An error occurred")
-            }
-        }
     }
 
     fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int?, maximumMinigameLevel: Int, description: String, cognitiveLevel: String, therapistaId: Int) {
