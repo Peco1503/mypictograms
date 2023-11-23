@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.paddingFromBaseline
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
@@ -28,14 +27,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -43,26 +38,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
 import coil.compose.AsyncImage
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
-import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import com.tec.frontend.util.ImageUploader
 
-class SubirImagenes : ComponentActivity() {
+class CrearCategoria : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -72,15 +61,15 @@ class SubirImagenes : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    SubirImagenesPantalla()
-                    BackButtonUI()
+                    CrearCategoriaPantalla()
+                    BackButtonCC()
                 }
             }
         }
     }
 }
 @Composable
-fun BackButtonUI() {
+fun BackButtonCC() {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -92,7 +81,7 @@ fun BackButtonUI() {
                 context.startActivity(
                     Intent(
                         context,
-                        SeleccionNivel::class.java
+                        SubirImagenes::class.java
                     )
                 )
             },
@@ -109,18 +98,14 @@ fun BackButtonUI() {
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
-fun SubirImagenesPantalla() {
+fun CrearCategoriaPantalla() {
     // Variables que identifican a la imagen
     var name by remember { mutableStateOf("") }
-    // var category by remember { mutableStateOf("") }
-
-    // Variables para el dropdown menu de cateogoría
-    val categoryNames = arrayOf("Alimentos", "Familia")
-    val category = remember { mutableStateOf(categoryNames[0])}
-    val expanded = remember { mutableStateOf(false)}
+    var category by remember { mutableStateOf("") }
 
     // Variables para la selección del URI y subir la imagen
     var selectedImageUri by remember {
@@ -140,7 +125,7 @@ fun SubirImagenesPantalla() {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "¡Sube tu imagen!",
+                text = "¡Crea tu nueva categoría!",
                 color = Color.White,
                 style = TextStyle(fontSize = 50.sp),
                 fontWeight = FontWeight.Bold,
@@ -190,81 +175,6 @@ fun SubirImagenesPantalla() {
                             innerTextField()
                         }
                     )
-
-                    Spacer(modifier = Modifier.height(40.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
-                    ) {
-                        // Categoria por dropdown list
-                        ExposedDropdownMenuBox(
-                            modifier = Modifier
-                                .width(650.dp)
-                                .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
-                            expanded = expanded.value,
-                            onExpandedChange = {
-                                expanded.value = !expanded.value
-                            }
-                        ) {
-                            TextField(
-                                value = category.value,
-                                onValueChange = {},
-                                readOnly = true,
-                                trailingIcon = {
-                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
-                                },
-                                modifier = Modifier.menuAnchor()
-                                    .width(750.dp)
-                                    .background(Color.White),
-                                textStyle = TextStyle.Default.copy(
-                                    fontSize = 28.sp,
-                                    color = Color.Gray
-                                )
-                            )
-                            ExposedDropdownMenu(
-                                modifier = Modifier
-                                    .border(2.dp, Color.Gray, MaterialTheme.shapes.medium)
-                                    .background(Color.White),
-                                expanded = expanded.value,
-                                onDismissRequest = { expanded.value = false },
-
-                                ) {
-                                categoryNames.forEach {
-                                    DropdownMenuItem(
-                                        modifier = Modifier
-                                            .width(850.dp),
-                                        text = { Text(text = it, fontSize = 28.sp) },
-                                        onClick = {
-                                            category.value = it
-                                            expanded.value = false
-                                        }
-                                    )
-                                }
-                            }
-                        }
-                        val contextDrop = LocalContext.current
-                        Button(
-                            shape = RoundedCornerShape(15.dp),
-                            colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                            onClick = {
-                                contextDrop.startActivity(
-                                    Intent(
-                                        contextDrop,
-                                        CrearCategoria::class.java
-                                    )
-                                )
-                            },
-                        )
-                        {
-                            Icon(
-                                painter = painterResource(id = R.drawable.baseline_library_add_24),
-                                contentDescription = "Añadir categoría",
-                                modifier = Modifier
-                                    .width(40.dp)
-                                    .height(55.dp)
-                            )
-                        }
-                    }
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
@@ -283,7 +193,7 @@ fun SubirImagenesPantalla() {
                         )
                         {
                             Text(
-                                text = "Seleccionar",
+                                text = "Seleccionar Portada",
                                 style = TextStyle(
                                     fontSize = 30.sp
                                 )
@@ -298,13 +208,13 @@ fun SubirImagenesPantalla() {
                             onClick =
                             {
                                 selectedImageUri?.let{
-                                    ImageUploader.uploadToStorage(uri=it, context= context, userFolder="1-Felipe González", category = category.value, imageTitle = name)
+                                    ImageUploader.uploadToStorage(uri=it, context= context, userFolder="1-Felipe González", category = name, imageTitle = "portada")
                                 }
                             },
                         )
                         {
                             Text(
-                                text = "Subir",
+                                text = "Crear",
                                 style = TextStyle(
                                     fontSize = 30.sp
                                 )
@@ -332,7 +242,6 @@ fun SubirImagenesPantalla() {
                     }
                 }
             }
-
         }
     }
 }

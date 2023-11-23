@@ -7,6 +7,7 @@
         <deviceKey>
           <Key>
             <type value="VIRTUAL_DEVICE_PATH" />
+            <value value="C:\Users\Andre\.android\avd\Pixel_C_API_34_1.avd" />
             <value value="$USER_HOME$/.android/avd/Pixel_C_API_34.avd" />
           </Key>
         </deviceKey>

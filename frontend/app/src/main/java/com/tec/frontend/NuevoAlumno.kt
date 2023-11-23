@@ -1,8 +1,12 @@
 package com.tec.frontend
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -29,6 +33,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,8 +43,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tec.frontend.ui.theme.FrontendTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import androidx.compose.material3.Text as Text1
 
 
@@ -72,6 +81,8 @@ fun New(adminId: Int)
     var text6 by remember { mutableStateOf("") }
     var text7 by remember { mutableStateOf(0) }
     val viewModel: RegistroViewModel = viewModel()
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF)
@@ -108,7 +119,7 @@ fun New(adminId: Int)
                         text3 = myGenderSelection().toString()
                     }
                     Row(modifier = Modifier.padding(top=16.dp)) {
-                        Text1(text = "IdTutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+                        Text1(text = "ID Tutor:  ", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
                         EditText(text4) { newText -> text4 = newText }
                     }
                     text7 = fourOptionsCheckBox()
@@ -134,12 +145,68 @@ fun New(adminId: Int)
                         ) {
                             Text1(text = "Atrás", style = TextStyle(fontSize = 35.sp))
                         }
+
                         Button(onClick = {
-                            Log.d("New", "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7 Id tERAPIA: $adminId")
-                            viewModel.registerAlumno(text1, text2.toInt(), text3, if(text4 == "") null else text4.toInt(), text7, text5, text6, adminId)
-                            val intent = Intent(context1, DashboardProfe::class.java)
-                            intent.putExtra("AdminID", adminId)
-                            context1.startActivity(intent)
+                            coroutineScope.launch {
+                                try {
+                                    Log.d(
+                                        "New",
+                                        "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7 Id tERAPIA: $adminId"
+                                    )
+                                    viewModel.registerAlumno(
+                                        text1,
+                                        text2.toInt(),
+                                        text3,
+                                        if (text4 == "") null else text4.toInt(),
+                                        text7,
+                                        text5,
+                                        text6,
+                                        adminId
+                                    )
+                                    val intent = Intent(context1, DashboardProfe::class.java)
+                                    intent.putExtra("AdminID", adminId)
+                                    context1.startActivity(intent)
+                                } catch (e: Exception) {
+                                    val errorMessage = e.message.toString()
+
+                                    withContext(Dispatchers.Main) {
+                                        // Create AlertDialog
+                                        val alertDialogBuilder = AlertDialog.Builder(context)
+
+                                        val titleTextView = TextView(context)
+                                        titleTextView.text = "Error"
+                                        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                                        titleTextView.setTextColor(
+                                            ContextCompat.getColor(
+                                                context,
+                                                R.color.Red
+                                            )
+                                        )
+                                        titleTextView.gravity =
+                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+                                        alertDialogBuilder.setCustomTitle(titleTextView)
+
+                                        // Create a TextView to set the text size
+                                        val textView = TextView(context)
+                                        textView.text = errorMessage
+                                        textView.setTextSize(
+                                            TypedValue.COMPLEX_UNIT_SP,
+                                            28f
+                                        ) // Adjust the text size as needed
+                                        textView.gravity =
+                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+                                        alertDialogBuilder.setView(textView)
+
+
+                                        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+                                            dialog.dismiss()
+                                        }
+
+                                        val alertDialog = alertDialogBuilder.create()
+                                        alertDialog.show()
+                                    }
+                                }
+                            }
                         },
                             modifier = Modifier
                                 .padding(15.dp),

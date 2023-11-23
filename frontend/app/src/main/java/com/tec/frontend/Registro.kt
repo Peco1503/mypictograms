@@ -1,7 +1,10 @@
 package com.tec.frontend
 
-import android.content.Intent
+import android.app.AlertDialog
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -12,7 +15,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -20,11 +22,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,10 +40,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tec.frontend.Api.registerRequest
 import com.tec.frontend.ui.theme.FrontendTheme
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Registro : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -59,8 +68,9 @@ class Registro : ComponentActivity() {
 fun Registros() {
     var text1 by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
-    var option1CheckedState by remember { mutableStateOf(false) }
-    var option2CheckedState by remember { mutableStateOf(false) }
+    var text3 by remember { mutableStateOf("") }
+    val coroutineScope = rememberCoroutineScope()
+    val context = LocalContext.current
 
     // ViewModel instance
     val viewModel: RegistroViewModel = viewModel()
@@ -108,7 +118,6 @@ fun Registros() {
                             fontSize = 35.sp
                         ),
                         decorationBox = { innerTextField ->
-                            if (text1.isEmpty()) {
                                 Text(
                                     text = "Introduce tu nombre de usuario",
                                     color = Color.Gray,
@@ -118,7 +127,6 @@ fun Registros() {
                                     modifier = Modifier
                                         .padding(16.dp)
                                 )
-                            }
                             innerTextField()
                         }
                     )
@@ -136,7 +144,6 @@ fun Registros() {
                             fontSize = 35.sp
                         ),
                         decorationBox = { innerTextField ->
-                            if (text2.isEmpty()) {
                                 Text(
                                     text = "Introduce tu contraseña",
                                     color = Color.Gray,
@@ -146,7 +153,6 @@ fun Registros() {
                                     modifier = Modifier
                                         .padding(16.dp)
                                 )
-                            }
                             innerTextField()
                         }
                     )
@@ -161,17 +167,9 @@ fun Registros() {
                                     " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)"
                         )
                     }
+                    text3 = myadminorfather().toString()
 
                     Spacer(modifier = Modifier.padding(top = 25.dp))
-
-                    TwoOptionsCheckBox(
-                        option1CheckedState = option1CheckedState,
-                        option2CheckedState = option2CheckedState,
-                        onOption1CheckedChange = { option1CheckedState = it },
-                        onOption2CheckedChange = { option2CheckedState = it }
-                    )
-
-                    val context = LocalContext.current
 
                     Button(
                         modifier = Modifier
@@ -179,16 +177,50 @@ fun Registros() {
                         shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
-                            val user = text1
-                            val password = text2
+                            coroutineScope.launch {
+                                try {
+                                        val user = text1
+                                        val password = text2
+                                        viewModel.registerUser(user, password, text3)
+                                } catch (e : Exception) {
+                                    val errorMessage = e.message.toString()
+                                    withContext(Dispatchers.Main) {
+                                        // Create AlertDialog
+                                        val alertDialogBuilder = AlertDialog.Builder(context)
 
-                            if (option1CheckedState || option2CheckedState) {
-                                val userType = if (option1CheckedState) "admin" else "padre"
+                                        val titleTextView = TextView(context)
+                                        titleTextView.text = "Error"
+                                        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                                        titleTextView.setTextColor(
+                                            ContextCompat.getColor(
+                                                context,
+                                                R.color.Red
+                                            )
+                                        )
+                                        titleTextView.gravity =
+                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+                                        alertDialogBuilder.setCustomTitle(titleTextView)
 
-                                // Perform registration using ViewModel
-                                viewModel.registerUser(user, password, userType)
-                            } else {
-                                // Show an error or prompt the user to select a user type
+                                        // Create a TextView to set the text size
+                                        val textView = TextView(context)
+                                        textView.text = errorMessage
+                                        textView.setTextSize(
+                                            TypedValue.COMPLEX_UNIT_SP,
+                                            28f
+                                        ) // Adjust the text size as needed
+                                        textView.gravity =
+                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+                                        alertDialogBuilder.setView(textView)
+
+
+                                        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+                                            dialog.dismiss()
+                                        }
+
+                                        val alertDialog = alertDialogBuilder.create()
+                                        alertDialog.show()
+                                    }
+                                }
                             }
                         }
                     ) {
@@ -206,35 +238,35 @@ fun Registros() {
 }
 
 @Composable
-fun TwoOptionsCheckBox(
-    option1CheckedState: Boolean,
-    option2CheckedState: Boolean,
-    onOption1CheckedChange: (Boolean) -> Unit,
-    onOption2CheckedChange: (Boolean) -> Unit
-) {
-    Column {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "Titulo     ", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
-            Text(text = "Admin", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
-            Checkbox(
-                checked = option1CheckedState,
-                onCheckedChange = { onOption1CheckedChange(it) },
-                modifier = Modifier
-                    .weight(1f)
-                    .height(83.dp)
-                    .padding(25.dp)
-            )
-            Text(text = "Padre", style = TextStyle(fontSize = 35.sp), modifier = Modifier.padding(25.dp))
-            Checkbox(
-                checked = option2CheckedState,
-                onCheckedChange = { onOption2CheckedChange(it) },
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(25.dp)
-            )
-        }
+fun myadminorfather(): op {
+    var selected by remember { mutableStateOf(op.admin) }
+
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        RadioButton(
+            selected = selected == op.admin,
+            onClick = { selected = op.admin },
+            modifier = Modifier.padding(5.dp)
+        )
+        Text("Admin", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+
+        RadioButton(
+            selected = selected == op.father,
+            onClick = { selected = op.father },
+            modifier = Modifier.padding(5.dp)
+        )
+        Text("Padre", style = TextStyle(
+            fontWeight = FontWeight.Bold,
+            fontSize = 35.sp
+        ))
     }
+
+    return selected
+}
+
+enum class op {
+    admin,
+    father
 }

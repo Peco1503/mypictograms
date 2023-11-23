@@ -1,5 +1,5 @@
 @server = http://localhost:3000/api
 
-GET {{server}}/images/category/Familia/student/1
+GET {{server}}/images/category/Escuela/student/1
 
 ###
