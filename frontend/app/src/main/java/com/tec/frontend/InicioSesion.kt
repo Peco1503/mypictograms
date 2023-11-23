@@ -1,9 +1,11 @@
 package com.tec.frontend
 
-import android.content.ContentValues.TAG
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.util.TypedValue
+import android.view.Gravity
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -38,6 +40,7 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat
 import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.Api.loginRequest
 import com.tec.frontend.Api.loginResponse
@@ -45,6 +48,7 @@ import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 
 class InicioSesion : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -172,19 +176,42 @@ fun Inicio() {
                                             loginRequest(user = text1, password = text2)
                                         )
                                     }
-                                   admin = response
+                                    admin = response
                                     withContext(Dispatchers.Main) {
                                         val intent = Intent(context, DashboardProfe::class.java)
                                         intent.putExtra("AdminID", admin.id)
                                         context.startActivity(intent)
                                     }
                                 } catch (e: Exception) {
-                                    // Handle error
-                                    Log.d(TAG, e.toString())
+                                    val errorMessage = e.message.toString()
+                                    withContext(Dispatchers.Main) {
+                                        // Create AlertDialog
+                                        val alertDialogBuilder = AlertDialog.Builder(context)
+
+                                        val titleTextView = TextView(context)
+                                        titleTextView.text = "Error"
+                                        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+                                        titleTextView.setTextColor(ContextCompat.getColor(context, R.color.Red))
+                                        titleTextView.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+                                        alertDialogBuilder.setCustomTitle(titleTextView)
+
+                                        // Create a TextView to set the text size
+                                        val textView = TextView(context)
+                                        textView.text = errorMessage
+                                        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f) // Adjust the text size as needed
+                                        textView.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
+                                        alertDialogBuilder.setView(textView)
+
+
+                                        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
+                                            dialog.dismiss()
+                                        }
+
+                                        val alertDialog = alertDialogBuilder.create()
+                                        alertDialog.show()
+                                    }
                                 }
                             }
-
-                            // Uncomment the code above if you want to handle API calls
                         }
                     ) {
                         Text(
@@ -199,7 +226,6 @@ fun Inicio() {
         }
     }
 }
-
 
 
 
