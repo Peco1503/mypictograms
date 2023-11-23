@@ -33,5 +33,6 @@
     <string name="title_activity_verbos">Verbos</string>
 
     <string name="title_activity_nivel1">Nivel1</string>
+    <string name="title_activity_navegation_utils">NavegationUtils</string>
 
 </resources>
