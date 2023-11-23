@@ -1,3 +1,7 @@
+<p align="center">
+    <img src="icon.png" width="100%">
+</p>
+
 <h2 align="center"> 
     🎮 A series of educational minigames for kids with disabilities at Instituto Nuevo Amanecer
 <h2>
