@@ -11,7 +11,7 @@ import retrofit2.http.Query
 interface ApiService {
 
     @POST("/api/login")
-    suspend fun login(@Body request: loginRequest): loginResponse
+    suspend fun login(@Body request: loginRequest): Response<loginResponse>
 
     @POST("/api/admins")
     suspend fun createAdmin(@Body request: registerRequest): registerResponse

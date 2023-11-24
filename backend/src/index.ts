@@ -23,7 +23,8 @@ app.use("/api", categoriesRouter);
 app.use("/api", imagesRouter);
 app.use(((error, _, res, __) => {
   console.error(error.stack);
-  res.status(500).json({ error: String(error) });
+  const message = error.message ?? error;
+  res.status(500).json({ error: String(message) });
 }) as ErrorRequestHandler);
 
 app.listen(PORT, () => {
