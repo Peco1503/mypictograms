@@ -3,10 +3,20 @@ import express from "express";
 import { Singleton } from "../db/connection";
 import { students } from "../db/schema";
 import { FirebaseSingleton } from "../db/firebase";
-import { getStorage, ref, listAll } from "firebase/storage";
+import { getStorage, ref, listAll, getDownloadURL } from "firebase/storage";
 import z from "zod";
+import { removeImageExtension } from "../shared/utils";
 
 const categoriesRouter = express.Router();
+
+class Category {
+  name: string;
+  thumbnail: string;
+  constructor(name: string, thumbnail: string) {
+    this.name = name;
+    this.thumbnail = thumbnail;
+  }
+}
 
 categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
   const { studentId } = z
@@ -26,20 +36,81 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
   const firebaseApp = FirebaseSingleton.getApp();
   const storage = getStorage(firebaseApp);
 
+  let studentFolderName;
+  const rootFolderResult = await listAll(ref(storage, "/"));
+  for (const prefix of rootFolderResult.prefixes) {
+    const folderName = prefix.name;
+    const splittedFolderName = folderName.split("-");
+    if (
+      splittedFolderName.length == 2 &&
+      splittedFolderName[0] === String(student.id)
+    ) {
+      studentFolderName = `/${folderName}`;
+    }
+  }
+
+  if (!studentFolderName) {
+    throw new Error("Could not find student's folder on Firebase");
+  }
+
   const [defaultFolderResult, studentFolderResult] = await Promise.all([
     listAll(ref(storage, "/Defecto")),
-    listAll(ref(storage, `/${student.id}-${student.name}`)),
+    listAll(ref(storage, studentFolderName)),
   ]);
 
-  const categories = new Set();
+  const categoryFolders = [];
   for (const prefix of defaultFolderResult.prefixes) {
-    categories.add(prefix.name);
+    categoryFolders.push(prefix.fullPath);
   }
   for (const prefix of studentFolderResult.prefixes) {
-    categories.add(prefix.name);
+    categoryFolders.push(prefix.fullPath);
   }
 
-  res.json({ categories: Array.from(categories) });
+  const categoryFolderContentsPromises = [];
+  for (const categoryFolder of categoryFolders) {
+    categoryFolderContentsPromises.push(listAll(ref(storage, categoryFolder)));
+  }
+  const categoryFolderContents = await Promise.all(
+    categoryFolderContentsPromises
+  );
+
+  const categoryNames = new Set();
+  const thumbnailURLSPromises: any = [];
+  for (const categoryFolderContent of categoryFolderContents) {
+    for (const item of categoryFolderContent.items) {
+      const categoryName = item.parent!.name;
+      if (
+        removeImageExtension(item.name) === "portada" &&
+        !(categoryName in categoryNames)
+      ) {
+        thumbnailURLSPromises.push(getDownloadURL(item));
+        categoryNames.add(categoryName);
+        break;
+      }
+    }
+  }
+
+  const thumbnailURLS = await Promise.all(thumbnailURLSPromises);
+
+  const categories: Category[] = [];
+  categoryNames.clear();
+  let i = 0;
+  for (const categoryFolderContent of categoryFolderContents) {
+    for (const item of categoryFolderContent.items) {
+      const categoryName = item.parent!.name;
+      if (
+        removeImageExtension(item.name) === "portada" &&
+        !(categoryName in categoryNames)
+      ) {
+        categories.push(new Category(categoryName, thumbnailURLS[i]));
+        i += 1;
+        categoryNames.add(categoryName);
+        break;
+      }
+    }
+  }
+
+  res.json({ categories });
 });
 
 export default categoriesRouter;

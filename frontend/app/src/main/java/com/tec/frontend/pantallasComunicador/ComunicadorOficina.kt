@@ -1,4 +1,4 @@
-package com.tec.frontend
+package com.tec.frontend.pantallasComunicador
 
 import android.content.Intent
 import android.os.Bundle
@@ -23,7 +23,6 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,36 +34,29 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.tec.frontend.pantallasComunicador.ComunicadorAlimentos
-import com.tec.frontend.pantallasComunicador.ComunicadorAnimales
-import com.tec.frontend.pantallasComunicador.ComunicadorCalendario
-import com.tec.frontend.pantallasComunicador.ComunicadorClima
-import com.tec.frontend.pantallasComunicador.ComunicadorDeportes
-import com.tec.frontend.pantallasComunicador.ComunicadorEscuela
-import com.tec.frontend.pantallasComunicador.ComunicadorOficina
-import com.tec.frontend.pantallasComunicador.ComunicadorSalud
-import com.tec.frontend.pantallasComunicador.ComunicadorTransporte
+import com.tec.frontend.BarraComunicador
+import com.tec.frontend.Comunicador
+import com.tec.frontend.Orange
+import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
-class Comunicador : ComponentActivity() {
+class ComunicadorOficina : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
-                    //BackButtonComunicador()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador()
-                        ImageGrid()
+                        BackButtonComunicadorOfi()
+                        BarraComunicador()
+                        GridOfi()
                     }
                 }
             }
@@ -73,7 +65,7 @@ class Comunicador : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonComunicador() {
+fun BackButtonComunicadorOfi() {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -85,7 +77,7 @@ fun BackButtonComunicador() {
                 context.startActivity(
                     Intent(
                         context,
-                        SeleccionNivel::class.java
+                        Comunicador::class.java
                     )
                 )
             },
@@ -103,41 +95,13 @@ fun BackButtonComunicador() {
 }
 
 @Composable
-fun ImageGrid() {
+fun GridOfi(){
     val context = LocalContext.current
     val imageIds = listOf(
-        R.drawable.escuela,
-        R.drawable.deportes,
-        R.drawable.alimentos,
-        R.drawable.salud,
-        R.drawable.animales,
-        R.drawable.transporte,
-        R.drawable.clima,
-        R.drawable.calendario,
-        R.drawable.oficina
-    )
-    val destinations = listOf(
-        ComunicadorEscuela::class.java,
-        ComunicadorDeportes::class.java,
-        ComunicadorAlimentos::class.java,
-        ComunicadorSalud::class.java,
-        ComunicadorAnimales::class.java,
-        ComunicadorTransporte::class.java,
-        ComunicadorClima::class.java,
-        ComunicadorCalendario::class.java,
-        ComunicadorOficina::class.java
-    )
-
-    val imageLabels = listOf(
-        "ESCUELA",
-        "DEPORTES",
-        "ALIMENTOS",
-        "SALUD",
-        "ANIMALES",
-        "TRANSPORTE",
-        "CLIMA",
-        "CALENDARIO",
-        "OFICINA"
+        R.drawable.lapiz,
+        R.drawable.plumapapel,
+        R.drawable.cuaderno,
+        R.drawable.television,
     )
 
     LazyVerticalGrid(
@@ -145,40 +109,22 @@ fun ImageGrid() {
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
-            Column(
-                modifier = Modifier.padding(8.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+            Box(
+                modifier = Modifier
+                    .padding(8.dp)
+                    .background(Color.White, RoundedCornerShape(10.dp))
             ) {
                 Image(
                     painter = painterResource(id = imageIds[index]),
-                    contentDescription = imageLabels[index],
+                    contentDescription = null,
                     modifier = Modifier
                         .fillMaxWidth()
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            val intent = Intent(context, destinations[index])
-                            context.startActivity(intent)
+                            //navigateToVerbosScreen(context)
                         }
                 )
-                Box(
-                    contentAlignment = Alignment.Center,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 8.dp)
-                        .background(Color.Black.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
-                ) {
-                    Text(
-                        text = imageLabels[index],
-                        textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 20.sp,
-                            letterSpacing = 1.5.sp
-                        ),
-                        color = Color.White
-                    )
-                }
             }
         }
     }
@@ -186,17 +132,8 @@ fun ImageGrid() {
 
 @Preview(showBackground = true)
 @Composable
-fun GreetingPreview7() {
+fun GreetingPreview16() {
     FrontendTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                BackButtonComunicador()
-                ImageGrid()
-            }
-        }
+        //Greeting7("Android")
     }
 }
