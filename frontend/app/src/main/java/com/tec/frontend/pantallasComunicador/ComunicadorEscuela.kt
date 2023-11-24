@@ -55,8 +55,17 @@ import com.tec.frontend.ui.theme.FrontendTheme
 
 
 class ComunicadorEscuela : ComponentActivity() {
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+
+            }
+        }
+
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -67,14 +76,22 @@ class ComunicadorEscuela : ComponentActivity() {
                     ) {
                         BackButtonComunicadorEsc()
                         BarraComunicador()
-                        GridEscuela()
+                        GridEscuela(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
 }
 
+private fun speakOut(cateEscuela: String, tts: TextToSpeech?) {
+    tts?.speak(cateEscuela, TextToSpeech.QUEUE_FLUSH, null, "")
+}
 
 @Composable
 fun BackButtonComunicadorEsc() {
@@ -107,7 +124,7 @@ fun BackButtonComunicadorEsc() {
 }
 
 @Composable
-fun GridEscuela(){
+fun GridEscuela(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.clase,
@@ -138,7 +155,7 @@ fun GridEscuela(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut("Cebra", tts
                         }
                 )
             }
