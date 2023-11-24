@@ -28,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
 import com.tec.frontend.R
 
 fun navigateToVerbosScreen(context: Context) {
@@ -43,7 +44,7 @@ fun BarraComunicador() {
     Row(
         modifier = Modifier
             .fillMaxWidth(0.96f)
-            .height(80.dp)
+            .height(300.dp)
             .background(backgroundColor) // Fondo de la barra
             .padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,

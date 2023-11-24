@@ -89,8 +89,8 @@ class ComunicadorEscuela : ComponentActivity() {
     }
 }
 
-private fun speakOut(cateEscuela: String, tts: TextToSpeech?) {
-    tts?.speak(cateEscuela, TextToSpeech.QUEUE_FLUSH, null, "")
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -137,6 +137,17 @@ fun GridEscuela(tts: TextToSpeech?){
         R.drawable.clasemusica
     )
 
+    val textDescriptions = listOf(
+        "Clase",
+        "Clase de arte",
+        "Clase de natación",
+        "Clase de computación",
+        "Clase de matemáticas",
+        "Gimnasio",
+        "Pintar",
+        "Clase de Música"
+    )
+
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp)
@@ -144,8 +155,8 @@ fun GridEscuela(tts: TextToSpeech?){
         items(imageIds.size) { index ->
             Box(
                 modifier = Modifier
-                    .padding(8.dp) // Añadir espacio alrededor de la imagen para "recortar" los bordes negros
-                    .background(Color.White, RoundedCornerShape(10.dp)) // Asumiendo que el fondo es blanco
+                    .padding(8.dp)
+                    .background(Color.White, RoundedCornerShape(10.dp))
             ) {
                 Image(
                     painter = painterResource(id = imageIds[index]),
@@ -155,7 +166,7 @@ fun GridEscuela(tts: TextToSpeech?){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            speakOut("Cebra", tts
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }
@@ -174,7 +185,7 @@ fun GreetingPreview8() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 BackButtonComunicadorEsc()
-                GridEscuela()
+                //GridEscuela()
             }
         }
     }
