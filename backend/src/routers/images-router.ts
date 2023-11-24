@@ -1,7 +1,4 @@
-import { eq } from "drizzle-orm";
 import express from "express";
-import { Singleton } from "../db/connection";
-import { students } from "../db/schema";
 import z from "zod";
 import { FirebaseSingleton } from "../db/firebase";
 import { getDownloadURL, getStorage, listAll, ref } from "firebase/storage";
@@ -25,16 +22,6 @@ imagesRouter.get(
       .object({ categoryName: z.string(), studentId: z.coerce.number() })
       .parse(req.params);
 
-    const db = await Singleton.getDB();
-    const result = await db
-      .select()
-      .from(students)
-      .where(eq(students.id, studentId));
-    if (result.length < 1) {
-      throw new Error("Student was not found");
-    }
-    const student = result[0];
-
     const firebaseApp = FirebaseSingleton.getApp();
     const storage = getStorage(firebaseApp);
 
@@ -45,7 +32,7 @@ imagesRouter.get(
       const splittedFolderName = folderName.split("-");
       if (
         splittedFolderName.length == 2 &&
-        splittedFolderName[0] === String(student.id)
+        splittedFolderName[0] === String(studentId)
       ) {
         studentFolderName = `/${folderName}`;
       }
