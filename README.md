@@ -68,6 +68,18 @@ npm start
 - SQLite
 - Native Android
 
+# TODO
+- [ ] Drag & Drop (Yuvan)
+- [ ] Comunicador (Franco)
+- [ ] Subir imagenes a firebase (Galindo)
+- [ ] Dropdown categorias para subir imagenes (Felipe)
+- [ ] Quitar el harcodeo del usuario al subir la imagenes a firebase (Felipe)
+- [ ] Mensaje de error 500 en el dialogo de errro (Galindo y Pedro)
+- [ ] Integrar el comunicador con el back (Franco y Yuvan)
+- [ ] Dropdown list para el correo del papá (Galindo y Felipe)
+- [ ] Corregir las diapositivas
+- [ ] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
+
 # Development Team
 
 **Team iOS**
