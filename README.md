@@ -68,6 +68,16 @@ npm start
 - SQLite
 - Native Android
 
+# Development Team
+
+**Team iOS**
+
+- Pedro Alonso Moreno Salcedo [@pedroalonsoms](https://github.com/pedroalonsoms)
+- Felipe [@Felipegonac0](https://github.com/Felipegonac0)
+- Franco [@Peco1503](https://github.com/Peco1503)
+- André [@Galindo4007](https://github.com/Galindo4007)
+- Yuvan Thirukumaran [@YuvanTec](https://github.com/YuvanTec)
+
 # TODO
 - [ ] Drag & Drop (Yuvan)
 - [ ] Comunicador (Franco)
@@ -78,14 +88,5 @@ npm start
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
 - [ ] Dropdown list para el correo del papá (Galindo y Felipe)
 - [ ] Corregir las diapositivas
+- [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
 - [ ] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
-
-# Development Team
-
-**Team iOS**
-
-- Pedro Alonso Moreno Salcedo [@pedroalonsoms](https://github.com/pedroalonsoms)
-- Felipe [@Felipegonac0](https://github.com/Felipegonac0)
-- Franco [@Peco1503](https://github.com/Peco1503)
-- André [@Galindo4007](https://github.com/Galindo4007)
-- Yuvan Thirukumaran [@YuvanTec](https://github.com/YuvanTec)
