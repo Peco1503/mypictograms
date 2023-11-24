@@ -71,7 +71,7 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
     categoryFolderContentsPromises.push(listAll(ref(storage, categoryFolder)));
   }
   const categoryFolderContents = await Promise.all(
-    categoryFolderContentsPromises
+    categoryFolderContentsPromises,
   );
 
   const categoryNames = new Set();

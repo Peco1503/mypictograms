@@ -82,7 +82,7 @@ imagesRouter.get(
     }
 
     res.json(images);
-  }
+  },
 );
 
 export default imagesRouter;
