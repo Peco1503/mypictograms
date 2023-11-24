@@ -53,7 +53,7 @@ class SeleccionNivel : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     NivelS()
-                    BackButton()
+                    BackButtonSN()
                 }
             }
         }

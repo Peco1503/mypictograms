@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.sp
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
 import com.tec.frontend.R
-import com.tec.frontend.navigateToVerbosScreen
 import com.tec.frontend.ui.theme.FrontendTheme
+import com.tec.frontend.BarraComunicador
 
 class ComunicadorCalendario : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +49,13 @@ class ComunicadorCalendario : ComponentActivity() {
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
-                    BackButtonComunicadorCale()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        BackButtonComunicadorCale()
+                        BarraComunicador()
                         GridCale()
                     }
                 }
@@ -104,7 +105,7 @@ fun GridCale(){
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
@@ -121,7 +122,7 @@ fun GridCale(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            navigateToVerbosScreen(context)
+                            //navigateToVerbosScreen(context)
                         }
                 )
             }

@@ -71,6 +71,7 @@ class Comunicador : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun BackButtonComunicador() {
     Row(modifier = Modifier

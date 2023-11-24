@@ -37,10 +37,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.BarraComunicador
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
 import com.tec.frontend.R
-import com.tec.frontend.navigateToVerbosScreen
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorOficina : ComponentActivity() {
@@ -49,12 +49,13 @@ class ComunicadorOficina : ComponentActivity() {
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
-                    BackButtonComunicadorOfi()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        BackButtonComunicadorOfi()
+                        BarraComunicador()
                         GridOfi()
                     }
                 }
@@ -104,7 +105,7 @@ fun GridOfi(){
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
@@ -121,7 +122,7 @@ fun GridOfi(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            navigateToVerbosScreen(context)
+                            //navigateToVerbosScreen(context)
                         }
                 )
             }
