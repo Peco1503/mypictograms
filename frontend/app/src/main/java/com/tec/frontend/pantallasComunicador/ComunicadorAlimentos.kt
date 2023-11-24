@@ -2,6 +2,7 @@ package com.tec.frontend.pantallasComunicador
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -44,8 +45,17 @@ import com.tec.frontend.ui.theme.FrontendTheme
 import com.tec.frontend.BarraComunicador
 
 class ComunicadorAlimentos : ComponentActivity() {
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+
+            }
+        }
+
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -56,12 +66,21 @@ class ComunicadorAlimentos : ComponentActivity() {
                     ) {
                         BackButtonComunicadorAli()
                         BarraComunicador()
-                        GridAli()
+                        GridAli(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+}
+
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -95,7 +114,7 @@ fun BackButtonComunicadorAli() {
 }
 
 @Composable
-fun GridAli(){
+fun GridAli(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.huevo,
@@ -104,6 +123,15 @@ fun GridAli(){
         R.drawable.chocolate,
         R.drawable.pollo,
         R.drawable.carlsjr
+    )
+
+    val textDescriptions = listOf(
+        "Huevo",
+        "Pastel",
+        "Platano",
+        "Chocolate",
+        "El Pollo Loco",
+        "Carl's Jr"
     )
 
     LazyVerticalGrid(
