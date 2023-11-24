@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.BarraComunicador
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
 import com.tec.frontend.R
@@ -49,12 +50,13 @@ class ComunicadorSalud : ComponentActivity() {
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
-                    BackButtonComunicadorSalu()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        BackButtonComunicadorSalu()
+                        BarraComunicador()
                         GridSalud()
                     }
                 }
@@ -104,7 +106,7 @@ fun GridSalud(){
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
@@ -121,7 +123,7 @@ fun GridSalud(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            navigateToVerbosScreen(context)
+                            //navigateToVerbosScreen(context)
                         }
                 )
             }

@@ -40,8 +40,8 @@ import androidx.compose.ui.unit.sp
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
 import com.tec.frontend.R
-import com.tec.frontend.navigateToVerbosScreen
 import com.tec.frontend.ui.theme.FrontendTheme
+import com.tec.frontend.BarraComunicador
 
 class ComunicadorAlimentos : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,12 +49,13 @@ class ComunicadorAlimentos : ComponentActivity() {
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
-                    BackButtonComunicadorAli()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        BackButtonComunicadorAli()
+                        BarraComunicador()
                         GridAli()
                     }
                 }
@@ -106,7 +107,7 @@ fun GridAli(){
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
@@ -123,7 +124,7 @@ fun GridAli(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            navigateToVerbosScreen(context)
+                            //navigateToVerbosScreen(context)
                         }
                 )
             }

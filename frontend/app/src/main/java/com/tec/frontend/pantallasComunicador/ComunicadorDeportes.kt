@@ -38,10 +38,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.BarraComunicador
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
 import com.tec.frontend.R
-import com.tec.frontend.navigateToVerbosScreen
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorDeportes : ComponentActivity() {
@@ -50,12 +50,13 @@ class ComunicadorDeportes : ComponentActivity() {
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
-                    BackButtonComunicadorDep()
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
+                        BackButtonComunicadorDep()
+                        BarraComunicador()
                         GridDeportes()
                     }
                 }
@@ -100,11 +101,15 @@ fun GridDeportes(){
     val imageIds = listOf(
         R.drawable.basquetbol,
         R.drawable.beisbol,
-        R.drawable.volleyball
+        R.drawable.volleyball,
+        R.drawable.superbowl,
+        R.drawable.futbol,
+        R.drawable.futame,
+        R.drawable.tenis
     )
 
     LazyVerticalGrid(
-        columns = GridCells.Fixed(5),
+        columns = GridCells.Fixed(3),
         contentPadding = PaddingValues(16.dp)
     ) {
         items(imageIds.size) { index ->
@@ -121,7 +126,7 @@ fun GridDeportes(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            navigateToVerbosScreen(context)
+                            //navigateToVerbosScreen(context)
                         }
                 )
             }
