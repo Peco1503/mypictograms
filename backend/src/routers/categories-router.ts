@@ -36,9 +36,26 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
   const firebaseApp = FirebaseSingleton.getApp();
   const storage = getStorage(firebaseApp);
 
+  let studentFolderName;
+  const rootFolderResult = await listAll(ref(storage, "/"));
+  for (const prefix of rootFolderResult.prefixes) {
+    const folderName = prefix.name;
+    const splittedFolderName = folderName.split("-");
+    if (
+      splittedFolderName.length == 2 &&
+      splittedFolderName[0] === String(student.id)
+    ) {
+      studentFolderName = `/${folderName}`;
+    }
+  }
+
+  if (!studentFolderName) {
+    throw new Error("Could not find student's folder on Firebase");
+  }
+
   const [defaultFolderResult, studentFolderResult] = await Promise.all([
     listAll(ref(storage, "/Defecto")),
-    listAll(ref(storage, `/${student.id}-${student.name}`)),
+    listAll(ref(storage, studentFolderName)),
   ]);
 
   const categoryFolders = [];
