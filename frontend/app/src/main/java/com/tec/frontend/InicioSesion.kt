@@ -186,11 +186,12 @@ fun Inicio() {
                                     when (responseBody.type) {
                                         "ADMIN" -> {
                                             val intent = Intent(context, DashboardProfe::class.java)
-                                            intent.putExtra("AdminID", admin.id)
+                                            intent.putExtra("AdminID", responseBody.id)
                                             context.startActivity(intent)
                                         }
                                         "PARENT" -> {
                                             val intent = Intent(context, DashboardPadres::class.java)
+                                            intent.putExtra("ParentID", responseBody.id)
                                             context.startActivity(intent)
                                         }
                                         else -> {

@@ -89,5 +89,6 @@ npm start
 - [ ] Dropdown list para el correo del papá (Galindo y Felipe)
 - [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
 - [ ] Corregir las diapositivas
+- [ ] Agregar botón para ir atrás (Pedro)
 - [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
 - [ ] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)

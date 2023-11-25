@@ -145,16 +145,21 @@ fun Registros(activityContext: Registro) {
                             )
                         },
                     )
-                    Column {
+                    Row (
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                    {
                         Text(
-                            text = "Nota: la contraseña debe:\n" + " * Ser de 12 caracteres o más\n" + " * Incluir al menos un número\n" + " * Incluir al menos una mayúscula\n" + " * Incluir al menos una minúscula\n" + " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)"
+                            modifier = Modifier.padding(top=20.dp),
+                            text = "Nota: la contraseña debe:\n" + " * Ser de 12 caracteres o más\n" + " * Incluir al menos un número\n" + " * Incluir al menos una mayúscula\n" + " * Incluir al menos una minúscula\n" + " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)",
+                            fontSize = 20.sp
                         )
                     }
 
                     text3 = myadminorfather().toString()
 
                     Button(modifier = Modifier.padding(top = 15.dp),
-                        shape = RoundedCornerShape(30.dp),
+                        shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
                             when (text3) {
@@ -229,14 +234,15 @@ fun myadminorfather(): op {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = Modifier.padding(top=15.dp)
     ) {
         RadioButton(
             selected = selected == op.admin,
             onClick = { selected = op.admin },
             modifier = Modifier.padding(5.dp)
         )
-        Text("Admin", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+        Text("Terapeuta", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
 
         RadioButton(
             selected = selected == op.father,
@@ -246,7 +252,8 @@ fun myadminorfather(): op {
         Text(
             "Padre", style = TextStyle(
                 fontWeight = FontWeight.Bold, fontSize = 35.sp
-            )
+            ),
+            modifier = Modifier.padding(end=20.dp),
         )
     }
 
