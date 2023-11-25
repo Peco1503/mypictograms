@@ -112,7 +112,7 @@ fun New(adminId: Int) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier.padding(50.dp)
+                    modifier = Modifier.padding(40.dp)
                 ) {
                     TextField(shape = RoundedCornerShape(0.dp),
                         modifier = Modifier.border(2.dp, Color.Gray),

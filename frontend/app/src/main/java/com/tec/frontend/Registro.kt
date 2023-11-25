@@ -242,7 +242,7 @@ fun myadminorfather(): op {
             onClick = { selected = op.admin },
             modifier = Modifier.padding(5.dp)
         )
-        Text("Terapeuta", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
+        Text("Terapeuta", style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp))
 
         RadioButton(
             selected = selected == op.father,
@@ -251,7 +251,7 @@ fun myadminorfather(): op {
         )
         Text(
             "Padre", style = TextStyle(
-                fontWeight = FontWeight.Bold, fontSize = 35.sp
+                fontWeight = FontWeight.Medium, fontSize = 35.sp
             ),
             modifier = Modifier.padding(end=20.dp),
         )

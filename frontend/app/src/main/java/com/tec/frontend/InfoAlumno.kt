@@ -33,6 +33,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.Api.Alumno
@@ -56,10 +58,9 @@ class InfoAlumno : ComponentActivity() {
             FrontendTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    infoAlumno(EstudianteId)
+                    infoAlumno(EstudianteId = EstudianteId)
                 }
             }
         }
@@ -68,11 +69,12 @@ class InfoAlumno : ComponentActivity() {
 
 
 @Composable
+//@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
 fun infoAlumno(EstudianteId: Int) {
     val coroutineScope = rememberCoroutineScope()
     var Estudiante by remember { mutableStateOf(Alumno()) }
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         coroutineScope.launch {
             try {
                 // Make Retrofit API call on the background thread
@@ -91,10 +93,8 @@ fun infoAlumno(EstudianteId: Int) {
         }
     }
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF4169CF)
-    )
-    {
+        modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
+    ) {
         Column(
             modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
@@ -102,71 +102,82 @@ fun infoAlumno(EstudianteId: Int) {
         ) {
             Box(
                 modifier = Modifier
-                    .width(750.dp)
-                    .height(750.dp)
-                    .background(Color.White),
+                    .width(900.dp)
+                    .background(Color.White)
+                    .padding(50.dp),
                 contentAlignment = Alignment.TopCenter
-            )
-            {
+            ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
-                )
-                {
+                ) {
                     Text(
                         text = "${Estudiante.name}",
                         style = TextStyle(
-                            fontSize = 55.sp,
-                            fontWeight = FontWeight.Bold
+                            fontSize = 50.sp, fontWeight = FontWeight.Bold
                         ),
-                        modifier = Modifier
-                            .padding(16.dp)
                     )
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Row(modifier = Modifier.padding(top = 30.dp)) {
                         Text(
-                            text = "Año de nacimiento:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                            text = "Año de nacimiento:",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
+                            modifier = Modifier.padding(end = 10.dp)
                         )
                         Text(text = "${Estudiante.birthYear}", style = TextStyle(fontSize = 35.sp))
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
-                            text = "Género:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                            text = "Género:",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
+                            modifier = Modifier.padding(end = 10.dp)
+
                         )
                         Text(text = "${Estudiante.gender}", style = TextStyle(fontSize = 35.sp))
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
-                            text = "Tutor:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                            text = "Tutor:",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
+                            modifier = Modifier.padding(end = 10.dp)
                         )
                         Text(text = "${Estudiante.parentId}", style = TextStyle(fontSize = 35.sp))
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
-                            text = "Nivel Autorizado:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                            text = "Nivel Autorizado:",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
+                            modifier = Modifier.padding(end = 10.dp)
                         )
-                        Text(text = "${Estudiante.maximumMinigameLevel}", style = TextStyle(fontSize = 35.sp))
+                        Text(
+                            text = "${Estudiante.maximumMinigameLevel}",
+                            style = TextStyle(fontSize = 35.sp)
+                        )
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
-                            text = "Descripción:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                            text = "Descripción:",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
+                            modifier = Modifier.padding(end = 10.dp)
                         )
-                        Text(text = "${Estudiante.description}", style = TextStyle(fontSize = 35.sp))
+                        Text(
+                            text = "${Estudiante.description}", style = TextStyle(fontSize = 35.sp)
+                        )
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
-                            text = "Nivel Cognitivo:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                            text = "Nivel Cognitivo:",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
+                            modifier = Modifier.padding(end = 10.dp)
+
                         )
-                        Text(text = "${Estudiante.cognitiveLevel}", style = TextStyle(fontSize = 35.sp))
+                        Text(
+                            text = "${Estudiante.cognitiveLevel}",
+                            style = TextStyle(fontSize = 35.sp)
+                        )
                     }
                     val context1 = LocalContext.current
                     Row(
-                        modifier = Modifier.padding(top = 16.dp),
+                        modifier = Modifier.padding(top = 40.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Button(
@@ -175,10 +186,9 @@ fun infoAlumno(EstudianteId: Int) {
                                 intent.putExtra("AdminID", Estudiante.therapistId)
                                 context1.startActivity(intent)
                             },
-                            modifier = Modifier
-                                .padding(15.dp),
-                            shape = RoundedCornerShape(30.dp),
+                            shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
+                            modifier = Modifier.padding(end = 20.dp)
                         ) {
                             Text(text = "Atrás", style = TextStyle(fontSize = 35.sp))
                         }
@@ -189,9 +199,7 @@ fun infoAlumno(EstudianteId: Int) {
                                 intent.putExtra("Nivel", Estudiante.maximumMinigameLevel)
                                 context1.startActivity(intent)
                             },
-                            modifier = Modifier
-                                .padding(15.dp),
-                            shape = RoundedCornerShape(30.dp),
+                            shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
                             Text(text = "Editar", style = TextStyle(fontSize = 35.sp))
