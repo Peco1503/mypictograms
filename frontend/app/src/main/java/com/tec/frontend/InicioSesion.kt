@@ -111,7 +111,7 @@ fun Inicio() {
                 TextField(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier
-                        .width(500.dp)
+                        .width(700.dp)
                         .padding(top = 50.dp)
                         .border(2.dp, Color.Gray)
                         .background(Color.White),
@@ -138,7 +138,7 @@ fun Inicio() {
                 TextField(
                     shape = RoundedCornerShape(0.dp),
                     modifier = Modifier
-                        .width(500.dp)
+                        .width(700.dp)
                         .padding(top = 40.dp)
                         .border(2.dp, Color.Gray)
                         .background(Color.White),

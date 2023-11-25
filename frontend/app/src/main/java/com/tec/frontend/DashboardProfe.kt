@@ -11,6 +11,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,6 +42,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.Api.Alumno
@@ -76,7 +80,7 @@ fun dashboard(Adminid: Int) {
     val scrollState = rememberScrollState()
     var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         coroutineScope.launch {
             try {
                 // Make Retrofit API call on the background thread
@@ -104,8 +108,8 @@ fun dashboard(Adminid: Int) {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(16.dp),
-                text = "Hola de nuevo, Administrador!",
+                modifier = Modifier.padding(bottom=20.dp),
+                text = "Hola de nuevo, terapeuta!",
                 style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal),
                 color = Color.White,
                 textAlign = TextAlign.Center
@@ -114,7 +118,7 @@ fun dashboard(Adminid: Int) {
             Box(
                 modifier = Modifier
                     .width(950.dp)
-                    .height(446.dp)
+                    .height(465.dp)
                     .background(Color.White)
                     .verticalScroll(scrollState)
             ) {
@@ -126,9 +130,9 @@ fun dashboard(Adminid: Int) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        modifier = Modifier.padding(30.dp),
+                        modifier = Modifier.padding(vertical = 15.dp),
                         text = "Mis alumnos",
-                        style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Bold),
+                        style = TextStyle(fontSize = 50.sp, fontWeight = FontWeight.Bold),
                         color = Color.Black,
                         textAlign = TextAlign.Center
                     )
@@ -142,30 +146,41 @@ fun dashboard(Adminid: Int) {
                             Row(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .border(2.dp, Color.Black, RoundedCornerShape(10.dp))
-                                    .padding(8.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
-                                alumno.name?.let { Text(text = it, style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)) }
+                                alumno.name?.let {
+                                    Text(
+                                        modifier = Modifier
+                                            .border(
+                                                2.dp,
+                                                Color.Gray,
+                                                RoundedCornerShape(0.dp)
+                                            ).padding(8.dp).width(750.dp),
+                                        text = it,
+                                        style = TextStyle(
+                                            fontSize = 35.sp,
+                                            fontWeight = FontWeight.Normal
+                                        )
+                                    )
+                                }
                                 val context = LocalContext.current
                                 Button(
+                                    modifier = Modifier.padding(start=8.dp),
                                     onClick = {
                                         val intent = Intent(context, InfoAlumno::class.java)
-                                        intent.putExtra("alumnoId", alumno.id) // Reemplaza "alumnoId" con la clave que desees
+                                        intent.putExtra(
+                                            "alumnoId",
+                                            alumno.id
+                                        ) // Reemplaza "alumnoId" con la clave que desees
                                         intent.putExtra("AdminID", Adminid)
                                         context.startActivity(intent)
-                                              },
-                                    modifier = Modifier
-                                        .border(2.dp, Orange1, RoundedCornerShape(10.dp))
-                                        .width(80.dp)
-                                        .height(45.dp),
-                                    shape = RoundedCornerShape(10.dp),
+                                    },
+                                    shape = RoundedCornerShape(0.dp),
                                     colors = ButtonDefaults.buttonColors(Orange1)
                                 ) {
-                                    Text("Info", color = Color.White)
+                                    Text("Info", color = Color.White, fontSize = 35.sp)
                                 }
                             }
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(15.dp))
                         }
                     }
                 }
@@ -174,13 +189,18 @@ fun dashboard(Adminid: Int) {
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp),
+                    .padding(top=20.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Row(
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text("Nuevo: ", color = Color.White, style = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.Normal))
+                    Text(
+                        "Nuevo: ",
+                        color = Color.White,
+                        style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)
+                    )
                     Spacer(modifier = Modifier.width(16.dp))
                     val context = LocalContext.current
 
@@ -189,15 +209,15 @@ fun dashboard(Adminid: Int) {
                             val intent = Intent(context, NuevoAlumno::class.java)
                             intent.putExtra("AdminID", Adminid)
                             context.startActivity(intent)
-                                  },
-                        modifier = Modifier
-                            .border(2.dp, Orange1, RoundedCornerShape(10.dp))
-                            .width(125.dp)
-                            .height(44.dp),
-                        shape = RoundedCornerShape(10.dp),
+                        },
+                        shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(Orange1)
                     ) {
-                        Text("Alumn@", color = Color.White, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Normal))
+                        Text(
+                            "Alumno",
+                            color = Color.White,
+                            style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)
+                        )
                     }
 
                     val context1 = LocalContext.current
@@ -205,15 +225,15 @@ fun dashboard(Adminid: Int) {
                     Button(
                         onClick = {
                             context1.startActivity(Intent(context1, Registro::class.java))
-                                  },
-                        modifier = Modifier
-                            .border(2.dp, Orange1, RoundedCornerShape(10.dp))
-                            .width(125.dp)
-                            .height(44.dp),
-                        shape = RoundedCornerShape(10.dp),
+                        },
+                        shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(Orange1)
                     ) {
-                        Text("Admin", color = Color.White, style = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.Normal))
+                        Text(
+                            "Administrador",
+                            color = Color.White,
+                            style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal)
+                        )
                     }
                 }
             }
@@ -223,10 +243,12 @@ fun dashboard(Adminid: Int) {
 
 @Composable
 fun BB() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        verticalAlignment = Alignment.Top) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.Top
+    ) {
         val context = LocalContext.current
         Button(
             shape = RectangleShape,
@@ -238,14 +260,11 @@ fun BB() {
                     )
                 )
             },
-            modifier = Modifier
-                .width(116.dp)
-                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
-        ){
+        ) {
             Text(
-                "ATRAS",
-                style = TextStyle(fontSize = 12.sp)
+                "Atrás",
+                style = TextStyle(fontSize = 35.sp)
             )
         }
     }
