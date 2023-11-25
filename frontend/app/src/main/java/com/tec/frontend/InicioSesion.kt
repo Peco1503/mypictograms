@@ -97,7 +97,9 @@ fun Inicio() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
-                modifier = Modifier.background(Color.White).padding(50.dp),
+                modifier = Modifier
+                    .background(Color.White)
+                    .padding(50.dp),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -179,16 +181,28 @@ fun Inicio() {
                             }
 
                             if (response.isSuccessful) {
-                                admin = response.body()!!
+                                val responseBody = response.body()!!
                                 withContext(Dispatchers.Main) {
-                                    val intent = Intent(context, DashboardProfe::class.java)
-                                    intent.putExtra("AdminID", admin.id)
-                                    context.startActivity(intent)
+                                    when (responseBody.type) {
+                                        "ADMIN" -> {
+                                            val intent = Intent(context, DashboardProfe::class.java)
+                                            intent.putExtra("AdminID", admin.id)
+                                            context.startActivity(intent)
+                                        }
+                                        "PARENT" -> {
+                                            val intent = Intent(context, DashboardPadres::class.java)
+                                            context.startActivity(intent)
+                                        }
+                                        else -> {
+                                            Log.d(TAG, "El tipo de usuario no es ADMIN ni PARENT")
+                                        }
+                                    }
                                 }
                             } else {
                                 val jsonError = JSONObject(response.errorBody()!!.string())
                                 val errorMessage = jsonError.getString("error");
 
+                                Log.d(TAG, errorMessage)
                                 Log.d(TAG, errorMessage)
                                 withContext(Dispatchers.Main) {
                                     ErrorDialog.show(context, errorMessage)

@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -24,6 +25,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -82,24 +85,30 @@ fun Registros(activityContext: Registro) {
         ) {
             Box(
                 modifier = Modifier
-                    .height(800.dp)
-                    .width(600.dp)
+                    .width(700.dp)
                     .background(Color.White),
                 contentAlignment = Alignment.TopCenter
             ) {
                 Column(
+                    modifier = Modifier.padding(50.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
                         text = "Registro", style = TextStyle(
                             fontSize = 65.sp, fontWeight = FontWeight.Bold
-                        ), modifier = Modifier.padding(16.dp)
+                        )
                     )
-                    BasicTextField(modifier = Modifier
-                        .width(550.dp)
-                        .padding(top = 45.dp)
-                        .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                    TextField(
+                        shape = RoundedCornerShape(0.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 50.dp)
+                            .border(2.dp, Color.Gray),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White
+                        ),
                         value = text1,
                         onValueChange = {
                             text1 = it
@@ -107,21 +116,22 @@ fun Registros(activityContext: Registro) {
                         textStyle = TextStyle(
                             color = Color.Black, fontSize = 35.sp
                         ),
-                        decorationBox = { innerTextField ->
+                        placeholder = {
                             Text(
-                                text = "Introduce tu nombre de usuario",
-                                color = Color.Gray,
-                                style = TextStyle(
-                                    fontSize = 35.sp
-                                ),
-                                modifier = Modifier.padding(16.dp)
+                                "Ingrese su usuario...", color = Color.Gray, fontSize = 35.sp
                             )
-                            innerTextField()
-                        })
-                    BasicTextField(modifier = Modifier
-                        .width(550.dp)
-                        .padding(top = 35.dp)
-                        .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                        },
+                    )
+                    TextField(
+                        shape = RoundedCornerShape(0.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 40.dp)
+                            .border(2.dp, Color.Gray),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White
+                        ),
                         value = text2,
                         onValueChange = {
                             text2 = it
@@ -129,18 +139,12 @@ fun Registros(activityContext: Registro) {
                         textStyle = TextStyle(
                             color = Color.Black, fontSize = 35.sp
                         ),
-                        decorationBox = { innerTextField ->
+                        placeholder = {
                             Text(
-                                text = "Introduce tu contraseña",
-                                color = Color.Gray,
-                                style = TextStyle(
-                                    fontSize = 35.sp
-                                ),
-                                modifier = Modifier.padding(16.dp)
+                                "Ingrese su contraseña...", color = Color.Gray, fontSize = 35.sp
                             )
-                            innerTextField()
-                        })
-                    Spacer(modifier = Modifier.padding(top = 25.dp))
+                        },
+                    )
                     Column {
                         Text(
                             text = "Nota: la contraseña debe:\n" + " * Ser de 12 caracteres o más\n" + " * Incluir al menos un número\n" + " * Incluir al menos una mayúscula\n" + " * Incluir al menos una minúscula\n" + " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)"
@@ -148,14 +152,13 @@ fun Registros(activityContext: Registro) {
                     }
 
                     text3 = myadminorfather().toString()
-                    Spacer(modifier = Modifier.padding(top = 25.dp))
 
                     Button(modifier = Modifier.padding(top = 15.dp),
                         shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
                             when (text3) {
-                                "admin" -> {
+                                op.admin.toString() -> {
                                     coroutineScope.launch {
                                         val response = withContext(Dispatchers.IO) {
                                             RetrofitInstance.apiService.createAdmin(
@@ -178,7 +181,7 @@ fun Registros(activityContext: Registro) {
                                     }
                                 }
 
-                                "father" -> {
+                                op.father.toString() -> {
                                     coroutineScope.launch {
                                         val response = withContext(Dispatchers.IO) {
                                             RetrofitInstance.apiService.createParent(

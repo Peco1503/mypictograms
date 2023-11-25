@@ -87,6 +87,7 @@ npm start
 - [ ] Mensaje de error 500 en el dialogo de errro (Galindo y Pedro)
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
 - [ ] Dropdown list para el correo del papá (Galindo y Felipe)
+- [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
 - [ ] Corregir las diapositivas
 - [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
 - [ ] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
