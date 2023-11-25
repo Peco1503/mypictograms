@@ -1,10 +1,9 @@
 package com.tec.frontend
 
-import android.app.AlertDialog
+import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
-import android.util.TypedValue
-import android.view.Gravity
-import android.widget.TextView
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -40,12 +39,16 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tec.frontend.Api.RetrofitInstance
+import com.tec.frontend.Api.registerRequest
 import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
+
 
 class Registro : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,8 +57,7 @@ class Registro : ComponentActivity() {
             FrontendTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     Registros()
                 }
@@ -96,137 +98,128 @@ fun Registros() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Registro",
-                        style = TextStyle(
-                            fontSize = 65.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier
-                            .padding(16.dp)
+                        text = "Registro", style = TextStyle(
+                            fontSize = 65.sp, fontWeight = FontWeight.Bold
+                        ), modifier = Modifier.padding(16.dp)
                     )
-                    BasicTextField(
-                        modifier = Modifier
-                            .width(550.dp)
-                            .padding(top = 45.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                    BasicTextField(modifier = Modifier
+                        .width(550.dp)
+                        .padding(top = 45.dp)
+                        .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
                         value = text1,
                         onValueChange = {
                             text1 = it
                         },
                         textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = 35.sp
+                            color = Color.Black, fontSize = 35.sp
                         ),
                         decorationBox = { innerTextField ->
-                                Text(
-                                    text = "Introduce tu nombre de usuario",
-                                    color = Color.Gray,
-                                    style = TextStyle(
-                                        fontSize = 35.sp
-                                    ),
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                )
+                            Text(
+                                text = "Introduce tu nombre de usuario",
+                                color = Color.Gray,
+                                style = TextStyle(
+                                    fontSize = 35.sp
+                                ),
+                                modifier = Modifier.padding(16.dp)
+                            )
                             innerTextField()
-                        }
-                    )
-                    BasicTextField(
-                        modifier = Modifier
-                            .width(550.dp)
-                            .padding(top = 35.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                        })
+                    BasicTextField(modifier = Modifier
+                        .width(550.dp)
+                        .padding(top = 35.dp)
+                        .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
                         value = text2,
                         onValueChange = {
                             text2 = it
                         },
                         textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = 35.sp
+                            color = Color.Black, fontSize = 35.sp
                         ),
                         decorationBox = { innerTextField ->
-                                Text(
-                                    text = "Introduce tu contraseña",
-                                    color = Color.Gray,
-                                    style = TextStyle(
-                                        fontSize = 35.sp
-                                    ),
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                )
+                            Text(
+                                text = "Introduce tu contraseña",
+                                color = Color.Gray,
+                                style = TextStyle(
+                                    fontSize = 35.sp
+                                ),
+                                modifier = Modifier.padding(16.dp)
+                            )
                             innerTextField()
-                        }
-                    )
+                        })
                     Spacer(modifier = Modifier.padding(top = 25.dp))
                     Column {
                         Text(
-                            text = "Nota: la contraseña debe:\n" +
-                                    " * Ser de 12 caracteres o más\n" +
-                                    " * Incluir al menos un número\n" +
-                                    " * Incluir al menos una mayúscula\n" +
-                                    " * Incluir al menos una minúscula\n" +
-                                    " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)"
+                            text = "Nota: la contraseña debe:\n" + " * Ser de 12 caracteres o más\n" + " * Incluir al menos un número\n" + " * Incluir al menos una mayúscula\n" + " * Incluir al menos una minúscula\n" + " * Incluir al menos un caracter especial (~`!@#\$%^&*... etc)"
                         )
                     }
-                    text3 = myadminorfather().toString()
 
+                    text3 = myadminorfather().toString()
                     Spacer(modifier = Modifier.padding(top = 25.dp))
 
-                    Button(
-                        modifier = Modifier
-                            .padding(top = 15.dp),
+                    Button(modifier = Modifier.padding(top = 15.dp),
                         shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
-                            coroutineScope.launch {
-                                try {
-                                        val user = text1
-                                        val password = text2
-                                        viewModel.registerUser(user, password, text3)
-                                } catch (e : Exception) {
-                                    val errorMessage = e.message.toString()
-                                    withContext(Dispatchers.Main) {
-                                        // Create AlertDialog
-                                        val alertDialogBuilder = AlertDialog.Builder(context)
-
-                                        val titleTextView = TextView(context)
-                                        titleTextView.text = "Error"
-                                        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                                        titleTextView.setTextColor(
-                                            ContextCompat.getColor(
-                                                context,
-                                                R.color.Red
+                            when (text3) {
+                                "admin" -> {
+                                    coroutineScope.launch {
+                                        val response = withContext(Dispatchers.IO) {
+                                            RetrofitInstance.apiService.createAdmin(
+                                                registerRequest(user = text1, password = text2)
                                             )
-                                        )
-                                        titleTextView.gravity =
-                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                                        alertDialogBuilder.setCustomTitle(titleTextView)
-
-                                        // Create a TextView to set the text size
-                                        val textView = TextView(context)
-                                        textView.text = errorMessage
-                                        textView.setTextSize(
-                                            TypedValue.COMPLEX_UNIT_SP,
-                                            28f
-                                        ) // Adjust the text size as needed
-                                        textView.gravity =
-                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                                        alertDialogBuilder.setView(textView)
-
-
-                                        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-                                            dialog.dismiss()
                                         }
 
-                                        val alertDialog = alertDialogBuilder.create()
-                                        alertDialog.show()
+                                        if (!response.isSuccessful) {
+                                            val jsonError =
+                                                JSONObject(response.errorBody()!!.string())
+                                            val errorMessage = jsonError.getString("error");
+
+                                            Log.d(TAG, errorMessage)
+                                            withContext(Dispatchers.Main) {
+                                                ErrorDialog.show(context, errorMessage)
+                                            }
+                                        } else {
+                                            withContext(Dispatchers.Main) {
+                                                context.startActivity(Intent(context,DashboardProfe::class.java))
+                                            }
+                                        }
                                     }
+                                }
+
+                                "parent" -> {
+                                    coroutineScope.launch {
+                                        val response = withContext(Dispatchers.IO) {
+                                            RetrofitInstance.apiService.createParent(
+                                                registerRequest(user = text1, password = text2)
+                                            )
+                                        }
+
+                                        if (!response.isSuccessful) {
+                                            val jsonError =
+                                                JSONObject(response.errorBody()!!.string())
+                                            val errorMessage = jsonError.getString("error");
+
+                                            Log.d(TAG, errorMessage)
+                                            withContext(Dispatchers.Main) {
+                                                ErrorDialog.show(context, errorMessage)
+                                            }
+                                        } else {
+                                            withContext(Dispatchers.Main) {
+                                                context.startActivity(Intent(context,DashboardProfe::class.java))
+                                            }
+                                        }
+                                    }
+                                }
+
+                                else -> {
+                                    Log.d(TAG, "ERROR: neither admin nor parent were selected")
                                 }
                             }
                         }
+
                     ) {
                         Text(
-                            text = "Registrar",
-                            style = TextStyle(
+                            text = "Registrar", style = TextStyle(
                                 fontSize = 35.sp
                             )
                         )
@@ -257,16 +250,16 @@ fun myadminorfather(): op {
             onClick = { selected = op.father },
             modifier = Modifier.padding(5.dp)
         )
-        Text("Padre", style = TextStyle(
-            fontWeight = FontWeight.Bold,
-            fontSize = 35.sp
-        ))
+        Text(
+            "Padre", style = TextStyle(
+                fontWeight = FontWeight.Bold, fontSize = 35.sp
+            )
+        )
     }
 
     return selected
 }
 
 enum class op {
-    admin,
-    father
+    admin, father
 }

@@ -39,7 +39,9 @@ imagesRouter.get(
     }
 
     if (!studentFolderName) {
-      throw new Error("Could not find student's folder on Firebase");
+      throw new Error(
+        "No se pudo encontrar la carpeta del estudiante en la base de datos",
+      );
     }
 
     const [defaultCategoryResult, studentCategoryResult] = await Promise.all([

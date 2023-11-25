@@ -153,7 +153,7 @@ fun Inicio() {
                             unfocusedContainerColor = Color.White,
                             focusedContainerColor = Color.White
                         ),
-                            value = text2,
+                        value = text2,
                         onValueChange = {
                             text2 = it
                         },
@@ -161,7 +161,13 @@ fun Inicio() {
                             color = Color.Black,
                             fontSize = 35.sp
                         ),
-                        placeholder = { Text("Introduce tu contaseña", color = Color.Gray, fontSize = 35.sp) },
+                        placeholder = {
+                            Text(
+                                "Introduce tu contaseña",
+                                color = Color.Gray,
+                                fontSize = 35.sp
+                            )
+                        },
                         visualTransformation = PasswordVisualTransformation(),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
                     )
@@ -192,40 +198,7 @@ fun Inicio() {
 
                                     Log.d(TAG, errorMessage)
                                     withContext(Dispatchers.Main) {
-                                        // Create AlertDialog
-                                        val alertDialogBuilder = AlertDialog.Builder(context)
-
-                                        val titleTextView = TextView(context)
-                                        titleTextView.text = "Error"
-                                        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
-                                        titleTextView.setTextColor(
-                                            ContextCompat.getColor(
-                                                context,
-                                                R.color.Red
-                                            )
-                                        )
-                                        titleTextView.gravity =
-                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                                        alertDialogBuilder.setCustomTitle(titleTextView)
-
-                                        // Create a TextView to set the text size
-                                        val textView = TextView(context)
-                                        textView.text = errorMessage
-                                        textView.setTextSize(
-                                            TypedValue.COMPLEX_UNIT_SP,
-                                            28f
-                                        ) // Adjust the text size as needed
-                                        textView.gravity =
-                                            Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                                        alertDialogBuilder.setView(textView)
-
-
-                                        alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-                                            dialog.dismiss()
-                                        }
-
-                                        val alertDialog = alertDialogBuilder.create()
-                                        alertDialog.show()
+                                        ErrorDialog.show(context, errorMessage)
                                     }
                                 }
                             }

@@ -1,3 +1,3 @@
 package com.tec.frontend.Api
 
-data class registerRequest(val user: String, val password: String, val type: String)
+data class registerRequest(val user: String, val password: String)

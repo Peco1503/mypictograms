@@ -18,7 +18,7 @@ parentsRouter.post("/parents", async (req, res) => {
       .length > 0;
 
   if (existsOnAdminsTable) {
-    throw new Error("The user is already registered as an admin");
+    throw new Error("El usuario ya está registrado como administrador");
   }
 
   validatePassword(newParent.password);

@@ -8,27 +8,27 @@ export const validatePassword = (password: string) => {
   // https://stackoverflow.com/questions/12090077/javascript-regular-expression-password-validation-having-special-characters
 
   if (password.length < 12) {
-    throw new Error("Password must be at least 12 characters");
+    throw new Error("La contraseña debe ser de al menos 12 caracteres");
   }
 
   const containsUppercase = /^(?=.*[A-Z]).*$/;
   if (!containsUppercase.test(password)) {
-    throw new Error("Password must have at least one Uppercase Character.");
+    throw new Error("La contraseña debe tener al menos una mayúscula");
   }
 
   const containsLowercase = /^(?=.*[a-z]).*$/;
   if (!containsLowercase.test(password)) {
-    throw new Error("Password must have at least one Lowercase Character.");
+    throw new Error("La contraseña debe tener al menos una minúscula");
   }
 
   const containsNumber = /^(?=.*[0-9]).*$/;
   if (!containsNumber.test(password)) {
-    throw new Error("Password must contain at least one Digit.");
+    throw new Error("La contraseña debe tener al menos un dígito");
   }
 
   const containsSymbol = /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/;
   if (!containsSymbol.test(password)) {
-    throw new Error("Password must contain at least one Special Symbol.");
+    throw new Error("La contraseña debe tener al menos un símbolo especial");
   }
 };
 

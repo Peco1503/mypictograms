@@ -6,8 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tec.frontend.Api.Alumno
 import com.tec.frontend.Api.RetrofitInstance
-import com.tec.frontend.Api.registerRequest
-import com.tec.frontend.Api.registerResponse
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -15,7 +13,6 @@ import retrofit2.Response
 
 sealed class RegistrationState {
     object Loading : RegistrationState()
-    data class Success(val response: registerResponse) : RegistrationState()
     data class Success1(val response: Alumno) : RegistrationState()
     data class Error(val message: String) : RegistrationState()
 }
@@ -24,16 +21,6 @@ class RegistroViewModel : ViewModel() {
 
     private val _registrationState: MutableStateFlow<RegistrationState> = MutableStateFlow(RegistrationState.Loading)
     val registrationState: StateFlow<RegistrationState> get() = _registrationState
-
-    suspend fun registerUser(user: String, password: String, userType: String) {
-                _registrationState.value = RegistrationState.Loading
-
-                val response: registerResponse = if (userType == "admin") {
-                    RetrofitInstance.apiService.createAdmin(registerRequest(user, password, userType))
-                } else {
-                    RetrofitInstance.apiService.createParent(registerRequest(user, password, userType))
-                }
-    }
 
     fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int?, maximumMinigameLevel: Int, description: String, cognitiveLevel: String, therapistaId: Int) {
         viewModelScope.launch {

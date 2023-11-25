@@ -14,10 +14,10 @@ interface ApiService {
     suspend fun login(@Body request: loginRequest): Response<loginResponse>
 
     @POST("/api/admins")
-    suspend fun createAdmin(@Body request: registerRequest): registerResponse
+    suspend fun createAdmin(@Body request: registerRequest): Response<Void>
 
     @POST("/api/parents")
-    suspend fun createParent(@Body request: registerRequest): registerResponse
+    suspend fun createParent(@Body request: registerRequest): Response<Void>
 
     @POST("/api/students")
     suspend fun insertalumno(@Body alumno: Alumno) : Response<Alumno>

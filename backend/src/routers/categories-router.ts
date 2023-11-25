@@ -37,7 +37,9 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
   }
 
   if (!studentFolderName) {
-    throw new Error("Could not find student's folder on Firebase");
+    throw new Error(
+      "No se pudo encontrar la carpeta del estudiante en la base de datos",
+    );
   }
 
   const [defaultFolderResult, studentFolderResult] = await Promise.all([

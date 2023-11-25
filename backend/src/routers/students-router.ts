@@ -38,7 +38,7 @@ studentsRouter.get("/students/:id", async (req, res) => {
   const result = await db.select().from(students).where(eq(students.id, id));
 
   if (result.length !== 1) {
-    throw new Error("There is no student with given id");
+    throw new Error("No se encontró el estudiante");
   }
 
   res.json(result);

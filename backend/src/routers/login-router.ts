@@ -46,7 +46,7 @@ loginRouter.post("/login", async (req, res) => {
     return;
   }
 
-  throw new Error("User or Password was incorrect");
+  throw new Error("El usuario o la contraseña es incorrecto");
 });
 
 export default loginRouter;
