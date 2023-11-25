@@ -1,7 +1,6 @@
 package com.tec.frontend
 
 import android.content.ContentValues.TAG
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -39,8 +38,6 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.Api.registerRequest
 import com.tec.frontend.ui.theme.FrontendTheme
@@ -59,7 +56,7 @@ class Registro : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Registros()
+                    Registros(activityContext = this)
                 }
             }
         }
@@ -67,15 +64,12 @@ class Registro : ComponentActivity() {
 }
 
 @Composable
-fun Registros() {
+fun Registros(activityContext: Registro) {
     var text1 by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
     var text3 by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
-
-    // ViewModel instance
-    val viewModel: RegistroViewModel = viewModel()
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -179,14 +173,12 @@ fun Registros() {
                                                 ErrorDialog.show(context, errorMessage)
                                             }
                                         } else {
-                                            withContext(Dispatchers.Main) {
-                                                context.startActivity(Intent(context,DashboardProfe::class.java))
-                                            }
+                                            activityContext.finish()
                                         }
                                     }
                                 }
 
-                                "parent" -> {
+                                "father" -> {
                                     coroutineScope.launch {
                                         val response = withContext(Dispatchers.IO) {
                                             RetrofitInstance.apiService.createParent(
@@ -204,9 +196,7 @@ fun Registros() {
                                                 ErrorDialog.show(context, errorMessage)
                                             }
                                         } else {
-                                            withContext(Dispatchers.Main) {
-                                                context.startActivity(Intent(context,DashboardProfe::class.java))
-                                            }
+                                            activityContext.finish()
                                         }
                                     }
                                 }
