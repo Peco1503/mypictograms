@@ -46,6 +46,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -95,122 +96,113 @@ fun Inicio() {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Box(
-                modifier = Modifier
-                    .width(750.dp)
-                    .height(550.dp)
-                    .background(Color.White),
-                contentAlignment = Alignment.TopCenter
+            Column(
+                modifier = Modifier.background(Color.White).padding(50.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Column(
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = "Inicio Sesión",
-                        style = TextStyle(
-                            fontSize = 65.sp,
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier
-                            .padding(16.dp)
+                Text(
+                    text = "Iniciar Sesión",
+                    style = TextStyle(
+                        fontSize = 65.sp,
+                        fontWeight = FontWeight.Bold
                     )
-                    BasicTextField(
-                        modifier = Modifier
-                            .width(700.dp)
-                            .padding(top = 85.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
-                        value = text1,
-                        onValueChange = {
-                            text1 = it
-                        },
-                        textStyle = TextStyle(
-                            color = Color.Black,
+                )
+                TextField(
+                    shape = RoundedCornerShape(0.dp),
+                    modifier = Modifier
+                        .width(500.dp)
+                        .padding(top = 50.dp)
+                        .border(2.dp, Color.Gray)
+                        .background(Color.White),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = Color.White
+                    ),
+                    value = text1,
+                    onValueChange = {
+                        text1 = it
+                    },
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = 35.sp
+                    ),
+                    placeholder = {
+                        Text(
+                            "Ingrese su usuario...",
+                            color = Color.Gray,
                             fontSize = 35.sp
-                        ),
-                        decorationBox = { innerTextField ->
-                            if (text1.isEmpty()) {
-                                Text(
-                                    text = "Introduce tu nombre de usuario",
-                                    color = Color.Gray,
-                                    style = TextStyle(
-                                        fontSize = 35.sp
-                                    ),
-                                    modifier = Modifier
-                                        .padding(16.dp)
+                        )
+                    },
+                )
+                TextField(
+                    shape = RoundedCornerShape(0.dp),
+                    modifier = Modifier
+                        .width(500.dp)
+                        .padding(top = 40.dp)
+                        .border(2.dp, Color.Gray)
+                        .background(Color.White),
+                    colors = TextFieldDefaults.colors(
+                        unfocusedContainerColor = Color.White,
+                        focusedContainerColor = Color.White
+                    ),
+                    value = text2,
+                    onValueChange = {
+                        text2 = it
+                    },
+                    textStyle = TextStyle(
+                        color = Color.Black,
+                        fontSize = 35.sp
+                    ),
+                    placeholder = {
+                        Text(
+                            "Ingrese su contraseña...",
+                            color = Color.Gray,
+                            fontSize = 35.sp
+                        )
+                    },
+                    visualTransformation = PasswordVisualTransformation(),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
+                )
+
+                Button(
+                    modifier = Modifier
+                        .padding(top = 50.dp),
+                    shape = RoundedCornerShape(0.dp),
+                    colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
+                    onClick = {
+                        coroutineScope.launch {
+                            val response = withContext(Dispatchers.IO) {
+                                RetrofitInstance.apiService.login(
+                                    loginRequest(user = text1, password = text2)
                                 )
                             }
-                            innerTextField()
-                        }
-                    )
-                    TextField(
-                        modifier = Modifier
-                            .width(700.dp)
-                            .padding(top = 35.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium)
-                            .background(Color.White),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.White,
-                            focusedContainerColor = Color.White
-                        ),
-                        value = text2,
-                        onValueChange = {
-                            text2 = it
-                        },
-                        textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = 35.sp
-                        ),
-                        placeholder = {
-                            Text(
-                                "Introduce tu contaseña",
-                                color = Color.Gray,
-                                fontSize = 35.sp
-                            )
-                        },
-                        visualTransformation = PasswordVisualTransformation(),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password)
-                    )
 
-                    Button(
-                        modifier = Modifier
-                            .padding(top = 45.dp),
-                        shape = RoundedCornerShape(15.dp),
-                        colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                        onClick = {
-                            coroutineScope.launch {
-                                val response = withContext(Dispatchers.IO) {
-                                    RetrofitInstance.apiService.login(
-                                        loginRequest(user = text1, password = text2)
-                                    )
+                            if (response.isSuccessful) {
+                                admin = response.body()!!
+                                withContext(Dispatchers.Main) {
+                                    val intent = Intent(context, DashboardProfe::class.java)
+                                    intent.putExtra("AdminID", admin.id)
+                                    context.startActivity(intent)
                                 }
+                            } else {
+                                val jsonError = JSONObject(response.errorBody()!!.string())
+                                val errorMessage = jsonError.getString("error");
 
-                                if (response.isSuccessful) {
-                                    admin = response.body()!!
-                                    withContext(Dispatchers.Main) {
-                                        val intent = Intent(context, DashboardProfe::class.java)
-                                        intent.putExtra("AdminID", admin.id)
-                                        context.startActivity(intent)
-                                    }
-                                } else {
-                                    val jsonError = JSONObject(response.errorBody()!!.string())
-                                    val errorMessage = jsonError.getString("error");
-
-                                    Log.d(TAG, errorMessage)
-                                    withContext(Dispatchers.Main) {
-                                        ErrorDialog.show(context, errorMessage)
-                                    }
+                                Log.d(TAG, errorMessage)
+                                withContext(Dispatchers.Main) {
+                                    ErrorDialog.show(context, errorMessage)
                                 }
                             }
                         }
-                    ) {
-                        Text(
-                            text = "Iniciar Sesión",
-                            style = TextStyle(
-                                fontSize = 35.sp
-                            )
-                        )
                     }
+                ) {
+                    Text(
+                        text = "Iniciar",
+                        style = TextStyle(
+                            fontSize = 35.sp
+                        )
+                    )
                 }
             }
         }
