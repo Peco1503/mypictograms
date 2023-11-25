@@ -172,7 +172,31 @@ fun New(adminId: Int) {
                             text = "Género: ",
                             style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
-                        text3 = myGenderSelection().toString()
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            Row {
+                                RadioButton(
+                                    selected = text3 == "male", onClick = {
+                                        text3 = "male"
+                                    }, modifier = Modifier.padding(end = 5.dp)
+                                )
+                                Text("Male", style = TextStyle(fontSize = 32.sp))
+                            }
+
+                            Row {
+                                RadioButton(
+                                    selected = text3 == "female", onClick = {
+                                        text3 = "female"
+                                    }, modifier = Modifier.padding(end = 5.dp)
+                                )
+                                Text(
+                                    "Female", style = TextStyle(
+                                        fontSize = 32.sp
+                                    )
+                                )
+                            }
+                        }
                     }
                     Row(
                         modifier = Modifier.padding(top = 20.dp),
@@ -303,8 +327,7 @@ fun New(adminId: Int) {
                                     }
 
                                     if (response.isSuccessful) {
-                                        val intent =
-                                            Intent(context1, DashboardProfe::class.java)
+                                        val intent = Intent(context1, DashboardProfe::class.java)
                                         intent.putExtra("AdminID", adminId)
                                         context1.startActivity(intent)
                                     } else {
@@ -333,24 +356,6 @@ fun New(adminId: Int) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EditText(txt: String, onTextChange: (String) -> Unit) {
-    OutlinedTextField(value = txt,
-        onValueChange = {
-            onTextChange(it)
-        },
-        textStyle = TextStyle(color = Color.Black, fontSize = 28.sp),
-        modifier = Modifier
-            .width(350.dp)
-            .height(60.dp)
-            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
-        placeholder = {
-            Text1(
-                "Ingrese Informacion", style = TextStyle(fontSize = 23.sp), color = Color.Gray
-            )
-        })
-}
-
-@Composable
 private fun fourOptionsCheckBox(): Int {
     var selectedOption by remember { mutableStateOf<Option?>(null) }
     var num: Int = 0
@@ -359,7 +364,7 @@ private fun fourOptionsCheckBox(): Int {
         modifier = Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = "Nivel Autorizado: ",
+            text = "Nivel Autorizado:",
             style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp),
             modifier = Modifier.padding(end = 10.dp)
         )
@@ -367,23 +372,19 @@ private fun fourOptionsCheckBox(): Int {
         Row(
             horizontalArrangement = Arrangement.spacedBy(25.dp)
         ) {
-            OptionRadioButton(
-                "1",
+            OptionRadioButton("1",
                 Option.OPTION1,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
-            OptionRadioButton(
-                "2",
+            OptionRadioButton("2",
                 Option.OPTION2,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
-            OptionRadioButton(
-                "3",
+            OptionRadioButton("3",
                 Option.OPTION3,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
-            OptionRadioButton(
-                "4",
+            OptionRadioButton("4",
                 Option.OPTION4,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
@@ -430,41 +431,3 @@ private fun OptionRadioButton(
         RadioButton(selected = selectedOption == option, onClick = { onOptionSelected(option) })
     }
 }
-
-@Composable
-fun myGenderSelection(): Gender {
-    var selectedGender by remember { mutableStateOf(Gender.male) }
-
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Row {
-            RadioButton(
-                selected = selectedGender == Gender.male,
-                onClick = { selectedGender = Gender.male },
-                modifier = Modifier.padding(end = 5.dp)
-            )
-            Text("Male", style = TextStyle(fontSize = 32.sp))
-        }
-
-        Row {
-            RadioButton(
-                selected = selectedGender == Gender.female,
-                onClick = { selectedGender = Gender.female },
-                modifier = Modifier.padding(end = 5.dp)
-            )
-            Text(
-                "Female", style = TextStyle(
-                    fontSize = 32.sp
-                )
-            )
-        }
-    }
-
-    return selectedGender
-}
-
-enum class Gender {
-    male, female
-}
-
