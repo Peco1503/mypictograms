@@ -22,23 +22,6 @@ class RegistroViewModel : ViewModel() {
     private val _registrationState: MutableStateFlow<RegistrationState> = MutableStateFlow(RegistrationState.Loading)
     val registrationState: StateFlow<RegistrationState> get() = _registrationState
 
-    fun registerAlumno(name: String, birthYear: Int, gender: String, idTutor: Int?, maximumMinigameLevel: Int, description: String, cognitiveLevel: String, therapistaId: Int) {
-        viewModelScope.launch {
-            try {
-                _registrationState.value = RegistrationState.Loading
-                val response : Response<Alumno> = RetrofitInstance.apiService.insertalumno(Alumno(null, name, birthYear, gender, idTutor, maximumMinigameLevel, description, cognitiveLevel, therapistaId))
-                if (response.isSuccessful) {
-                    val registerResponse = response.body()
-                    _registrationState.value = RegistrationState.Success1(registerResponse!!)
-                } else {
-                    _registrationState.value = RegistrationState.Error("Registration failed")
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "Error durante la llamada a la API", e)
-            }
-        }
-    }
-
     fun updateAlumno(
         alumnoId: Int, // ID del alumno que se va a actualizar
         name: String,

@@ -1,6 +1,7 @@
 package com.tec.frontend
 
 import android.app.AlertDialog
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,6 +23,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -44,16 +46,21 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.tec.frontend.Api.Alumno
+import com.tec.frontend.Api.ApiService
+import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 import androidx.compose.material3.Text as Text1
 
 
@@ -68,7 +75,7 @@ class NuevoAlumno : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    New()
+                    New(adminId = AdminId)
                 }
             }
         }
@@ -76,8 +83,8 @@ class NuevoAlumno : ComponentActivity() {
 }
 
 @Composable
-@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
-fun New() {
+//@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
+fun New(adminId: Int) {
     var text1 by remember { mutableStateOf("") }
     var text2 by remember { mutableStateOf("") }
     var text3 by remember { mutableStateOf("") }
@@ -104,13 +111,11 @@ fun New() {
             ) {
                 Column(
                     verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.padding(50.dp)
                 ) {
                     TextField(shape = RoundedCornerShape(0.dp),
-                        modifier = Modifier
-                            .padding(top = 50.dp)
-                            .border(2.dp, Color.Gray)
-                            .background(Color.White),
+                        modifier = Modifier.border(2.dp, Color.Gray),
                         colors = TextFieldDefaults.colors(
                             unfocusedContainerColor = Color.White,
                             focusedContainerColor = Color.White
@@ -120,135 +125,203 @@ fun New() {
                             text1 = it
                         },
                         textStyle = TextStyle(
-                            color = Color.Black, fontSize = 65.sp
+                            color = Color.Black, fontSize = 50.sp
                         ),
                         placeholder = {
                             Text(
-                                "Inserte nombre...", color = Color.Gray, fontSize = 65.sp
+                                "Inserte nombre...", color = Color.Gray, fontSize = 50.sp
                             )
                         })
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
-                        Text1(
-                            text = "Año de nacimiento:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                    Row(
+                        modifier = Modifier.padding(top = 30.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 10.dp),
+                            text = "Año de nacimiento: ",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
-                        EditText(text2) { newText -> text2 = newText }
+                        TextField(
+                            shape = RoundedCornerShape(0.dp),
+                            modifier = Modifier.border(2.dp, Color.Gray),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White
+                            ),
+                            value = text2,
+                            onValueChange = {
+                                text2 = it
+                            },
+                            textStyle = TextStyle(
+                                color = Color.Black, fontSize = 32.sp
+                            ),
+                            placeholder = {
+                                Text(
+                                    "Inserte año...", color = Color.Gray, fontSize = 32.sp
+                                )
+                            },
+                            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                        )
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
-                        Text1(
-                            text = "Género:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                    Row(
+                        modifier = Modifier.padding(top = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 10.dp),
+                            text = "Género: ",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
                         text3 = myGenderSelection().toString()
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
-                        Text1(
-                            text = "ID Tutor:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                    Row(
+                        modifier = Modifier.padding(top = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 10.dp),
+                            text = "ID Tutor: ",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
-                        EditText(text4) { newText -> text4 = newText }
+                        TextField(shape = RoundedCornerShape(0.dp),
+                            modifier = Modifier.border(2.dp, Color.Gray),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White
+                            ),
+                            value = text4,
+                            onValueChange = {
+                                text4 = it
+                            },
+                            textStyle = TextStyle(
+                                color = Color.Black, fontSize = 32.sp
+                            ),
+                            placeholder = {
+                                Text(
+                                    "Inserte id tutor...", color = Color.Gray, fontSize = 32.sp
+                                )
+                            })
                     }
                     text7 = fourOptionsCheckBox()
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
-                        Text1(
-                            text = "Descripción:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                    Row(
+                        modifier = Modifier.padding(top = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 10.dp),
+                            text = "Descripción: ",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
-                        EditText(text5) { newText -> text5 = newText }
+                        TextField(shape = RoundedCornerShape(0.dp),
+                            modifier = Modifier.border(2.dp, Color.Gray),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White
+                            ),
+                            value = text5,
+                            onValueChange = {
+                                text5 = it
+                            },
+                            textStyle = TextStyle(
+                                color = Color.Black, fontSize = 32.sp
+                            ),
+                            placeholder = {
+                                Text(
+                                    "Inserte descripción...", color = Color.Gray, fontSize = 32.sp
+                                )
+                            })
                     }
-                    Row(modifier = Modifier.padding(top = 16.dp)) {
-                        Text1(
-                            text = "Nivel Cognitivo:  ",
-                            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp)
+                    Row(
+                        modifier = Modifier.padding(top = 20.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(end = 10.dp),
+                            text = "Nivel cognitivo: ",
+                            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
-                        EditText(text6) { newText -> text6 = newText }
+                        TextField(shape = RoundedCornerShape(0.dp),
+                            modifier = Modifier.border(2.dp, Color.Gray),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White
+                            ),
+                            value = text6,
+                            onValueChange = {
+                                text6 = it
+                            },
+                            textStyle = TextStyle(
+                                color = Color.Black, fontSize = 32.sp
+                            ),
+                            placeholder = {
+                                Text(
+                                    "Inserte nivel cognitivo...",
+                                    color = Color.Gray,
+                                    fontSize = 32.sp
+                                )
+                            })
                     }
                     val context1 = LocalContext.current
                     Row(
-                        modifier = Modifier.padding(top = 16.dp),
+                        modifier = Modifier.padding(top = 30.dp),
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Button(
                             onClick = {
                                 val intent = Intent(context1, DashboardProfe::class.java)
-                                //intent.putExtra("AdminID", adminId)
+                                intent.putExtra("AdminID", adminId)
                                 context1.startActivity(intent)
                             },
-                            modifier = Modifier.padding(15.dp),
-                            shape = RoundedCornerShape(30.dp),
+                            shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
+                            modifier = Modifier.padding(end = 20.dp)
                         ) {
-                            Text1(text = "Atrás", style = TextStyle(fontSize = 35.sp))
+                            Text(text = "Cancelar", style = TextStyle(fontSize = 32.sp))
                         }
 
                         Button(
                             onClick = {
                                 coroutineScope.launch {
-                                    try {
-                                        Log.d(
-                                            "New",
-                                            "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7 Id tERAPIA: "
+                                    Log.d(
+                                        "New",
+                                        "Nombre: $text1, Edad: $text2, Genero: $text3, Tutor: $text4, Descripción: $text5, Cognitivo: $text6, Nivel: $text7 Id tERAPIA: "
+                                    )
+                                    val response = withContext(Dispatchers.IO) {
+                                        RetrofitInstance.apiService.insertalumno(
+                                            alumno = Alumno(
+                                                null,
+                                                text1,
+                                                if (text2 == "") null else text2.toInt(),
+                                                text3,
+                                                if (text4 == "") null else text4.toInt(),
+                                                text7,
+                                                text5,
+                                                text6,
+                                                adminId
+                                            )
                                         )
-                                        // viewModel.registerAlumno(
-                                        //    text1,
-                                        //    text2.toInt(),
-                                        //    text3,
-                                        //    if (text4 == "") null else text4.toInt(),
-                                        //    text7,
-                                        //    text5,
-                                        //    text6,
-                                        //    adminId
-                                        // )
-                                        val intent = Intent(context1, DashboardProfe::class.java)
-                                        //intent.putExtra("AdminID", adminId)
+                                    }
+
+                                    if (response.isSuccessful) {
+                                        val intent =
+                                            Intent(context1, DashboardProfe::class.java)
+                                        intent.putExtra("AdminID", adminId)
                                         context1.startActivity(intent)
-                                    } catch (e: Exception) {
-                                        val errorMessage = e.message.toString()
+                                    } else {
+                                        val jsonError = JSONObject(response.errorBody()!!.string())
+                                        val errorMessage = jsonError.getString("error");
 
+                                        Log.d(ContentValues.TAG, errorMessage)
                                         withContext(Dispatchers.Main) {
-                                            // Create AlertDialog
-                                            val alertDialogBuilder = AlertDialog.Builder(context)
-
-                                            val titleTextView = TextView(context)
-                                            titleTextView.text = "Error"
-                                            titleTextView.setTextSize(
-                                                TypedValue.COMPLEX_UNIT_SP, 28f
-                                            )
-                                            titleTextView.setTextColor(
-                                                ContextCompat.getColor(
-                                                    context, R.color.Red
-                                                )
-                                            )
-                                            titleTextView.gravity =
-                                                Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                                            alertDialogBuilder.setCustomTitle(titleTextView)
-
-                                            // Create a TextView to set the text size
-                                            val textView = TextView(context)
-                                            textView.text = errorMessage
-                                            textView.setTextSize(
-                                                TypedValue.COMPLEX_UNIT_SP, 28f
-                                            ) // Adjust the text size as needed
-                                            textView.gravity =
-                                                Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
-                                            alertDialogBuilder.setView(textView)
-
-
-                                            alertDialogBuilder.setPositiveButton("OK") { dialog, _ ->
-                                                dialog.dismiss()
-                                            }
-
-                                            val alertDialog = alertDialogBuilder.create()
-                                            alertDialog.show()
+                                            ErrorDialog.show(context, errorMessage)
                                         }
                                     }
                                 }
                             },
-                            modifier = Modifier.padding(15.dp),
-                            shape = RoundedCornerShape(30.dp),
+                            shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         ) {
-                            Text1(text = "Agregar Alumno", style = TextStyle(fontSize = 35.sp))
+                            Text(text = "Crear", style = TextStyle(fontSize = 32.sp))
                         }
                     }
                 }
@@ -282,29 +355,35 @@ private fun fourOptionsCheckBox(): Int {
     var selectedOption by remember { mutableStateOf<Option?>(null) }
     var num: Int = 0
 
-    Column {
-        Text1(
+    Row(
+        modifier = Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text(
             text = "Nivel Autorizado: ",
-            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp),
-            modifier = Modifier.padding(5.dp)
+            style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp),
+            modifier = Modifier.padding(end = 10.dp)
         )
 
         Row(
-            modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+            horizontalArrangement = Arrangement.spacedBy(25.dp)
         ) {
-            OptionRadioButton("1",
+            OptionRadioButton(
+                "1",
                 Option.OPTION1,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
-            OptionRadioButton("2",
+            OptionRadioButton(
+                "2",
                 Option.OPTION2,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
-            OptionRadioButton("3",
+            OptionRadioButton(
+                "3",
                 Option.OPTION3,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
-            OptionRadioButton("4",
+            OptionRadioButton(
+                "4",
                 Option.OPTION4,
                 selectedOption,
                 onOptionSelected = { selectedOption = it })
@@ -342,14 +421,12 @@ private fun OptionRadioButton(
 ) {
     Row(verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .padding(25.dp)
-            .clickable {
-                if (selectedOption != option) {
-                    onOptionSelected(option)
-                }
-            }) {
-        Text1(text = text, style = TextStyle(fontSize = 35.sp))
+        modifier = Modifier.clickable {
+            if (selectedOption != option) {
+                onOptionSelected(option)
+            }
+        }) {
+        Text(text = text, style = TextStyle(fontSize = 32.sp))
         RadioButton(selected = selectedOption == option, onClick = { onOptionSelected(option) })
     }
 }
@@ -360,25 +437,28 @@ fun myGenderSelection(): Gender {
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        RadioButton(
-            selected = selectedGender == Gender.male,
-            onClick = { selectedGender = Gender.male },
-            modifier = Modifier.padding(5.dp)
-        )
-        Text1("Male", style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 35.sp))
-
-        RadioButton(
-            selected = selectedGender == Gender.female,
-            onClick = { selectedGender = Gender.female },
-            modifier = Modifier.padding(5.dp)
-        )
-        Text1(
-            "Female", style = TextStyle(
-                fontWeight = FontWeight.Bold, fontSize = 35.sp
+        Row {
+            RadioButton(
+                selected = selectedGender == Gender.male,
+                onClick = { selectedGender = Gender.male },
+                modifier = Modifier.padding(end = 5.dp)
             )
-        )
+            Text("Male", style = TextStyle(fontSize = 32.sp))
+        }
+
+        Row {
+            RadioButton(
+                selected = selectedGender == Gender.female,
+                onClick = { selectedGender = Gender.female },
+                modifier = Modifier.padding(end = 5.dp)
+            )
+            Text(
+                "Female", style = TextStyle(
+                    fontSize = 32.sp
+                )
+            )
+        }
     }
 
     return selectedGender

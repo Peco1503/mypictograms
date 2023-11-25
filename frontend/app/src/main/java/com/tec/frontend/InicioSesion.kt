@@ -136,6 +136,7 @@ fun Inicio() {
                             fontSize = 35.sp
                         )
                     },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                 )
                 TextField(
                     shape = RoundedCornerShape(0.dp),
@@ -203,7 +204,6 @@ fun Inicio() {
                                 val jsonError = JSONObject(response.errorBody()!!.string())
                                 val errorMessage = jsonError.getString("error");
 
-                                Log.d(TAG, errorMessage)
                                 Log.d(TAG, errorMessage)
                                 withContext(Dispatchers.Main) {
                                     ErrorDialog.show(context, errorMessage)

@@ -20,7 +20,7 @@ interface ApiService {
     suspend fun createParent(@Body request: registerRequest): Response<Void>
 
     @POST("/api/students")
-    suspend fun insertalumno(@Body alumno: Alumno) : Response<Alumno>
+    suspend fun insertalumno(@Body alumno: Alumno) : Response<Void>
 
     @GET("/api/students")
     suspend fun infoAlumno(@Query("therapistId") AdminID: Int) : List<Alumno>
