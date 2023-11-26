@@ -2,6 +2,7 @@ package com.tec.frontend.pantallasComunicador
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -45,8 +46,14 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorOficina : ComponentActivity() {
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+
+            }
+        }
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -57,12 +64,21 @@ class ComunicadorOficina : ComponentActivity() {
                     ) {
                         BackButtonComunicador(activityContext=this@ComunicadorOficina)
                         BarraComunicador()
-                        GridOfi()
+                        GridOfi(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+}
+
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -96,13 +112,20 @@ fun BackButtonComunicadorOfi() {
 }
 
 @Composable
-fun GridOfi(){
+fun GridOfi(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.lapiz,
         R.drawable.plumapapel,
         R.drawable.cuaderno,
         R.drawable.television,
+    )
+
+    val textDescriptions = listOf(
+        "Lápiz",
+        "Pluma y papel",
+        "Cuaderno",
+        "Televisión"
     )
 
     LazyVerticalGrid(
@@ -123,7 +146,7 @@ fun GridOfi(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }

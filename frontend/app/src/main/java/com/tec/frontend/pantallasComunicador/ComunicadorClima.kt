@@ -2,6 +2,7 @@ package com.tec.frontend.pantallasComunicador
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -45,8 +46,16 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorClima : ComponentActivity() {
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+
+            }
+        }
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -57,12 +66,21 @@ class ComunicadorClima : ComponentActivity() {
                     ) {
                         BackButtonComunicador(activityContext=this@ComunicadorClima)
                         BarraComunicador()
-                        GridCli()
+                        GridCli(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+}
+
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -96,7 +114,7 @@ fun BackButtonComunicadorCli() {
 }
 
 @Composable
-fun GridCli(){
+fun GridCli(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.soleado,
@@ -104,6 +122,14 @@ fun GridCli(){
         R.drawable.lluvioso,
         R.drawable.caliente,
         R.drawable.frio
+    )
+
+    val textDescriptions = listOf(
+        "Soleado",
+        "Nublado",
+        "Lluvioso",
+        "Caliente",
+        "Frio"
     )
 
     LazyVerticalGrid(
@@ -124,7 +150,7 @@ fun GridCli(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }
