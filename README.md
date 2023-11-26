@@ -79,20 +79,24 @@ npm start
 - Yuvan Thirukumaran [@YuvanTec](https://github.com/YuvanTec)
 
 # TODO
+- [x] Mensaje de error 500 en el dialogo de errro (Pedro)
+- [x] Agregar botón para ir atrás (Pedro)
+- [x] Endpoint para info del papá para galindo (Pedro)
+- [x] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
+
 - [ ] Drag & Drop (Yuvan)
 - [ ] Comunicador (Franco)
-- [ ] Subir imagenes a firebase (Galindo)
-- [ ] Dropdown categorias para subir imagenes (Felipe)
-- [ ] Quitar el harcodeo del usuario al subir la imagenes a firebase (Felipe)
-- [ ] Mensaje de error 500 en el dialogo de errro (Galindo y Pedro)
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
+- [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
+
+- [x] Subir imagenes a firebase (Galindo)
 - [ ] Dropdown list para el correo del papá (Galindo y Felipe)
 - [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
-- [ ] Corregir las diapositivas
-- [ ] Agregar botón para ir atrás (Pedro)
 - [ ] Estilos del dropdown en `selecciona tu nombre` (Galindo)
 - [ ] Hacer fetch en pantalla de `Mi hij@` (Galindo)
-- [ ] Endpoint para info del papá para galindo (Pedro)
 - [ ] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
-- [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
-- [ ] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
+
+- [ ] Dropdown categorias para subir imagenes (Felipe)
+- [ ] Quitar el harcodeo del usuario al subir la imagenes a firebase (Felipe)
+
+- [ ] Corregir las diapositivas

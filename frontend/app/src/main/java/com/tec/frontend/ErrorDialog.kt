@@ -15,7 +15,7 @@ class ErrorDialog {
 
             val titleTextView = TextView(context)
             titleTextView.text = "Error"
-            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 28f)
+            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 35f)
             titleTextView.setTextColor(
                 ContextCompat.getColor(
                     context, R.color.Red
@@ -28,7 +28,7 @@ class ErrorDialog {
             val textView = TextView(context)
             textView.text = errorMessage
             textView.setTextSize(
-                TypedValue.COMPLEX_UNIT_SP, 28f
+                TypedValue.COMPLEX_UNIT_SP, 35f
             ) // Adjust the text size as needed
             textView.gravity = Gravity.CENTER_HORIZONTAL or Gravity.CENTER_VERTICAL
             alertDialogBuilder.setView(textView)
