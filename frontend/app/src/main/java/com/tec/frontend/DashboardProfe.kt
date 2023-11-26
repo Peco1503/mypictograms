@@ -117,7 +117,7 @@ fun dashboard(Adminid: Int) {
 
             Box(
                 modifier = Modifier
-                    .width(950.dp)
+                    .width(800.dp)
                     .height(465.dp)
                     .background(Color.White)
                     .verticalScroll(scrollState)
@@ -154,7 +154,7 @@ fun dashboard(Adminid: Int) {
                                                 2.dp,
                                                 Color.Gray,
                                                 RoundedCornerShape(0.dp)
-                                            ).padding(8.dp).width(750.dp),
+                                            ).padding(8.dp).width(600.dp),
                                         text = it,
                                         style = TextStyle(
                                             fontSize = 35.sp,

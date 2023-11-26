@@ -74,7 +74,7 @@ fun dashboardPadres() {
 
             Box(
                 modifier = Modifier
-                    .width(950.dp)
+                    .width(850.dp)
                     .background(Color.White)
                     .padding(30.dp)
             ) {
@@ -102,7 +102,7 @@ fun dashboardPadres() {
                                         2.dp,
                                         Color.Gray,
                                         RoundedCornerShape(0.dp)
-                                    ).padding(8.dp).width(750.dp),
+                                    ).padding(8.dp).width(650.dp),
                                 text = student,
                                 style = TextStyle(
                                     fontSize = 35.sp, fontWeight = FontWeight.Normal

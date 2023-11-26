@@ -103,7 +103,7 @@ fun PerfilAlumnoPadres(activityContext: ComponentActivity) {
                     }
                     Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
-                            text = "Tutora:",
+                            text = "Terapeuta:",
                             fontWeight = FontWeight.Medium,
                             fontSize = 35.sp,
                             modifier = Modifier.padding(end = 10.dp)
