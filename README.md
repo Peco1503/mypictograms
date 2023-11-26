@@ -79,16 +79,20 @@ npm start
 - Yuvan Thirukumaran [@YuvanTec](https://github.com/YuvanTec)
 
 # TODO
+
+## Pedro
 - [x] Mensaje de error 500 en el dialogo de errro (Pedro)
 - [x] Agregar botón para ir atrás (Pedro)
 - [x] Endpoint para info del papá para galindo (Pedro)
 - [x] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
 
+## Yuvan y Franco
 - [ ] Drag & Drop (Yuvan)
 - [ ] Comunicador (Franco)
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
 - [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
 
+## Galindo
 - [x] Subir imagenes a firebase (Galindo)
 - [ ] Dropdown list para el correo del papá (Galindo y Felipe)
 - [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
@@ -96,7 +100,9 @@ npm start
 - [ ] Hacer fetch en pantalla de `Mi hij@` (Galindo)
 - [ ] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
 
+## Felipe
 - [ ] Dropdown categorias para subir imagenes (Felipe)
 - [ ] Quitar el harcodeo del usuario al subir la imagenes a firebase (Felipe)
 
+## Todos
 - [ ] Corregir las diapositivas
