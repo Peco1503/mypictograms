@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -42,10 +43,10 @@ class DashboardPadres : ComponentActivity() {
         setContent {
             FrontendTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     dashboardPadres()
+                    BackButtonDashboardProfe(activityContext = this)
                 }
             }
         }
@@ -56,8 +57,7 @@ class DashboardPadres : ComponentActivity() {
 @Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
 fun dashboardPadres() {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF4169CF)
+        modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -65,77 +65,66 @@ fun dashboardPadres() {
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(16.dp),
-                text = "Hola de nuevo, Papa/Mama!",
-                style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Normal),
+                modifier = Modifier.padding(bottom = 20.dp),
+                text = "Hola de nuevo, papá/mamá!",
+                style = TextStyle(fontSize = 35.sp),
                 color = Color.White,
                 textAlign = TextAlign.Center
             )
 
             Box(
                 modifier = Modifier
-                    .width(771.dp)
-                    .height(300.dp)
+                    .width(950.dp)
                     .background(Color.White)
+                    .padding(30.dp)
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                    modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        modifier = Modifier.padding(30.dp),
                         text = "Mi Hij@",
-                        style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Bold),
+                        style = TextStyle(fontSize = 40.sp, fontWeight = FontWeight.Bold),
                         color = Color.Black,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.padding(bottom = 30.dp)
                     )
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .background(Color.White)
-                            .padding(16.dp)
-                    ) {
-                        listOf(
-                            "Alumno 1"
-                        ).forEach { student ->
-                            Row(
+                    listOf(
+                        "Alumno 1", "Alumno 2"
+                    ).forEach { student ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(
                                 modifier = Modifier
-                                    .fillMaxWidth()
-                                    .border(2.dp, Color.Black, RoundedCornerShape(10.dp))
-                                    .padding(8.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Text(
-                                    text = student,
-                                    style = TextStyle(
-                                        fontSize = 35.sp,
-                                        fontWeight = FontWeight.Normal
-                                    )
+                                    .border(
+                                        2.dp,
+                                        Color.Gray,
+                                        RoundedCornerShape(0.dp)
+                                    ).padding(8.dp).width(750.dp),
+                                text = student,
+                                style = TextStyle(
+                                    fontSize = 35.sp, fontWeight = FontWeight.Normal
                                 )
-                                val context = LocalContext.current
-                                Button(
-                                    onClick = {
-                                        context.startActivity(
-                                            Intent(
-                                                context,
-                                                PerfilAlumnoPadre::class.java
-                                            )
+                            )
+                            val context = LocalContext.current
+                            Button(
+                                modifier = Modifier.padding(start=8.dp),
+                                onClick = {
+                                    context.startActivity(
+                                        Intent(
+                                            context, PerfilAlumnoPadre::class.java
                                         )
-                                    },
-                                    modifier = Modifier
-                                        .border(2.dp, Orange1, RoundedCornerShape(10.dp))
-                                        .width(80.dp)
-                                        .height(45.dp),
-                                    shape = RoundedCornerShape(10.dp),
-                                    colors = ButtonDefaults.buttonColors(Orange1)
-                                ) {
-                                    Text("Info", color = Color.White)
-                                }
+                                    )
+                                },
+                                shape = RoundedCornerShape(0.dp),
+                                colors = ButtonDefaults.buttonColors(Orange1)
+                            ) {
+                                Text("Info", color = Color.White, fontSize = 35.sp)
                             }
-
                         }
+                        Spacer(modifier = Modifier.height(15.dp))
                     }
                 }
             }
@@ -143,3 +132,23 @@ fun dashboardPadres() {
     }
 }
 
+@Composable
+fun BackButtonDashboardProfe(activityContext: ComponentActivity) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
+        Button(
+            shape = RectangleShape,
+            onClick = {
+                activityContext.finish()
+            },
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
+            Text(
+                "Atrás",
+                style = TextStyle(fontSize = 35.sp)
+            )
+        }
+    }
+}

@@ -55,11 +55,14 @@ import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
 import coil.compose.AsyncImage
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.KeyboardType
 import com.tec.frontend.util.ImageUploader
 
 class SubirImagenes : ComponentActivity() {
@@ -69,8 +72,7 @@ class SubirImagenes : ComponentActivity() {
             FrontendTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     SubirImagenesPantalla()
                     BackButtonUI()
@@ -79,31 +81,26 @@ class SubirImagenes : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun BackButtonUI() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        verticalAlignment = Alignment.Top) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp), verticalAlignment = Alignment.Top
+    ) {
         val context = LocalContext.current
         Button( // Regresar a pantalla SeleccionNivel
-            shape = RectangleShape,
-            onClick = {
+            shape = RectangleShape, onClick = {
                 context.startActivity(
                     Intent(
-                        context,
-                        SeleccionNivel::class.java
+                        context, SeleccionNivel::class.java
                     )
                 )
-            },
-            modifier = Modifier
-                .width(116.dp)
-                .height(34.dp),
-            colors = ButtonDefaults.buttonColors(Orange)
-        ){
+            }, colors = ButtonDefaults.buttonColors(Orange)
+        ) {
             Text(
-                "ATRAS",
-                style = TextStyle(fontSize = 12.sp)
+                "Atrás", style = TextStyle(fontSize = 35.sp)
             )
         }
     }
@@ -119,25 +116,22 @@ fun SubirImagenesPantalla() {
 
     // Variables para el dropdown menu de cateogoría
     val categoryNames = arrayOf("Alimentos", "Familia")
-    val category = remember { mutableStateOf(categoryNames[0])}
-    val expanded = remember { mutableStateOf(false)}
+    val category = remember { mutableStateOf(categoryNames[0]) }
+    val expanded = remember { mutableStateOf(false) }
 
     // Variables para la selección del URI y subir la imagen
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
-    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> selectedImageUri = uri }
-    )
+    val singlePhotoPickerLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = { uri -> selectedImageUri = uri })
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF4169CF)
+        modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "¡Sube tu imagen!",
@@ -153,8 +147,7 @@ fun SubirImagenesPantalla() {
                     .width(821.dp)
                     .height(541.dp)
                     .background(Color.White)
-                    .border(1.dp, Color.Black),
-                contentAlignment = Alignment.Center
+                    .border(1.dp, Color.Black), contentAlignment = Alignment.Center
             ) {
                 Column(
                     modifier = Modifier.padding(10.dp),
@@ -162,33 +155,30 @@ fun SubirImagenesPantalla() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    BasicTextField(
+                    TextField(
+                        shape = RoundedCornerShape(0.dp),
                         modifier = Modifier
-                            .width(750.dp)
-                            .padding(top = 20.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                            .width(700.dp)
+                            .padding(top = 50.dp)
+                            .border(2.dp, Color.Gray)
+                            .background(Color.White),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White
+                        ),
                         value = name,
                         onValueChange = {
                             name = it
                         },
                         textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = 35.sp
+                            color = Color.Black, fontSize = 35.sp
                         ),
-                        decorationBox = { innerTextField ->
-                            if (name.isEmpty()) {
-                                Text(
-                                    text = "Titulo",
-                                    color = Color.Gray,
-                                    style = TextStyle(
-                                        fontSize = 35.sp
-                                    ),
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                )
-                            }
-                            innerTextField()
-                        }
+                        placeholder = {
+                            Text(
+                                "Título", color = Color.Gray, fontSize = 35.sp
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     )
 
                     Spacer(modifier = Modifier.height(40.dp))
@@ -197,71 +187,65 @@ fun SubirImagenesPantalla() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
                     ) {
                         // Categoria por dropdown list
-                        ExposedDropdownMenuBox(
-                            modifier = Modifier
-                                .width(650.dp)
-                                .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                        ExposedDropdownMenuBox(modifier = Modifier
+                            .width(650.dp)
+                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
                             expanded = expanded.value,
                             onExpandedChange = {
                                 expanded.value = !expanded.value
-                            }
-                        ) {
-                            TextField(
-                                value = category.value,
+                            }) {
+                            TextField(value = category.value,
                                 onValueChange = {},
                                 readOnly = true,
                                 trailingIcon = {
                                     ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
                                 },
-                                modifier = Modifier.menuAnchor()
+                                modifier = Modifier
+                                    .menuAnchor()
                                     .width(750.dp)
                                     .background(Color.White),
                                 textStyle = TextStyle.Default.copy(
-                                    fontSize = 28.sp,
-                                    color = Color.Gray
+                                    fontSize = 28.sp, color = Color.Gray
                                 )
                             )
                             ExposedDropdownMenu(
                                 modifier = Modifier
-                                    .border(2.dp, Color.Gray, MaterialTheme.shapes.medium)
+                                    .border(
+                                        2.dp, Color.Gray, MaterialTheme.shapes.medium
+                                    )
                                     .background(Color.White),
                                 expanded = expanded.value,
                                 onDismissRequest = { expanded.value = false },
 
                                 ) {
                                 categoryNames.forEach {
-                                    DropdownMenuItem(
-                                        modifier = Modifier
-                                            .width(850.dp),
+                                    DropdownMenuItem(modifier = Modifier.width(850.dp),
                                         text = { Text(text = it, fontSize = 28.sp) },
                                         onClick = {
                                             category.value = it
                                             expanded.value = false
-                                        }
-                                    )
+                                        })
                                 }
                             }
                         }
                         val contextDrop = LocalContext.current
                         Button(
-                            shape = RoundedCornerShape(15.dp),
+                            shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                             onClick = {
                                 contextDrop.startActivity(
                                     Intent(
-                                        contextDrop,
-                                        CrearCategoria::class.java
+                                        contextDrop, CrearCategoria::class.java
                                     )
                                 )
                             },
-                        )
-                        {
+                        ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.baseline_library_add_24),
                                 contentDescription = "Añadir categoría",
                                 modifier = Modifier
                                     .width(40.dp)
-                                    .height(55.dp)
+                                    .height(55.dp),
                             )
                         }
                     }
@@ -270,62 +254,58 @@ fun SubirImagenesPantalla() {
                         horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
                     ) {
                         Button(
-                            modifier = Modifier
-                                .padding(top = 30.dp),
-                            shape = RoundedCornerShape(15.dp),
+                            modifier = Modifier.padding(top = 30.dp),
+                            shape = RectangleShape,
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                            onClick =
-                            {
+                            onClick = {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                 )
                             },
-                        )
-                        {
+                        ) {
                             Text(
-                                text = "Seleccionar",
-                                style = TextStyle(
-                                    fontSize = 30.sp
+                                text = "Seleccionar", style = TextStyle(
+                                    fontSize = 35.sp
                                 )
                             )
                         }
                         val context = LocalContext.current
                         Button(
-                            modifier = Modifier
-                                .padding(top = 30.dp),
-                            shape = RoundedCornerShape(15.dp),
+                            modifier = Modifier.padding(top = 30.dp),
+                            shape = RectangleShape,
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                            onClick =
-                            {
-                                selectedImageUri?.let{
-                                    ImageUploader.uploadToStorage(uri=it, context= context, userFolder="1-Felipe González", category = category.value, imageTitle = name)
+                            onClick = {
+                                selectedImageUri?.let {
+                                    ImageUploader.uploadToStorage(
+                                        uri = it,
+                                        context = context,
+                                        userFolder = "1-Felipe González",
+                                        category = category.value,
+                                        imageTitle = name
+                                    )
                                 }
                             },
-                        )
-                        {
+                        ) {
                             Text(
-                                text = "Subir",
-                                style = TextStyle(
-                                    fontSize = 30.sp
+                                text = "Subir", style = TextStyle(
+                                    fontSize = 35.sp
                                 )
                             )
                         }
                     }
                     LazyColumn(
-                    ){
+                    ) {
                         item {
                             AsyncImage(
                                 model = selectedImageUri,
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(
-                                        width = 500.dp,
-                                        height = 250.dp
+                                        width = 500.dp, height = 250.dp
                                     )
                                     .padding(
                                         top = 20.dp
-                                    )
-                                ,
+                                    ),
                                 contentScale = ContentScale.Fit
                             )
                         }

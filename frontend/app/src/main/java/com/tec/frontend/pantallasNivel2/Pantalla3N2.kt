@@ -83,16 +83,12 @@ fun BackButton3() {
                         Nivel2::class.java
                     )
                 )
-            },
-            border = BorderStroke(5.dp, Color.Black),
-            modifier = Modifier
-                .width(116.dp)
-                .height(34.dp), //shape = RoundedCornerShape(30.dp),
+            }, //shape = RoundedCornerShape(30.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ){
             Text(
                 "ATRAS",
-                style = TextStyle(fontSize = 12.sp)
+                style = TextStyle(fontSize = 35.sp)
             )
         }
     }

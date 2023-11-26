@@ -90,5 +90,9 @@ npm start
 - [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
 - [ ] Corregir las diapositivas
 - [ ] Agregar botón para ir atrás (Pedro)
+- [ ] Estilos del dropdown en `selecciona tu nombre` (Galindo)
+- [ ] Hacer fetch en pantalla de `Mi hij@` (Galindo)
+- [ ] Endpoint para info del papá para galindo (Pedro)
+- [ ] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
 - [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
 - [ ] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)

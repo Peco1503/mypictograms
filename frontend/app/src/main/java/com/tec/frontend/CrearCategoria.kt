@@ -25,12 +25,15 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +52,7 @@ import com.tec.frontend.ui.theme.FrontendTheme
 import coil.compose.AsyncImage
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.input.KeyboardType
 import com.tec.frontend.util.ImageUploader
 
 class CrearCategoria : ComponentActivity() {
@@ -58,8 +62,7 @@ class CrearCategoria : ComponentActivity() {
             FrontendTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     CrearCategoriaPantalla()
                     BackButtonCC()
@@ -68,20 +71,21 @@ class CrearCategoria : ComponentActivity() {
         }
     }
 }
+
 @Composable
 fun BackButtonCC() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        verticalAlignment = Alignment.Top) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp), verticalAlignment = Alignment.Top
+    ) {
         val context = LocalContext.current
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
                 context.startActivity(
                     Intent(
-                        context,
-                        SubirImagenes::class.java
+                        context, SubirImagenes::class.java
                     )
                 )
             },
@@ -89,10 +93,9 @@ fun BackButtonCC() {
                 .width(116.dp)
                 .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
-        ){
+        ) {
             Text(
-                "ATRAS",
-                style = TextStyle(fontSize = 12.sp)
+                "ATRAS", style = TextStyle(fontSize = 12.sp)
             )
         }
     }
@@ -111,18 +114,15 @@ fun CrearCategoriaPantalla() {
     var selectedImageUri by remember {
         mutableStateOf<Uri?>(null)
     }
-    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.PickVisualMedia(),
-        onResult = { uri -> selectedImageUri = uri }
-    )
+    val singlePhotoPickerLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.PickVisualMedia(),
+            onResult = { uri -> selectedImageUri = uri })
 
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF4169CF)
+        modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
     ) {
         Box(
-            modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "¡Crea tu nueva categoría!",
@@ -138,8 +138,7 @@ fun CrearCategoriaPantalla() {
                     .width(821.dp)
                     .height(541.dp)
                     .background(Color.White)
-                    .border(1.dp, Color.Black),
-                contentAlignment = Alignment.Center
+                    .border(1.dp, Color.Black), contentAlignment = Alignment.Center
             ) {
                 Column(
                     modifier = Modifier.padding(10.dp),
@@ -147,95 +146,88 @@ fun CrearCategoriaPantalla() {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
 
-                    BasicTextField(
+                    TextField(
+                        shape = RoundedCornerShape(0.dp),
                         modifier = Modifier
-                            .width(750.dp)
-                            .padding(top = 20.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                            .width(700.dp)
+                            .padding(top = 50.dp)
+                            .border(2.dp, Color.Gray)
+                            .background(Color.White),
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White
+                        ),
                         value = name,
                         onValueChange = {
                             name = it
                         },
                         textStyle = TextStyle(
-                            color = Color.Black,
-                            fontSize = 35.sp
+                            color = Color.Black, fontSize = 35.sp
                         ),
-                        decorationBox = { innerTextField ->
-                            if (name.isEmpty()) {
-                                Text(
-                                    text = "Titulo",
-                                    color = Color.Gray,
-                                    style = TextStyle(
-                                        fontSize = 35.sp
-                                    ),
-                                    modifier = Modifier
-                                        .padding(16.dp)
-                                )
-                            }
-                            innerTextField()
-                        }
+                        placeholder = {
+                            Text(
+                                "Título", color = Color.Gray, fontSize = 35.sp
+                            )
+                        },
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     )
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp) // Para añadir espacio entre los botones
                     ) {
                         Button(
-                            modifier = Modifier
-                                .padding(top = 30.dp),
-                            shape = RoundedCornerShape(15.dp),
+                            modifier = Modifier.padding(top = 30.dp),
+                            shape = RectangleShape,
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                            onClick =
-                            {
+                            onClick = {
                                 singlePhotoPickerLauncher.launch(
                                     PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
                                 )
                             },
-                        )
-                        {
+                        ) {
                             Text(
-                                text = "Seleccionar Portada",
-                                style = TextStyle(
+                                text = "Seleccionar Portada", style = TextStyle(
                                     fontSize = 30.sp
                                 )
                             )
                         }
                         val context = LocalContext.current
                         Button(
-                            modifier = Modifier
-                                .padding(top = 30.dp),
-                            shape = RoundedCornerShape(15.dp),
+                            modifier = Modifier.padding(top = 30.dp),
+                            shape = RectangleShape,
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
-                            onClick =
-                            {
-                                selectedImageUri?.let{
-                                    ImageUploader.uploadToStorage(uri=it, context= context, userFolder="1-Felipe González", category = name, imageTitle = "portada")
+                            onClick = {
+                                selectedImageUri?.let {
+                                    ImageUploader.uploadToStorage(
+                                        uri = it,
+                                        context = context,
+                                        userFolder = "1-Felipe González",
+                                        category = name,
+                                        imageTitle = "portada"
+                                    )
                                 }
                             },
-                        )
-                        {
+                        ) {
                             Text(
-                                text = "Crear",
-                                style = TextStyle(
+                                text = "Crear", style = TextStyle(
                                     fontSize = 30.sp
                                 )
                             )
                         }
                     }
                     LazyColumn(
-                    ){
+                    ) {
                         item {
                             AsyncImage(
                                 model = selectedImageUri,
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(
-                                        width = 500.dp,
-                                        height = 250.dp
+                                        width = 500.dp, height = 250.dp
                                     )
                                     .padding(
                                         top = 20.dp
-                                    )
-                                ,
+                                    ),
                                 contentScale = ContentScale.Fit
                             )
                         }

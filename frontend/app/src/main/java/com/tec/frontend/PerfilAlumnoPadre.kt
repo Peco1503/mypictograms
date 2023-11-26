@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -25,10 +27,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,10 +45,9 @@ class PerfilAlumnoPadre : ComponentActivity() {
             FrontendTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    PerfilAlumnoPadres()
+                    PerfilAlumnoPadres(activityContext = this)
                 }
             }
         }
@@ -52,10 +55,10 @@ class PerfilAlumnoPadre : ComponentActivity() {
 }
 
 @Composable
-fun PerfilAlumnoPadres() {
+// @Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
+fun PerfilAlumnoPadres(activityContext: ComponentActivity) {
     Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF4169CF)
+        modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -64,43 +67,57 @@ fun PerfilAlumnoPadres() {
         ) {
             Box(
                 modifier = Modifier
-                    .width(314.dp)
-                    .height(511.dp)
+                    .width(500.dp)
                     .background(Color.White)
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(16.dp),
+                        .fillMaxWidth()
+                        .padding(50.dp),
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    // Circular Image
-                    Image(
-                        painter = painterResource(R.drawable.splash_img), // Replace with your image resource
-                        contentDescription = null, // Provide a description for accessibility
-                        modifier = Modifier
-                            .size(150.dp) // Adjust the size as needed
-                            .clip(CircleShape) // Apply a circular clip
-                    )
-
                     Text(
-                        modifier = Modifier.padding(30.dp),
                         text = "Alumno 1",
-                        style = TextStyle(fontSize = 35.sp, fontWeight = FontWeight.Bold),
+                        style = TextStyle(fontSize = 50.sp, fontWeight = FontWeight.Bold),
                         color = Color.Black,
                         textAlign = TextAlign.Center
                     )
-                    Row {
-                        Text(text = "Edad:  ", fontWeight = FontWeight.Bold)
-                        Text(text = "Texto1")
+                    Row(modifier = Modifier.padding(top = 30.dp)) {
+                        Text(
+                            text = "Edad:",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 35.sp,
+                            modifier = Modifier.padding(end = 10.dp)
+                        )
+                        Text(text = "Texto1", fontSize = 35.sp)
                     }
-                    Spacer(modifier = Modifier.height(25.dp))
-
-                    Row {
-                        Text(text = "Genero:  ", fontWeight = FontWeight.Bold)
-                        Text(text = "Texto2")
-
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
+                        Text(
+                            text = "Género:",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 35.sp,
+                            modifier = Modifier.padding(end = 10.dp)
+                        )
+                        Text(text = "Texto2", fontSize = 35.sp)
+                    }
+                    Row(modifier = Modifier.padding(top = 20.dp)) {
+                        Text(
+                            text = "Tutora:",
+                            fontWeight = FontWeight.Medium,
+                            fontSize = 35.sp,
+                            modifier = Modifier.padding(end = 10.dp)
+                        )
+                        Text(text = "Texto3", fontSize = 35.sp)
+                    }
+                    Button(shape = RectangleShape,
+                        colors = ButtonDefaults.buttonColors(Orange),
+                        onClick = {
+                            activityContext.finish()
+                        },
+                        modifier = Modifier.padding(top=30.dp)
+                    ) {
+                        Text(text = "Atrás", fontSize = 35.sp)
                     }
                 }
             }

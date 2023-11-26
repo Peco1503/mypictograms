@@ -220,7 +220,7 @@ fun PantallaInicioAlum() {
                         }
                     }
                     
-                    Spacer(modifier = Modifier.height(70.dp))
+                    Spacer(modifier = Modifier.height(50.dp))
 
                     val context = LocalContext.current
                     Button(
@@ -229,13 +229,11 @@ fun PantallaInicioAlum() {
                             context.startActivity(Intent(context, SeleccionNivel::class.java))
 
                         },
-                        modifier = Modifier
-                            .width(264.dp)
-                            .height(45.dp),
                         colors = ButtonDefaults.buttonColors(Orange),
                         ) {
                         Text("Continuar",
-                            color = Color.White
+                            color = Color.White,
+                            fontSize = 35.sp
                         )
                     }
                 }

@@ -95,8 +95,8 @@ fun BackButtonComunicador() {
             colors = ButtonDefaults.buttonColors(Orange)
         ){
             Text(
-                "ATRAS",
-                style = TextStyle(fontSize = 12.sp)
+                "Atrás",
+                style = TextStyle(fontSize = 35.sp)
             )
         }
     }
