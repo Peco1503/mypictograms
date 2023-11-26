@@ -1,6 +1,7 @@
 package com.tec.frontend
 
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -36,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -60,6 +62,7 @@ class Registro : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     Registros(activityContext = this)
+                    BackButtonRegistro(activityContext = this)
                 }
             }
         }
@@ -158,7 +161,7 @@ fun Registros(activityContext: Registro) {
 
                     text3 = myadminorfather().toString()
 
-                    Button(modifier = Modifier.padding(top = 15.dp),
+                    Button(modifier = Modifier.padding(top = 30.dp),
                         shape = RoundedCornerShape(0.dp),
                         colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                         onClick = {
@@ -262,4 +265,25 @@ fun myadminorfather(): op {
 
 enum class op {
     admin, father
+}
+
+@Composable
+fun BackButtonRegistro(activityContext: ComponentActivity) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
+        Button(
+            shape = RectangleShape,
+            onClick = {
+                activityContext.finish()
+            },
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
+            Text(
+                "Atrás",
+                style = TextStyle(fontSize = 35.sp)
+            )
+        }
+    }
 }

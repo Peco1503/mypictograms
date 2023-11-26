@@ -19,20 +19,21 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.ui.theme.FrontendTheme
 
 val Orange = Color(0xFFEE6B11)
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     startPage()
                 }
@@ -43,69 +44,62 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
+@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
 fun startPage() {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF),
-
     ) {
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(0.dp),
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(0.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
 
-    ) {
-
-        Image(
-            painter = painterResource(id = R.drawable.ama),
-            contentDescription = null,
-            modifier = Modifier
-                .size(600.dp)
-                .clip(MaterialTheme.shapes.medium),
-            contentScale = ContentScale.Fit
-        )
-
-        //Spacer(modifier = Modifier.height(0.dp))
-
-        val context1 = LocalContext.current
-        Button(
-            onClick = {
-                context1.startActivity(Intent(context1, AlumnosPaginaInicio::class.java))
-            },
-            modifier = Modifier
-                .width(350.dp)
-                .height(111.dp), shape = RoundedCornerShape(30.dp),
-            colors = ButtonDefaults.buttonColors(Orange)
-
         ) {
-            Text("JUGAR!",
-                style = TextStyle(fontSize = 30.sp)
+            Image(
+                painter = painterResource(id = R.drawable.ama),
+                contentDescription = null,
+                modifier = Modifier
+                    .width(600.dp),
+                contentScale = ContentScale.Fit
             )
 
-        }
-        Spacer(modifier = Modifier.height(16.dp))
+            //Spacer(modifier = Modifier.height(0.dp))
 
-        val context = LocalContext.current
-        Button(
-            onClick = {
-                context.startActivity(Intent(context, InicioSesion::class.java))
+            val context1 = LocalContext.current
+            Button(
+                onClick = {
+                    context1.startActivity(Intent(context1, AlumnosPaginaInicio::class.java))
+                },
+                modifier = Modifier
+                    .width(450.dp)
+                    .height(175.dp)
+                    .padding(top=30.dp),
+                shape = RoundedCornerShape(0.dp),
+                colors = ButtonDefaults.buttonColors(Orange)
+            ) {
+                Text(
+                    "JUGAR!", style = TextStyle(fontSize = 50.sp)
+                )
+            }
+            Spacer(modifier = Modifier.height(20.dp))
 
-            },
-            modifier = Modifier
-                .border(2.dp, Orange, RoundedCornerShape(10.dp))
-                .width(264.dp) // Specify the width you desire
-                .height(45.dp), shape = RoundedCornerShape(10.dp),
-                    colors = ButtonDefaults.buttonColors(Color.Transparent),
-
-
-
-        ) {
-            Text("ENTRAR COMO ADMINISTRADOR",
-                color = Orange)
+            val context = LocalContext.current
+            Button(
+                onClick = {
+                    context.startActivity(Intent(context, InicioSesion::class.java))
+                },
+                modifier = Modifier.border(2.dp, Orange),
+                shape = RoundedCornerShape(0.dp),
+                colors = ButtonDefaults.buttonColors(Color.Transparent),
+            ) {
+                Text(
+                    "ENTRAR COMO ADMINISTRADOR", color = Orange
+                )
+            }
         }
     }
-}
 }
