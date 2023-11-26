@@ -87,7 +87,7 @@ fun BackButton5() {
             colors = ButtonDefaults.buttonColors(Orange)
         ) {
             Text(
-                "Atrás",
+                "Atrás", 
                 style = TextStyle(fontSize = 35.sp)
             )
         }

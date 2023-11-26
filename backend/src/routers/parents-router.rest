@@ -4,6 +4,10 @@ GET {{server}}/parents
 
 ###
 
+GET {{server}}/parents/1
+
+###
+
 POST {{server}}/parents
 content-type: application/json
 
