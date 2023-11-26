@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.BackButtonComunicador
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
 import com.tec.frontend.R
@@ -64,7 +65,7 @@ class ComunicadorAlimentos : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicadorAli()
+                        BackButtonComunicador(activityContext=this@ComunicadorAlimentos)
                         BarraComunicador()
                         GridAli(tts)
                     }
@@ -100,14 +101,11 @@ fun BackButtonComunicadorAli() {
                     )
                 )
             },
-            modifier = Modifier
-                .width(116.dp)
-                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ){
             Text(
-                "ATRAS",
-                style = TextStyle(fontSize = 12.sp)
+                "Atrás",
+                style = TextStyle(fontSize = 35.sp)
             )
         }
     }

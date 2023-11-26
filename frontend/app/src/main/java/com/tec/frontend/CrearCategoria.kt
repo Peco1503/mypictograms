@@ -89,13 +89,10 @@ fun BackButtonCC() {
                     )
                 )
             },
-            modifier = Modifier
-                .width(116.dp)
-                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ) {
             Text(
-                "ATRAS", style = TextStyle(fontSize = 12.sp)
+                "Atrás", style = TextStyle(fontSize = 35.sp)
             )
         }
     }

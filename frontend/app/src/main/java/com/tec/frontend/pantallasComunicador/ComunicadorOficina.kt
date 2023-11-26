@@ -37,6 +37,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.BackButtonComunicador
 import com.tec.frontend.BarraComunicador
 import com.tec.frontend.Comunicador
 import com.tec.frontend.Orange
@@ -54,7 +55,7 @@ class ComunicadorOficina : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicadorOfi()
+                        BackButtonComunicador(activityContext=this@ComunicadorOficina)
                         BarraComunicador()
                         GridOfi()
                     }

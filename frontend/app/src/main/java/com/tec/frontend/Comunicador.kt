@@ -63,7 +63,7 @@ class Comunicador : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador()
+                        BackButtonComunicador(activityContext=this@Comunicador)
                         ImageGrid()
                     }
                 }
@@ -73,25 +73,16 @@ class Comunicador : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonComunicador() {
+fun BackButtonComunicador(activityContext: ComponentActivity) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
         verticalAlignment = Alignment.Top) {
-        val context = LocalContext.current
         Button(
             shape = RectangleShape,
             onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        SeleccionNivel::class.java
-                    )
-                )
+                activityContext.finish()
             },
-            modifier = Modifier
-                .width(116.dp)
-                .height(34.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ){
             Text(
@@ -179,23 +170,6 @@ fun ImageGrid() {
                         color = Color.White
                     )
                 }
-            }
-        }
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview7() {
-    FrontendTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                BackButtonComunicador()
-                ImageGrid()
             }
         }
     }
