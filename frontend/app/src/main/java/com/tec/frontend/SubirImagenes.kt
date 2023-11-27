@@ -66,15 +66,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.tec.frontend.util.ImageUploader
 
 class SubirImagenes : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    SubirImagenesPantalla()
+                    SubirImagenesPantalla(studentId, studentName)
                     BackButtonUI()
                 }
             }
@@ -108,11 +112,14 @@ fun BackButtonUI() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
-fun SubirImagenesPantalla() {
+fun SubirImagenesPantalla(studentId: Int, studentName : String) {
     // Variables que identifican a la imagen
     var name by remember { mutableStateOf("") }
     // var category by remember { mutableStateOf("") }
+
+    // Variable para subir la imagen a la carpeta del usuario definido
+    val studentIdStr: String = java.lang.String.valueOf(studentId)
+    var userFolderName = studentIdStr + "-" + studentName
 
     // Variables para el dropdown menu de cateogoría
     val categoryNames = arrayOf("Alimentos", "Familia")
@@ -279,7 +286,7 @@ fun SubirImagenesPantalla() {
                                     ImageUploader.uploadToStorage(
                                         uri = it,
                                         context = context,
-                                        userFolder = "1-Felipe González",
+                                        userFolder = userFolderName,
                                         category = category.value,
                                         imageTitle = name
                                     )
@@ -301,7 +308,7 @@ fun SubirImagenesPantalla() {
                                 contentDescription = null,
                                 modifier = Modifier
                                     .size(
-                                        width = 500.dp, height = 250.dp
+                                        width = 500.dp, height = 200.dp
                                     )
                                     .padding(
                                         top = 20.dp
