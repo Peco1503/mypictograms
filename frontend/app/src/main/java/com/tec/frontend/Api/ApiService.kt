@@ -28,11 +28,17 @@ interface ApiService {
     @GET("/api/students/{alumnoId}")
     suspend fun getEstudiante(@Path("alumnoId") alumnoId: Int): List<Alumno>
 
+    @GET("/api/students/parent/{ParentId}")
+    suspend fun getHijos(@Path("ParentId") ParentId: Int): List<Alumno>
+
     @GET("/api/students/")
     suspend fun getEstudiantes() : List<Alumno>
 
     @GET("/api/parents/")
     suspend fun getPadres() : List<Padre>
+
+    @GET("/api/admins")
+    suspend fun getTerapia(): List<Terapeuta>
 
     @GET("/api/parents/{parentId}")
     suspend fun getNombrePadres(@Path("parentId") parentId : Int) : Padre
