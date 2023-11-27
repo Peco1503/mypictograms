@@ -56,16 +56,20 @@ import androidx.compose.ui.text.input.KeyboardType
 import com.tec.frontend.util.ImageUploader
 
 class CrearCategoria : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 // A surface container using the 'background' color from the theme
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    CrearCategoriaPantalla()
-                    BackButtonCC()
+                    CrearCategoriaPantalla(studentId, studentName)
+                    BackButtonCC(studentId, studentName)
                 }
             }
         }
@@ -73,7 +77,7 @@ class CrearCategoria : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonCC() {
+fun BackButtonCC(studentId: Int, studentName : String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -83,11 +87,10 @@ fun BackButtonCC() {
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
-                context.startActivity(
-                    Intent(
-                        context, SubirImagenes::class.java
-                    )
-                )
+                val intent = Intent(context, SubirImagenes::class.java)
+                intent.putExtra("studentId", studentId)
+                intent.putExtra("studentName", studentName)
+                context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)
         ) {
@@ -101,11 +104,13 @@ fun BackButtonCC() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
-fun CrearCategoriaPantalla() {
+fun CrearCategoriaPantalla(studentId: Int, studentName : String) {
     // Variables que identifican a la imagen
     var name by remember { mutableStateOf("") }
-    var category by remember { mutableStateOf("") }
+
+    // Variable para subir la imagen a la carpeta del usuario definido
+    val studentIdStr: String = java.lang.String.valueOf(studentId)
+    var userFolderName = studentIdStr + "-" + studentName
 
     // Variables para la selección del URI y subir la imagen
     var selectedImageUri by remember {
@@ -198,7 +203,7 @@ fun CrearCategoriaPantalla() {
                                     ImageUploader.uploadToStorage(
                                         uri = it,
                                         context = context,
-                                        userFolder = "1-Felipe González",
+                                        userFolder = userFolderName,
                                         category = name,
                                         imageTitle = "portada"
                                     )
