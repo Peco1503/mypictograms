@@ -248,10 +248,14 @@ fun PantallaInicioAlum() {
                     Button(
                         shape = RectangleShape,
                         onClick = {
-                            val intent = Intent(context, SeleccionNivel::class.java)
-                            intent.putExtra("studentId", selectedStudent.value.id)
-                            intent.putExtra("studentName", selectedStudent.value.name)
-                            context.startActivity(intent)
+                            if(selectedStudent.value == alumnoDefault) {
+                                ErrorDialog.show(context, "Seleccione un alumno para continuar")
+                            } else {
+                                val intent = Intent(context, SeleccionNivel::class.java)
+                                intent.putExtra("studentId", selectedStudent.value.id)
+                                intent.putExtra("studentName", selectedStudent.value.name)
+                                context.startActivity(intent)
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(Orange),
                         ) {
