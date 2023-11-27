@@ -16,6 +16,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ComunicadorCategories"
+            android:exported="false"
+            android:label="@string/title_activity_comunicador_categories"
+            android:theme="@style/Theme.Frontend" />
+        <activity
             android:name=".NavegationUtils"
             android:exported="false"
             android:label="@string/title_activity_navegation_utils"
@@ -124,7 +129,7 @@
             android:name=".CrearCategoria"
             android:exported="false"
             android:label="CrearCategoria"
-            android:theme="@style/Theme.Frontend"/>
+            android:theme="@style/Theme.Frontend" />
         <activity
             android:name=".NuevoAlumno"
             android:exported="false"
