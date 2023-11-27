@@ -167,7 +167,11 @@ fun GridEscuela(tts: TextToSpeech?){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+<<<<<<< Updated upstream
                             speakOut(textDescriptions[index], tts)
+=======
+                            speakOut("Cebra", tts)
+>>>>>>> Stashed changes
                         }
                 )
             }
@@ -186,7 +190,11 @@ fun GreetingPreview8() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 BackButtonComunicadorEsc()
+<<<<<<< Updated upstream
                 //GridEscuela()
+=======
+               // GridEscuela()
+>>>>>>> Stashed changes
             }
         }
     }
