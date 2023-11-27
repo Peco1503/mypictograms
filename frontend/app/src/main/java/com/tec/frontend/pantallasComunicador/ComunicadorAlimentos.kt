@@ -126,7 +126,7 @@ fun GridAli(tts: TextToSpeech?){
     val textDescriptions = listOf(
         "Huevo",
         "Pastel",
-        "Platano",
+        "Betún",
         "Chocolate",
         "El Pollo Loco",
         "Carl's Jr"
@@ -150,7 +150,7 @@ fun GridAli(tts: TextToSpeech?){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }

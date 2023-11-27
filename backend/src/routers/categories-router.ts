@@ -36,12 +36,6 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
     }
   }
 
-  if (!studentFolderName) {
-    throw new Error(
-      "No se pudo encontrar la carpeta del estudiante en la base de datos",
-    );
-  }
-
   const [defaultFolderResult, studentFolderResult] = await Promise.all([
     listAll(ref(storage, "/Defecto")),
     listAll(ref(storage, studentFolderName)),
@@ -99,7 +93,7 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
     }
   }
 
-  res.json({ categories });
+  res.json(categories);
 });
 
 export default categoriesRouter;

@@ -2,6 +2,7 @@ package com.tec.frontend.pantallasComunicador
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -45,8 +46,17 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorAnimales : ComponentActivity() {
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+
+            }
+        }
+
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -57,12 +67,21 @@ class ComunicadorAnimales : ComponentActivity() {
                     ) {
                         BackButtonComunicador(activityContext=this@ComunicadorAnimales)
                         BarraComunicador()
-                        GridAni()
+                        GridAni(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+}
+
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -96,7 +115,7 @@ fun BackButtonComunicadorAni() {
 }
 
 @Composable
-fun GridAni(){
+fun GridAni(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.rinoceronte,
@@ -104,6 +123,14 @@ fun GridAni(){
         R.drawable.mascotas,
         R.drawable.zoo,
         R.drawable.alimentar
+    )
+
+    val textDescriptions = listOf(
+        "Rinoceronte",
+        "Veterinario",
+        "Mascotas",
+        "Zoológico",
+        "Alimentar"
     )
 
     LazyVerticalGrid(
@@ -124,7 +151,7 @@ fun GridAni(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }

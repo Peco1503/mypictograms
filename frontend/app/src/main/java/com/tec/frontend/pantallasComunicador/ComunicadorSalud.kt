@@ -2,6 +2,7 @@ package com.tec.frontend.pantallasComunicador
 
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -46,8 +47,17 @@ import com.tec.frontend.navigateToVerbosScreen
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorSalud : ComponentActivity() {
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+
+            }
+        }
+
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -58,12 +68,21 @@ class ComunicadorSalud : ComponentActivity() {
                     ) {
                         BackButtonComunicador(activityContext=this@ComunicadorSalud)
                         BarraComunicador()
-                        GridSalud()
+                        GridSalud(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+}
+
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -97,13 +116,20 @@ fun BackButtonComunicadorSalu() {
 }
 
 @Composable
-fun GridSalud(){
+fun GridSalud(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.enfermo,
         R.drawable.tos,
         R.drawable.dolor,
         R.drawable.cansado
+    )
+
+    val textDescriptions = listOf(
+        "Enfermo",
+        "Tos",
+        "Dolor",
+        "Cansado"
     )
 
     LazyVerticalGrid(
@@ -124,7 +150,7 @@ fun GridSalud(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }

@@ -1,7 +1,9 @@
 package com.tec.frontend
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -16,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -23,6 +26,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,17 +44,24 @@ import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.tec.frontend.Api.Alumno
+import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.ui.theme.FrontendTheme
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DashboardPadres : ComponentActivity() {
+    private var ParentId: Int = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
+                ParentId = intent.getIntExtra("ParentID", -1)
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    dashboardPadres()
+                    dashboardPadres(ParentId)
                     BackButtonDashboardProfe(activityContext = this)
                 }
             }
@@ -54,8 +70,27 @@ class DashboardPadres : ComponentActivity() {
 }
 
 @Composable
-@Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
-fun dashboardPadres() {
+fun dashboardPadres(ParentID: Int) {
+    val scrollState = rememberScrollState()
+    var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
+    val coroutineScope = rememberCoroutineScope()
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            try {
+                // Make Retrofit API call on the background thread
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitInstance.apiService.getHijos(ParentId = ParentID)
+                }
+                // Assuming response contains an "id" and "type" field
+                alumnos = response
+
+            } catch (e: Exception) {
+                // Handle error
+                // You can display an error message or perform other actions
+                Log.d(ContentValues.TAG, e.toString())
+            }
+        }
+    }
     Surface(
         modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
     ) {
@@ -90,33 +125,33 @@ fun dashboardPadres() {
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 30.dp)
                     )
-                    listOf(
-                        "Alumno 1", "Alumno 2"
-                    ).forEach { student ->
+                    alumnos.forEach { alumno ->
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier
+                                .fillMaxWidth()
                         ) {
-                            Text(
-                                modifier = Modifier
-                                    .border(
-                                        2.dp,
-                                        Color.Gray,
-                                        RoundedCornerShape(0.dp)
-                                    ).padding(8.dp).width(650.dp),
-                                text = student,
-                                style = TextStyle(
-                                    fontSize = 35.sp, fontWeight = FontWeight.Normal
+                            alumno.name?.let {
+                                Text(
+                                    modifier = Modifier
+                                        .border(
+                                            2.dp,
+                                            Color.Gray,
+                                            RoundedCornerShape(0.dp)
+                                        ).padding(8.dp).width(600.dp),
+                                    text = it,
+                                    style = TextStyle(
+                                        fontSize = 35.sp,
+                                        fontWeight = FontWeight.Normal
+                                    )
                                 )
-                            )
+                            }
                             val context = LocalContext.current
                             Button(
                                 modifier = Modifier.padding(start=8.dp),
                                 onClick = {
-                                    context.startActivity(
-                                        Intent(
-                                            context, PerfilAlumnoPadre::class.java
-                                        )
-                                    )
+                                    val intent = Intent(context, PerfilAlumnoPadre::class.java)
+                                    intent.putExtra("alumnoId", alumno.id)
+                                    context.startActivity(intent)
                                 },
                                 shape = RoundedCornerShape(0.dp),
                                 colors = ButtonDefaults.buttonColors(Orange1)

@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -105,7 +106,16 @@ fun BackButtonPI() {
 @Composable
 fun PantallaInicioAlum() {
     // Fetch para obtener el nombre de los alumnos
-    var alumnos by remember { mutableStateOf<List<Alumno>>(emptyList()) }
+    val alumnoDefault = Alumno(id = 0,
+        name = "",
+        birthYear = null,
+        gender = null,
+        parentId = null,
+        maximumMinigameLevel= null,
+        description = null,
+        cognitiveLevel = null,
+        therapistId = null)
+    var alumnos by remember { mutableStateOf(listOf(alumnoDefault)) }
     val coroutineScope = rememberCoroutineScope()
     LaunchedEffect(Unit){
         coroutineScope.launch {
@@ -129,10 +139,11 @@ fun PantallaInicioAlum() {
     // Variables para el dropdown menu de alunmno
     var listOfStudents = arrayOf("")
     val student = remember { mutableStateOf(listOfStudents[0])}
+    val selectedStudent = remember {  mutableStateOf(alumnos[0]) }
     val expanded = remember { mutableStateOf(false)}
 
     alumnos.forEach { alumno ->
-        listOfStudents += alumno.name ?: "No se encontraron alumnos"
+        listOfStudents += alumno.name ?: "No se encontro nombre de alumn@"
     }
 
     Surface(
@@ -196,7 +207,10 @@ fun PantallaInicioAlum() {
                             textStyle = TextStyle.Default.copy(
                                 fontSize = 28.sp,
                                 color = Color.Gray
-                            )
+                            ),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White)
                         )
                         ExposedDropdownMenu(
                             modifier = Modifier
@@ -206,14 +220,22 @@ fun PantallaInicioAlum() {
                             onDismissRequest = { expanded.value = false },
 
                             ) {
-                            listOfStudents.forEach {
+                            listOfStudents.forEachIndexed { index, name ->
                                 DropdownMenuItem(
                                     modifier = Modifier
                                         .width(850.dp),
-                                    text = { Text(text = it, fontSize = 28.sp) },
+                                    text = { Text(text = name, fontSize = 28.sp) },
                                     onClick = {
-                                        student.value = it
-                                        expanded.value = false
+                                        if (index == 0) {
+                                            selectedStudent.value = alumnos[0]
+                                            student.value = selectedStudent.value.name ?: "Not selected"
+                                            expanded.value = false
+                                        }
+                                        else {
+                                            selectedStudent.value = alumnos[index - 1]
+                                            student.value = selectedStudent.value.name ?: "Not selected"
+                                            expanded.value = false
+                                        }
                                     }
                                 )
                             }
@@ -226,8 +248,14 @@ fun PantallaInicioAlum() {
                     Button(
                         shape = RectangleShape,
                         onClick = {
-                            context.startActivity(Intent(context, SeleccionNivel::class.java))
-
+                            if(selectedStudent.value == alumnoDefault) {
+                                ErrorDialog.show(context, "Seleccione un alumno para continuar")
+                            } else {
+                                val intent = Intent(context, SeleccionNivel::class.java)
+                                intent.putExtra("studentId", selectedStudent.value.id)
+                                intent.putExtra("studentName", selectedStudent.value.name)
+                                context.startActivity(intent)
+                            }
                         },
                         colors = ButtonDefaults.buttonColors(Orange),
                         ) {

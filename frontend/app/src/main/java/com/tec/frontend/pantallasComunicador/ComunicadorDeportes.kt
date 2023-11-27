@@ -3,6 +3,7 @@ package com.tec.frontend.pantallasComunicador
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -46,8 +47,17 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class ComunicadorDeportes : ComponentActivity() {
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tts = TextToSpeech(this){status ->
+            if (status != TextToSpeech.ERROR){
+
+            }
+        }
+
         setContent {
             FrontendTheme {
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
@@ -58,12 +68,21 @@ class ComunicadorDeportes : ComponentActivity() {
                     ) {
                         BackButtonComunicador(activityContext=this@ComunicadorDeportes)
                         BarraComunicador()
-                        GridDeportes()
+                        GridDeportes(tts)
                     }
                 }
             }
         }
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
+    }
+}
+
+private fun speakOut(text: String, tts: TextToSpeech?) {
+    tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
 }
 
 @Composable
@@ -97,7 +116,7 @@ fun BackButtonComunicadorDep() {
 }
 
 @Composable
-fun GridDeportes(){
+fun GridDeportes(tts: TextToSpeech?){
     val context = LocalContext.current
     val imageIds = listOf(
         R.drawable.basquetbol,
@@ -107,6 +126,16 @@ fun GridDeportes(){
         R.drawable.futbol,
         R.drawable.futame,
         R.drawable.tenis
+    )
+
+    val textDescriptions = listOf(
+        "Basquetbol",
+        "Béisbol",
+        "Volleyball",
+        "Super Bowl",
+        "Fútbol",
+        "Fútbol Americano",
+        "Tenis"
     )
 
     LazyVerticalGrid(
@@ -127,7 +156,7 @@ fun GridDeportes(){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            //navigateToVerbosScreen(context)
+                            speakOut(textDescriptions[index], tts)
                         }
                 )
             }

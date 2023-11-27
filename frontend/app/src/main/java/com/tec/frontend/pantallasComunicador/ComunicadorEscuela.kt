@@ -190,7 +190,6 @@ fun GreetingPreview8() {
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 BackButtonComunicadorEsc()
-                //GridEscuela()
             }
         }
     }
