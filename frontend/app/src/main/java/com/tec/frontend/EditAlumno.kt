@@ -22,6 +22,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -49,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.tec.frontend.Api.Alumno
+import com.tec.frontend.Api.Padre
 import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +80,7 @@ class EditAlumno : ComponentActivity() {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 // @Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
 fun Edit(EstudianteId: Int, Nivel: Int) {
@@ -89,6 +95,25 @@ fun Edit(EstudianteId: Int, Nivel: Int) {
     val viewModel: RegistroViewModel = viewModel()
 
     var Estudiante by remember { mutableStateOf(Alumno()) }
+
+    var padres by remember { mutableStateOf<List<Padre>>(emptyList()) }
+    var listOfPadres = arrayOf("")
+    val papas = remember { mutableStateOf(listOfPadres[0])}
+    val expanded = remember { mutableStateOf(false)}
+
+    LaunchedEffect(Unit)
+    {
+        coroutineScope.launch {
+            val response = withContext(Dispatchers.IO) {
+                RetrofitInstance.apiService.getPadres()
+            }
+            padres = response
+        }
+    }
+
+    padres.forEach { padre ->
+        listOfPadres += padre.user
+    }
 
     LaunchedEffect(Unit) {
         coroutineScope.launch {
@@ -224,27 +249,61 @@ fun Edit(EstudianteId: Int, Nivel: Int) {
                     ) {
                         Text(
                             modifier = Modifier.padding(end = 10.dp),
-                            text = "ID Tutor: ",
+                            text = "Tutor: ",
                             style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 32.sp)
                         )
-                        TextField(shape = RoundedCornerShape(0.dp),
-                            modifier = Modifier.border(2.dp, Color.Gray),
-                            colors = TextFieldDefaults.colors(
-                                unfocusedContainerColor = Color.White,
-                                focusedContainerColor = Color.White
-                            ),
-                            value = text4,
-                            onValueChange = {
-                                text4 = it
-                            },
-                            textStyle = TextStyle(
-                                color = Color.Black, fontSize = 32.sp
-                            ),
-                            placeholder = {
-                                Text(
-                                    "Inserte id tutor...", color = Color.Gray, fontSize = 32.sp
+                        ExposedDropdownMenuBox(
+                            modifier = Modifier
+                                .width(550.dp)
+                                .border(2.dp, Color.Gray),
+                            expanded = expanded.value,
+                            onExpandedChange = {
+                                expanded.value = !expanded.value
+                            }
+                        ) {
+                            TextField(
+                                value = papas.value,
+                                onValueChange = {},
+                                readOnly = true,
+                                trailingIcon = {
+                                    ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value)
+                                },
+                                colors = TextFieldDefaults.colors(
+                                    unfocusedContainerColor = Color.White,
+                                    focusedContainerColor = Color.White
+                                ) ,
+                                modifier = Modifier
+                                    .menuAnchor()
+                                    .width(750.dp)
+                                    .background(Color.White),
+                                textStyle = TextStyle.Default.copy(
+                                    fontSize = 28.sp,
+                                    color = Color.Gray
                                 )
-                            })
+                            )
+                            ExposedDropdownMenu(
+                                modifier = Modifier
+                                    .border(2.dp, Color.Gray)
+                                    .background(Color.White),
+                                expanded = expanded.value,
+                                onDismissRequest = { expanded.value = false },
+
+                                ) {
+                                padres.forEach { padre ->
+                                    DropdownMenuItem(
+                                        modifier = Modifier
+                                            .width(850.dp)
+                                            .padding(10.dp),
+                                        text = { Text(text = padre.user, fontSize = 35.sp, lineHeight = 35.sp, fontWeight = FontWeight.Light) },
+                                        onClick = {
+                                            papas.value = padre.user
+                                            text4 = padre.id.toString()
+                                            expanded.value = false
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     }
                     FourOptionsCheckBox(Nivel) { text7 = it }
                     Row(
