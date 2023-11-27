@@ -1,8 +1,10 @@
 package com.tec.frontend
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.net.Uri
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.ui.text.TextStyle
@@ -59,11 +61,18 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.surfaceColorAtElevation
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
+import com.tec.frontend.Api.Category
+import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.util.ImageUploader
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class SubirImagenes : ComponentActivity() {
     private var studentId: Int = -1
@@ -79,7 +88,7 @@ class SubirImagenes : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     SubirImagenesPantalla(studentId, studentName)
-                    BackButtonUI()
+                    BackButtonUI(studentId, studentName)
                 }
             }
         }
@@ -87,7 +96,7 @@ class SubirImagenes : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonUI() {
+fun BackButtonUI(studentId: Int, studentName : String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -96,11 +105,10 @@ fun BackButtonUI() {
         val context = LocalContext.current
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape, onClick = {
-                context.startActivity(
-                    Intent(
-                        context, SeleccionNivel::class.java
-                    )
-                )
+                val intent = Intent(context, SeleccionNivel::class.java)
+                intent.putExtra("studentId", studentId)
+                intent.putExtra("studentName", studentName)
+                context.startActivity(intent)
             }, colors = ButtonDefaults.buttonColors(Orange)
         ) {
             Text(
@@ -113,6 +121,7 @@ fun BackButtonUI() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SubirImagenesPantalla(studentId: Int, studentName : String) {
+
     // Variables que identifican a la imagen
     var name by remember { mutableStateOf("") }
     // var category by remember { mutableStateOf("") }
@@ -122,7 +131,31 @@ fun SubirImagenesPantalla(studentId: Int, studentName : String) {
     var userFolderName = studentIdStr + "-" + studentName
 
     // Variables para el dropdown menu de cateogoría
-    val categoryNames = arrayOf("Alimentos", "Familia")
+    var categoryNames = listOf("")
+
+    // Fetch para obtener la categ0ría
+    var categories by remember { mutableStateOf<List<Category>>(emptyList()) }
+    val coroutineScope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        coroutineScope.launch {
+            try {
+                // Make Retrofit API call on the background thread
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitInstance.apiService.getCategory(studentId)
+                }
+                categories = response
+
+            } catch (e: Exception) {
+                Log.d(ContentValues.TAG, e.toString())
+            }
+        }
+    }
+
+    categories.forEach { category->
+        categoryNames = categoryNames + category.name.toString()
+    }
+
     val category = remember { mutableStateOf(categoryNames[0]) }
     val expanded = remember { mutableStateOf(false) }
 
@@ -240,11 +273,10 @@ fun SubirImagenesPantalla(studentId: Int, studentName : String) {
                             shape = RoundedCornerShape(0.dp),
                             colors = ButtonDefaults.buttonColors(Color(0xFFEE6B11)),
                             onClick = {
-                                contextDrop.startActivity(
-                                    Intent(
-                                        contextDrop, CrearCategoria::class.java
-                                    )
-                                )
+                                val intent = Intent(contextDrop, CrearCategoria::class.java)
+                                intent.putExtra("studentId", studentId)
+                                intent.putExtra("studentName", studentName)
+                                contextDrop.startActivity(intent)
                             },
                         ) {
                             Icon(
