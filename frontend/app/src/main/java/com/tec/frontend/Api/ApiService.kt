@@ -31,6 +31,12 @@ interface ApiService {
     @GET("/api/students/")
     suspend fun getEstudiantes() : List<Alumno>
 
+    @GET("/api/parents/")
+    suspend fun getPadres() : List<Padre>
+
+    @GET("/api/parents/{parentId}")
+    suspend fun getNombrePadres(@Path("parentId") parentId : Int) : Padre
+
     @PUT("/api/students/{alumnoId}")
     suspend fun actualizarAlumno(@Path("alumnoId") alumnoId: Int, @Body alumno: Alumno): Response<Void>
 }

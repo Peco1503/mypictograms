@@ -38,6 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.tec.frontend.Api.Alumno
+import com.tec.frontend.Api.Padre
 import com.tec.frontend.Api.RetrofitInstance
 import com.tec.frontend.ui.theme.FrontendTheme
 import kotlinx.coroutines.Dispatchers
@@ -73,7 +74,7 @@ class InfoAlumno : ComponentActivity() {
 fun infoAlumno(EstudianteId: Int) {
     val coroutineScope = rememberCoroutineScope()
     var Estudiante by remember { mutableStateOf(Alumno()) }
-
+    var padres by remember { mutableStateOf(Padre(0, "", "")) }
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             try {
@@ -85,6 +86,14 @@ fun infoAlumno(EstudianteId: Int) {
                 // Actualizar el estado del estudiante con la respuesta de la API
                 Estudiante = response[0]
 
+                val responese2 = withContext(Dispatchers.IO) {
+                    Estudiante.parentId?.let { RetrofitInstance.apiService.getNombrePadres(parentId = it) }
+                }
+
+                if (responese2 != null) {
+                    padres = responese2
+                }
+
             } catch (e: Exception) {
                 // Handle error
                 // You can display an error message or perform other actions
@@ -92,6 +101,8 @@ fun infoAlumno(EstudianteId: Int) {
             }
         }
     }
+
+
     Surface(
         modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)
     ) {
@@ -140,7 +151,7 @@ fun infoAlumno(EstudianteId: Int) {
                             style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 35.sp),
                             modifier = Modifier.padding(end = 10.dp)
                         )
-                        Text(text = "${Estudiante.parentId}", style = TextStyle(fontSize = 35.sp))
+                        Text(text = "${padres.user}", style = TextStyle(fontSize = 35.sp))
                     }
                     Row(modifier = Modifier.padding(top = 20.dp)) {
                         Text(
