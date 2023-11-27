@@ -31,6 +31,19 @@ studentsRouter.get("/students", async (req, res) => {
   res.json(result);
 });
 
+studentsRouter.get("/students/parent/:parentId", async (req, res) => {
+  const { parentId } = z
+    .object({ parentId: z.coerce.number() })
+    .parse(req.params);
+
+  const db = await Singleton.getDB();
+  const result = await db
+    .select()
+    .from(students)
+    .where(eq(students.parentId, parentId));
+  res.json(result);
+});
+
 studentsRouter.get("/students/:id", async (req, res) => {
   const { id } = z.object({ id: z.coerce.number() }).parse(req.params);
 
