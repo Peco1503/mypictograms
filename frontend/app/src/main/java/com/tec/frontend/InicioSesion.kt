@@ -85,7 +85,6 @@ fun Inicio() {
     var text2 by remember { mutableStateOf("") }
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
-    var admin by remember { mutableStateOf(loginResponse(0, "", "")) }
 
     Surface(
         modifier = Modifier.fillMaxSize(),

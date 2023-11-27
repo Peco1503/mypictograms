@@ -30,6 +30,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -196,7 +197,10 @@ fun PantallaInicioAlum() {
                             textStyle = TextStyle.Default.copy(
                                 fontSize = 28.sp,
                                 color = Color.Gray
-                            )
+                            ),
+                            colors = TextFieldDefaults.colors(
+                                unfocusedContainerColor = Color.White,
+                                focusedContainerColor = Color.White)
                         )
                         ExposedDropdownMenu(
                             modifier = Modifier
