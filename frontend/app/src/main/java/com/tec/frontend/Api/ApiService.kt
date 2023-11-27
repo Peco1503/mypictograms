@@ -48,4 +48,7 @@ interface ApiService {
 
     @GET("/api/categories/student/{alumnoId}")
     suspend fun getCategory(@Path("alumnoId") alumnoId: Int): List<Category>
+
+    @GET("/apli/images/category/{categoryName}/student")
+    suspend fun getComunicadorCategory(@Path("categoryName") categoryName : String): List<Images>
 }

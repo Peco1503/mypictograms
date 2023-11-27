@@ -34,5 +34,6 @@
 
     <string name="title_activity_nivel1">Nivel1</string>
     <string name="title_activity_navegation_utils">NavegationUtils</string>
+    <string name="title_activity_comunicador_categories">ComunicadorCategories</string>
 
 </resources>
