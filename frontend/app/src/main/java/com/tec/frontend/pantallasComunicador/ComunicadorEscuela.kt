@@ -167,7 +167,11 @@ fun GridEscuela(tts: TextToSpeech?){
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+
                             speakOut(textDescriptions[index], tts)
+
+                            speakOut("Cebra", tts)
+
                         }
                 )
             }

@@ -1,5 +1,6 @@
 package com.tec.frontend
 
+import androidx.compose.ui.unit.dp
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -61,6 +62,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.zIndex
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
@@ -78,34 +80,42 @@ class Nivel3 : ComponentActivity() {
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(horizontal = 32.dp)
-                            .padding(top = 60.dp), // Espacio entre las columnas de imagenes con respecto a la parte superior de la pantalla
-                        horizontalArrangement = Arrangement.Center, // Espacia las columnas uniformemente
+                            .padding(top = 60.dp), // Space between the columns of images with respect to the top of the screen
+                        horizontalArrangement = Arrangement.Center, // Space the columns evenly
                         verticalAlignment = Alignment.Top
                     ) {
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
+                        // Box to wrap the draggable images with a higher zIndex
+                        Box(
+                            modifier = Modifier.zIndex(1f)
                         ) {
-                            MultipleDraggableObject(imageRes = R.drawable.tortucolor)
-                            MultipleDraggableObject(imageRes = R.drawable.serpcolor)
-                            MultipleDraggableObject(imageRes = R.drawable.pelicolor)
-                            MultipleDraggableObject(imageRes = R.drawable.lobocolor)
-                            MultipleDraggableObject(imageRes = R.drawable.cococolor)
-                            MultipleDraggableObject(imageRes = R.drawable.koalacolor)
+                            // Column 1 - Draggable images
+                            Column(
+                                verticalArrangement = Arrangement.spacedBy(4.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                MultipleDraggableObject(imageRes = R.drawable.tortucolor)
+                                MultipleDraggableObject(imageRes = R.drawable.serpcolor)
+                                MultipleDraggableObject(imageRes = R.drawable.pelicolor)
+                                MultipleDraggableObject(imageRes = R.drawable.lobocolor)
+                                MultipleDraggableObject(imageRes = R.drawable.cococolor)
+                                MultipleDraggableObject(imageRes = R.drawable.koalacolor)
+                            }
                         }
 
-                        Spacer(modifier = Modifier.width(400.dp)) // Espacio entre las columnas
+                        Spacer(modifier = Modifier.width(500.dp))
 
+                        // Column 2 - Non-draggable images
                         Column(
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            MultipleDraggableObject(imageRes = R.drawable.tortugris)
-                            MultipleDraggableObject(imageRes = R.drawable.serpgris)
-                            MultipleDraggableObject(imageRes = R.drawable.peligris)
-                            MultipleDraggableObject(imageRes = R.drawable.lobogris)
-                            MultipleDraggableObject(imageRes = R.drawable.cocogris)
-                            MultipleDraggableObject(imageRes = R.drawable.koalagris)
+                            // Images in the second column without drag functionality
+                            NonDraggableObject(imageRes = R.drawable.tortugris)
+                            NonDraggableObject(imageRes = R.drawable.serpgris)
+                            NonDraggableObject(imageRes = R.drawable.peligris)
+                            NonDraggableObject(imageRes = R.drawable.lobogris)
+                            NonDraggableObject(imageRes = R.drawable.cocogris)
+                            NonDraggableObject(imageRes = R.drawable.koalagris)
                         }
                     }
                 }
@@ -115,27 +125,41 @@ class Nivel3 : ComponentActivity() {
 }
 
 @Composable
-fun MultipleDraggableObject(imageRes: Int, modifier: Modifier = Modifier) {
-    val offsetX = remember { mutableStateOf(0f) }
-    val offsetY = remember { mutableStateOf(0f) }
+fun MultipleDraggableObject(
+    imageRes: Int,
+    modifier: Modifier = Modifier,
+    onCollision: () -> Unit = {}
+) {
+    var offsetX by remember { mutableStateOf(0f) }
+    var offsetY by remember { mutableStateOf(0f) }
+    var isFrozen by remember { mutableStateOf(false) }
 
     Box(
         modifier = modifier
             .offset {
                 IntOffset(
-                    offsetX.value.roundToInt(),
-                    offsetY.value.roundToInt()
+                    offsetX.roundToInt(),
+                    offsetY.roundToInt()
                 )
             }
             .pointerInput(Unit) {
                 detectDragGestures { change, dragAmount ->
-                    change.consumeAllChanges()
-                    offsetX.value += dragAmount.x
-                    offsetY.value += dragAmount.y
+                    if (!isFrozen) {
+                        change.consumeAllChanges()
+                        offsetX += dragAmount.x
+                        offsetY += dragAmount.y
+
+                        // Check for collision with non-draggable objects
+                        val collisionDetected = checkCollision(offsetX, offsetY)
+                        if (collisionDetected) {
+                            isFrozen = true
+                            onCollision()
+                        }
+                    }
                 }
             }
-            .size(120.dp) // o el tamaño que desees para las imágenes
-            .background(Color.Transparent), // o cualquier otro color de fondo si es necesario
+            .size(120.dp)
+            .background(Color.Transparent),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -146,13 +170,56 @@ fun MultipleDraggableObject(imageRes: Int, modifier: Modifier = Modifier) {
 }
 
 @Composable
+fun NonDraggableObject(imageRes: Int, modifier: Modifier = Modifier) {
+    Box(
+        modifier = modifier
+            .size(120.dp)
+            .background(Color.Transparent),
+        contentAlignment = Alignment.Center
+    ) {
+        Image(
+            painter = painterResource(id = imageRes),
+            contentDescription = "Non-Draggable Image"
+        )
+    }
+}
+
+
+// Function to check for collision with non-draggable objects
+fun checkCollision(offsetX: Float, offsetY: Float): Boolean {
+    // Adjust these values based on your layout and collision criteria
+    val collisionThreshold = 60.dp
+    val nonDraggableObjects = listOf(
+        Offset(800f, 300f),
+        Offset(800f, 300f),
+        // Add more non-draggable object positions as needed
+    )
+
+    for (nonDraggableObject in nonDraggableObjects) {
+        if (offsetX < nonDraggableObject.x + collisionThreshold.value &&
+            offsetX + collisionThreshold.value > nonDraggableObject.x &&
+            offsetY < nonDraggableObject.y + collisionThreshold.value &&
+            offsetY + collisionThreshold.value > nonDraggableObject.y
+        ) {
+            return true
+        }
+    }
+
+    return false
+}
+
+
+@Composable
 fun BackButtonN3() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        verticalAlignment = Alignment.Top) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
+        verticalAlignment = Alignment.Top
+    ) {
         val context = LocalContext.current
-        Button( // Regresar a pantalla SeleccionNivel
+        Button(
+            // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
                 context.startActivity(
@@ -162,8 +229,8 @@ fun BackButtonN3() {
                     )
                 )
             },
-            colors = ButtonDefaults.buttonColors(Orange)
-        ){
+            colors = ButtonDefaults.buttonColors(Color.Red)
+        ) {
             Text(
                 "Atrás",
                 style = TextStyle(fontSize = 35.sp)
