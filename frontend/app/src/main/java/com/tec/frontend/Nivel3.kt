@@ -190,8 +190,7 @@ fun checkCollision(offsetX: Float, offsetY: Float): Boolean {
     // Adjust these values based on your layout and collision criteria
     val collisionThreshold = 60.dp
     val nonDraggableObjects = listOf(
-        Offset(800f, 300f),
-        Offset(800f, 300f),
+        Offset(1100f, 0f),
         // Add more non-draggable object positions as needed
     )
 
