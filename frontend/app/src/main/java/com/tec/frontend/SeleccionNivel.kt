@@ -121,12 +121,10 @@ fun NivelS(studentId: Int, studentName : String) {
                     Button( //1
                         shape = RectangleShape,
                         onClick = {
-                            context1.startActivity(
-                                Intent(
-                                    context1,
-                                    Nivel1::class.java
-                                )
-                            )
+                            val intent = Intent(context1, Nivel1::class.java)
+                            intent.putExtra("studentId", studentId)
+                            intent.putExtra("studentName", studentName)
+                            context1.startActivity(intent)
                         },
                         modifier = Modifier
 
@@ -147,12 +145,10 @@ fun NivelS(studentId: Int, studentName : String) {
                     Button( //2
                         shape = RectangleShape,
                         onClick = {
-                            context2.startActivity(
-                                Intent(
-                                    context2,
-                                    Nivel2::class.java
-                                )
-                            )
+                            val intent = Intent(context2, Nivel2::class.java)
+                            intent.putExtra("studentId", studentId)
+                            intent.putExtra("studentName", studentName)
+                            context1.startActivity(intent)
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
@@ -172,12 +168,10 @@ fun NivelS(studentId: Int, studentName : String) {
                     Button( // 3
                         shape = RectangleShape,
                         onClick = {
-                            context1.startActivity(
-                                Intent(
-                                    context3,
-                                    Nivel3::class.java
-                                )
-                            )
+                            val intent = Intent(context3, Nivel3::class.java)
+                            intent.putExtra("studentId", studentId)
+                            intent.putExtra("studentName", studentName)
+                            context1.startActivity(intent)
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
@@ -201,12 +195,10 @@ fun NivelS(studentId: Int, studentName : String) {
                         Button( // Botón existente
                             shape = RectangleShape,
                             onClick = {
-                                context1.startActivity(
-                                    Intent(
-                                        context4,
-                                        Comunicador::class.java
-                                    )
-                                )
+                                val intent = Intent(context4, Comunicador::class.java)
+                                intent.putExtra("studentId", studentId)
+                                intent.putExtra("studentName", studentName)
+                                context1.startActivity(intent)
                             },
                             modifier = Modifier
                                 .width(220.dp) // Ancho fijo para el botón Comunicador

@@ -65,7 +65,7 @@ class ComunicadorAnimales : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador(activityContext=this@ComunicadorAnimales)
+                        //BackButtonComunicador(activityContext=this@ComunicadorAnimales)
                         BarraComunicador()
                         GridAni(tts)
                     }
