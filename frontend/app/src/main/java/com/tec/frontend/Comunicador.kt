@@ -67,10 +67,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class Comunicador : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
                     //BackButtonComunicador()
                     Column(
@@ -78,8 +82,8 @@ class Comunicador : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador(activityContext=this@Comunicador)
-                        ImageGrid()
+                        BackButtonComunicador(studentId, studentName)
+                        ImageGrid(studentId)
                     }
                 }
             }
@@ -88,15 +92,19 @@ class Comunicador : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonComunicador(activityContext: ComponentActivity) {
+fun BackButtonComunicador(studentId: Int, studentName : String) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
         verticalAlignment = Alignment.Top) {
+        val context = LocalContext.current
         Button(
             shape = RectangleShape,
             onClick = {
-                activityContext.finish()
+                val intent = Intent(context, SeleccionNivel::class.java)
+                intent.putExtra("studentId", studentId)
+                intent.putExtra("studentName", studentName)
+                context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)
         ){
@@ -109,7 +117,7 @@ fun BackButtonComunicador(activityContext: ComponentActivity) {
 }
 
 @Composable
-fun ImageGrid() {
+fun ImageGrid(studentId: Int) {
     var categories by remember { mutableStateOf<List<Category>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -119,7 +127,7 @@ fun ImageGrid() {
             try {
                 // Make Retrofit API call on the background thread
                 val response = withContext(Dispatchers.IO) {
-                    RetrofitInstance.apiService.getCategory(1)
+                    RetrofitInstance.apiService.getCategory(studentId)
                 }
                 categories = response
 

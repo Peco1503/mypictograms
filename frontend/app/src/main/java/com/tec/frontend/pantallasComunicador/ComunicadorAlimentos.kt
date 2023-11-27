@@ -65,7 +65,7 @@ class ComunicadorAlimentos : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador(activityContext=this@ComunicadorAlimentos)
+                       // BackButtonComunicador(activityContext=this@ComunicadorAlimentos)
                         BarraComunicador()
                         GridAli(tts)
                     }

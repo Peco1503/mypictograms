@@ -62,7 +62,7 @@ class ComunicadorCalendario : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador(activityContext=this@ComunicadorCalendario)
+                        //BackButtonComunicador(activityContext=this@ComunicadorCalendario)
                         BarraComunicador()
                         GridCale(tts)
                     }

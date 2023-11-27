@@ -62,7 +62,7 @@ class ComunicadorOficina : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador(activityContext=this@ComunicadorOficina)
+                        // BackButtonComunicador(activityContext=this@ComunicadorOficina)
                         BarraComunicador()
                         GridOfi(tts)
                     }
