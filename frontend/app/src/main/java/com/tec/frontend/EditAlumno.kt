@@ -158,24 +158,9 @@ fun Edit(EstudianteId: Int, Nivel: Int) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    TextField(shape = RoundedCornerShape(0.dp),
-                        modifier = Modifier.border(2.dp, Color.Gray),
-                        colors = TextFieldDefaults.colors(
-                            unfocusedContainerColor = Color.White,
-                            focusedContainerColor = Color.White
-                        ),
-                        value = text1,
-                        onValueChange = {
-                            text1 = it
-                        },
-                        textStyle = TextStyle(
-                            color = Color.Black, fontSize = 50.sp
-                        ),
-                        placeholder = {
-                            Text(
-                                "Inserte nombre...", color = Color.Gray, fontSize = 50.sp
-                            )
-                        })
+                    Text(
+                        text1, fontSize = 50.sp, fontWeight = FontWeight.Medium
+                    )
                     Row(
                         modifier = Modifier.padding(top = 30.dp),
                         verticalAlignment = Alignment.CenterVertically
