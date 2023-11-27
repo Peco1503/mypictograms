@@ -99,7 +99,7 @@ categoriesRouter.get("/categories/student/:studentId", async (req, res) => {
     }
   }
 
-  res.json({ categories });
+  res.json(categories);
 });
 
 export default categoriesRouter;
