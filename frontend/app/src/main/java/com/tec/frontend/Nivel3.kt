@@ -79,13 +79,8 @@ class Nivel3 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         tts = TextToSpeech(this) { status ->
-            if (status == TextToSpeech.SUCCESS) {
-                val result = tts?.setLanguage(Locale.getDefault())
-                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                    Log.e("TTS", "Language is not supported or missing data")
-                }
-            } else {
-                Log.e("TTS", "Initialization failed")
+            if (status != TextToSpeech.ERROR) {
+                // Set the language here if needed
             }
         }
 
