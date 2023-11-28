@@ -254,6 +254,7 @@ fun PantallaInicioAlum() {
                                 val intent = Intent(context, SeleccionNivel::class.java)
                                 intent.putExtra("studentId", selectedStudent.value.id)
                                 intent.putExtra("studentName", selectedStudent.value.name)
+                                intent.putExtra("Ma", selectedStudent.value.maximumMinigameLevel)
                                 context.startActivity(intent)
                             }
                         },

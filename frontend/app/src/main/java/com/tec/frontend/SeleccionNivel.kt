@@ -47,6 +47,7 @@ class SeleccionNivel : ComponentActivity() {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -127,7 +128,6 @@ fun NivelS(studentId: Int, studentName : String) {
                             context1.startActivity(intent)
                         },
                         modifier = Modifier
-
                             .width(300.dp) // Specify the width you desire
                             .height(60.dp), //shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Orange)

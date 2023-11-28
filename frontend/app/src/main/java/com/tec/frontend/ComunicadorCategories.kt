@@ -58,6 +58,7 @@ class ComunicadorCategories : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
     private var categoryName: String = " "
+    private var imagePhrase: MutableList<Images> = mutableListOf()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +67,8 @@ class ComunicadorCategories : ComponentActivity() {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
                 categoryName = intent.getStringExtra("categoryName").toString()
+                imagePhrase = intent.getParcelableExtra("imagePhrase") as? MutableList<Images> ?: mutableListOf()
+
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -76,8 +79,8 @@ class ComunicadorCategories : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonImages(studentId, studentName)
-                        ImageGridCategories(studentId, studentName, categoryName)
+                        BackButtonImages(studentId, studentName, imagePhrase)
+                        ImageGridCategories(studentId, studentName, imagePhrase)
                     }
                 }
             }
@@ -86,7 +89,7 @@ class ComunicadorCategories : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonImages(studentId: Int, studentName : String) {
+fun BackButtonImages(studentId: Int, studentName : String, imagePhrase : MutableList<Images>) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -98,6 +101,7 @@ fun BackButtonImages(studentId: Int, studentName : String) {
                 val intent = Intent(context, Comunicador::class.java)
                 intent.putExtra("studentId", studentId)
                 intent.putExtra("studentName", studentName)
+                intent.putExtra("imagePhrase", ArrayList(imagePhrase))
                 context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)
@@ -111,7 +115,7 @@ fun BackButtonImages(studentId: Int, studentName : String) {
 }
 
 @Composable
-fun ImageGridCategories(studentId: Int, studentName: String, categoryName: String) {
+fun ImageGridCategories(studentId: Int, categoryName: String, imagePhrase : MutableList<Images>) {
     var images by remember { mutableStateOf<List<Images>>(emptyList()) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -133,7 +137,6 @@ fun ImageGridCategories(studentId: Int, studentName: String, categoryName: Strin
     }
 
 
-
     var imageLabels = listOf<String>()
     var imageIds = listOf<String>()
     //var destinations = listOf<String>()
@@ -142,12 +145,9 @@ fun ImageGridCategories(studentId: Int, studentName: String, categoryName: Strin
     //var listOfCategoryNames = arrayOf("")
     images.forEach { categorie ->
         imageLabels = imageLabels + categorie.name.toString()
-    }
-
-    //var listOfCategoryThumbnail = arrayOf("")
-    images.forEach { categorie ->
         imageIds = imageIds + categorie.url.toString()
     }
+
 
     LazyVerticalGrid(
         columns = GridCells.Fixed(3),
@@ -171,12 +171,7 @@ fun ImageGridCategories(studentId: Int, studentName: String, categoryName: Strin
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            // intent = Intent(context, ComunicadorCategories::class.java)
-                            // intent.putExtra("studentId", studentId)
-                            // intent.putExtra("studentName", studentName)
-                            // intent.putExtra("categoryName", imageLabels[index])
-                            // val intent = Intent(context, destinations[index])
-                            // context.startActivity(intent)
+                            imagePhrase.add(index, images[index])
                         }
                 )
                 Box(

@@ -36,52 +36,6 @@ fun navigateToVerbosScreen(context: Context) {
     context.startActivity(intent)
 }
 
-@Composable
-fun BarraComunicador() {
-    val accentColor = Color(0xFFFF9800)
-    val backgroundColor = Color(0xFFE0E0E0)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(0.96f)
-            .height(300.dp)
-            .background(backgroundColor) // Fondo de la barra
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        IconButton(
-            onClick = { /* TODO: Acción del icono de volumen */ },
-            modifier = Modifier
-                .size(65.dp)
-                .background(color = Color.Transparent)
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.baseline_volume_up_24),
-                contentDescription = "Icono de Volumen",
-                tint = accentColor,
-                modifier = Modifier
-                    .size(40.dp)
-            )
-        }
-        Spacer(modifier = Modifier.weight(1f))
-        Button(
-            onClick = { /* TODO: Acción del botón RESET */ },
-            colors = ButtonDefaults.buttonColors(accentColor),
-            modifier = Modifier
-                .height(50.dp)
-                .clip(RoundedCornerShape(25.dp))
-        ) {
-            Icon(
-                imageVector = Icons.Default.Refresh,
-                contentDescription = "Reset",
-                tint = Color.White
-            )
-            Text("RESET", color = Color.White, modifier = Modifier.padding(start = 8.dp))
-        }
-    }
-}
-
 class NavegationUtils : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
