@@ -277,7 +277,7 @@ fun ImageGridCategories(studentId: Int, categoryName: String) {
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            SharedViewModel.data.add(index, images[index])
+                            SharedViewModel.data.add(images[index])
                         }
                 )
                 Box(
