@@ -3,6 +3,8 @@ package com.tec.frontend
 import androidx.compose.ui.unit.dp
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -63,13 +65,27 @@ import androidx.compose.ui.input.pointer.consumeAllChanges
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.zIndex
+import java.util.Locale
 import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 
 class Nivel3 : ComponentActivity() {
+    private var tts: TextToSpeech? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this) { status ->
+            if (status == TextToSpeech.SUCCESS) {
+                val result = tts?.setLanguage(Locale.getDefault())
+                if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                    Log.e("TTS", "Language is not supported or missing data")
+                }
+            } else {
+                Log.e("TTS", "Initialization failed")
+            }
+        }
+
         setContent {
             FrontendTheme {
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -93,12 +109,12 @@ class Nivel3 : ComponentActivity() {
                                 verticalArrangement = Arrangement.spacedBy(4.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                MultipleDraggableObject(imageRes = R.drawable.tortucolor)
-                                MultipleDraggableObject(imageRes = R.drawable.serpcolor)
-                                MultipleDraggableObject(imageRes = R.drawable.pelicolor)
-                                MultipleDraggableObject(imageRes = R.drawable.lobocolor)
-                                MultipleDraggableObject(imageRes = R.drawable.cococolor)
-                                MultipleDraggableObject(imageRes = R.drawable.koalacolor)
+                                MultipleDraggableObject(imageRes = R.drawable.tortucolor) { speak("Tortuga") }
+                                MultipleDraggableObject(imageRes = R.drawable.serpcolor) { speak("Serpiente") }
+                                MultipleDraggableObject(imageRes = R.drawable.pelicolor) { speak("Pez") }
+                                MultipleDraggableObject(imageRes = R.drawable.lobocolor) { speak("Lobo") }
+                                MultipleDraggableObject(imageRes = R.drawable.cococolor) { speak("Coco") }
+                                MultipleDraggableObject(imageRes = R.drawable.koalacolor) { speak("Koala") }
                             }
                         }
 
@@ -121,6 +137,16 @@ class Nivel3 : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun speak(text: String) {
+        tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.stop()
+        tts?.shutdown()
     }
 }
 
@@ -210,15 +236,12 @@ fun checkCollision(offsetX: Float, offsetY: Float): Boolean {
 
 @Composable
 fun BackButtonN3() {
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.Top
-    ) {
+    Row(modifier = Modifier
+        .fillMaxWidth()
+        .padding(16.dp),
+        verticalAlignment = Alignment.Top) {
         val context = LocalContext.current
-        Button(
-            // Regresar a pantalla SeleccionNivel
+        Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
                 context.startActivity(
@@ -228,8 +251,8 @@ fun BackButtonN3() {
                     )
                 )
             },
-            colors = ButtonDefaults.buttonColors(Color.Red)
-        ) {
+            colors = ButtonDefaults.buttonColors(Orange)
+        ){
             Text(
                 "Atrás",
                 style = TextStyle(fontSize = 35.sp)
