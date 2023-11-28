@@ -58,7 +58,10 @@ import com.tec.frontend.ui.theme.FrontendTheme
 import coil.compose.AsyncImage
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.surfaceColorAtElevation
 import androidx.compose.runtime.LaunchedEffect
@@ -151,7 +154,6 @@ fun SubirImagenesPantalla(studentId: Int, studentName : String) {
             }
         }
     }
-
     categories.forEach { category->
         categoryNames = categoryNames + category.name.toString()
     }

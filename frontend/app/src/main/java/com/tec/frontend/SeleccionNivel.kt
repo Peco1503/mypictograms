@@ -134,8 +134,8 @@ fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
                             }
                         },
                         modifier = Modifier
-                            .width(300.dp)
-                            .height(60.dp),
+                            .width(300.dp) // Specify the width you desire
+                            .height(60.dp), //shape = RoundedCornerShape(30.dp),
                         colors = ButtonDefaults.buttonColors(Orange)
                     ) {
                         Text(
