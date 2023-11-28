@@ -85,6 +85,7 @@ npm start
 - [x] Agregar botón para ir atrás (Pedro)
 - [x] Endpoint para info del papá para galindo (Pedro)
 - [x] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
+- [ ] Dropdown list de la pantalla de edición con correo del papa (Galindo)
 
 ## Yuvan y Franco
 - [x] Drag & Drop (Yuvan)
@@ -94,11 +95,11 @@ npm start
 
 ## Galindo
 - [x] Subir imagenes a firebase (Galindo)
-- [ ] Dropdown list para el correo del papá (Galindo y Felipe)
-- [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
+- [x] Dropdown list para el correo del papá (Galindo)
+- [x] Dropdown list con el nombre para seleccionar el alumno (Galindo)
+- [x] Hacer fetch en pantalla de `Mi hij@` (Galindo)
+- [x] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
 - [ ] Estilos del dropdown en `selecciona tu nombre` (Galindo)
-- [ ] Hacer fetch en pantalla de `Mi hij@` (Galindo)
-- [ ] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
 - [ ] Corregir las diapositivas
 - [ ] Crear manual para Firebase
 - [ ] Instalar app en tu cel
