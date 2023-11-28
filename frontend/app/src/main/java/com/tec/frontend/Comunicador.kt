@@ -3,6 +3,7 @@ package com.tec.frontend
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -81,8 +82,15 @@ class Comunicador : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
     private var MaximumNivelAcesso: Int = 1
+
+    private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+                // Set the language here if needed
+            }
+        }
         setContent {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
@@ -95,12 +103,17 @@ class Comunicador : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         BackButtonComunicador(studentId, studentName, MaximumNivelAcesso)
-                        BarraComunicador()
+                        BarraComunicador(tts)
                         ImageGrid(studentId, studentName, MaximumNivelAcesso)
                     }
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
     }
 }
 
@@ -130,9 +143,22 @@ fun BackButtonComunicador(studentId: Int, studentName : String, MaximumNivelAces
         }
     }
 }
+private fun speakOut(toRead: String, tts: TextToSpeech?) {
+    tts?.speak(toRead, TextToSpeech.QUEUE_FLUSH, null, "")
+}
+
+fun textToSpeechComunicator(tts: TextToSpeech?) {
+    var stringToRead = ""
+    SharedViewModel.data.forEach{image ->
+        stringToRead = stringToRead + " " + image.name
+    }
+    speakOut(stringToRead, tts)
+    Log.d("read: ", stringToRead)
+
+}
 
 @Composable
-fun BarraComunicador() {
+fun BarraComunicador(tts: TextToSpeech?) {
     var imageIds = listOf<String>()
     var imageLabels = listOf<String>()
 
@@ -157,7 +183,7 @@ fun BarraComunicador() {
         )
         {
             IconButton(
-                onClick = { /* TODO: Acción del icono de volumen */ },
+                onClick = { textToSpeechComunicator(tts = tts) },
                 modifier = Modifier
                     .size(65.dp)
                     .background(color = Color.Transparent)
