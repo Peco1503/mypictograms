@@ -37,6 +37,9 @@ import java.util.*
 
 
 class Nivel1 : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     private var tts: TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,16 +49,18 @@ class Nivel1 : ComponentActivity() {
                 // Set the language here if needed
             }
         }
-
         setContent {
             FrontendTheme {
-                // A surface container using the 'background' color from the theme
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                     BackgroundImage1()
-                    BackButton1()
+                    BackButton1(studentId, studentName, MaximumNivelAcesso)
                     CenteredContent(tts)
                 }
             }
@@ -79,7 +84,7 @@ fun BackgroundImage1() {
 }
 
 @Composable
-fun BackButton1() {
+fun BackButton1(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -88,12 +93,15 @@ fun BackButton1() {
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        SeleccionNivel::class.java
-                    )
-                )
+                if (MaximumNivelAcesso >= 1) {
+                    val intent = Intent(context, SeleccionNivel::class.java)
+                    intent.putExtra("studentId", studentId)
+                    intent.putExtra("studentName", studentName)
+                    intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
+                    context.startActivity(intent)
+                } else {
+
+                }
             },
             colors = ButtonDefaults.buttonColors(Orange)
         ){

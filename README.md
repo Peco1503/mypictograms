@@ -85,24 +85,25 @@ npm start
 - [x] Agregar botón para ir atrás (Pedro)
 - [x] Endpoint para info del papá para galindo (Pedro)
 - [x] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
+- [ ] Dropdown list de la pantalla de edición con correo del papa (Galindo)
 
 ## Yuvan y Franco
-- [ ] Drag & Drop (Yuvan)
+- [x] Drag & Drop (Yuvan)
 - [ ] Comunicador (Franco)
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
-- [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
+- [x] Lock level access based for students based on the allowed one (Yuvan y Franco)
 
 ## Galindo
 - [x] Subir imagenes a firebase (Galindo)
-- [ ] Dropdown list para el correo del papá (Galindo y Felipe)
-- [ ] Dropdown list con el nombre para seleccionar el alumno (Galindo)
-- [ ] Estilos del dropdown en `selecciona tu nombre` (Galindo)
-- [ ] Hacer fetch en pantalla de `Mi hij@` (Galindo)
-- [ ] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
+- [x] Dropdown list para el correo del papá (Galindo)
+- [x] Dropdown list con el nombre para seleccionar el alumno (Galindo)
+- [x] Hacer fetch en pantalla de `Mi hij@` (Galindo)
+- [x] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
+- [x] Estilos del dropdown en `selecciona tu nombre` (Galindo)
+- [ ] Corregir las diapositivas
+- [ ] Crear manual para Firebase
+- [ ] Instalar app en tu cel
 
 ## Felipe
 - [ ] Dropdown categorias para subir imagenes (Felipe)
 - [ ] Quitar el harcodeo del usuario al subir la imagenes a firebase (Felipe)
-
-## Todos
-- [ ] Corregir las diapositivas

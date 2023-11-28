@@ -101,20 +101,6 @@ fun Edit(EstudianteId: Int, Nivel: Int) {
     val papas = remember { mutableStateOf(listOfPadres[0])}
     val expanded = remember { mutableStateOf(false)}
 
-    LaunchedEffect(Unit)
-    {
-        coroutineScope.launch {
-            val response = withContext(Dispatchers.IO) {
-                RetrofitInstance.apiService.getPadres()
-            }
-            padres = response
-        }
-    }
-
-    padres.forEach { padre ->
-        listOfPadres += padre.user
-    }
-
     LaunchedEffect(Unit) {
         coroutineScope.launch {
             try {
@@ -126,6 +112,18 @@ fun Edit(EstudianteId: Int, Nivel: Int) {
                 // Actualizar el estado del estudiante con la respuesta de la API
                 Estudiante = response[0]
 
+                val response2 = withContext(Dispatchers.IO) {
+                    RetrofitInstance.apiService.getPadres()
+                }
+                padres = response2
+
+                padres.forEach { padre ->
+                    if (padre.id == Estudiante.parentId) {
+                        text4 = padre.id.toString()
+                        papas.value = padre.user
+                    }
+                }
+
             } catch (e: Exception) {
                 // Handle error
                 // You can display an error message or perform other actions
@@ -133,6 +131,11 @@ fun Edit(EstudianteId: Int, Nivel: Int) {
             }
         }
     }
+
+    padres.forEach { padre ->
+        listOfPadres += padre.user
+    }
+
     text1 = Estudiante.name.toString()
     text2 = Estudiante.birthYear.toString()
     text3 = Estudiante.gender.toString()

@@ -188,7 +188,7 @@ fun PantallaInicioAlum() {
                     ExposedDropdownMenuBox(
                         modifier = Modifier
                             .width(650.dp)
-                            .border(2.dp, Color.Gray, MaterialTheme.shapes.medium),
+                            .border(2.dp, Color.Gray),
                         expanded = expanded.value,
                         onExpandedChange = {
                             expanded.value = !expanded.value
@@ -214,7 +214,7 @@ fun PantallaInicioAlum() {
                         )
                         ExposedDropdownMenu(
                             modifier = Modifier
-                                .border(2.dp, Color.Gray, MaterialTheme.shapes.medium)
+                                .border(2.dp, Color.Gray)
                                 .background(Color.White),
                             expanded = expanded.value,
                             onDismissRequest = { expanded.value = false },
@@ -224,7 +224,7 @@ fun PantallaInicioAlum() {
                                 DropdownMenuItem(
                                     modifier = Modifier
                                         .width(850.dp),
-                                    text = { Text(text = name, fontSize = 28.sp) },
+                                    text = { Text(text = name, fontSize = 35.sp, lineHeight = 35.sp, fontWeight = FontWeight.Light) },
                                     onClick = {
                                         if (index == 0) {
                                             selectedStudent.value = alumnos[0]
@@ -254,7 +254,7 @@ fun PantallaInicioAlum() {
                                 val intent = Intent(context, SeleccionNivel::class.java)
                                 intent.putExtra("studentId", selectedStudent.value.id)
                                 intent.putExtra("studentName", selectedStudent.value.name)
-                                intent.putExtra("Ma", selectedStudent.value.maximumMinigameLevel)
+                                intent.putExtra("MaximumNivelAcesso",selectedStudent.value.maximumMinigameLevel )
                                 context.startActivity(intent)
                             }
                         },
