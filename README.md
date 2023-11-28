@@ -87,7 +87,7 @@ npm start
 - [x] Fix UI polish, corner radious, puntos negros de la contraseña, botones de atras, font del mensaje de dialogo (Pedro)
 
 ## Yuvan y Franco
-- [ ] Drag & Drop (Yuvan)
+- [x] Drag & Drop (Yuvan)
 - [ ] Comunicador (Franco)
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
 - [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
@@ -99,10 +99,10 @@ npm start
 - [ ] Estilos del dropdown en `selecciona tu nombre` (Galindo)
 - [ ] Hacer fetch en pantalla de `Mi hij@` (Galindo)
 - [ ] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
+- [ ] Corregir las diapositivas
+- [ ] Crear manual para Firebase
+- [ ] Instalar app en tu cel
 
 ## Felipe
 - [ ] Dropdown categorias para subir imagenes (Felipe)
 - [ ] Quitar el harcodeo del usuario al subir la imagenes a firebase (Felipe)
-
-## Todos
-- [ ] Corregir las diapositivas
