@@ -42,6 +42,9 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class Pantalla4N2 : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     private var tts: TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,9 +56,12 @@ class Pantalla4N2 : ComponentActivity() {
         }
         setContent {
             FrontendTheme {
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 Surface(modifier = Modifier.fillMaxSize()){
                     BackgroundImage4(tts)
-                    BackButton4()
+                    BackButtonBubble(studentId, studentName, MaximumNivelAcesso)
                     CenteredContent4(tts)
                 }
             }
@@ -64,34 +70,6 @@ class Pantalla4N2 : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         tts?.shutdown()
-    }
-}
-
-
-@Composable
-fun BackButton4() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        verticalAlignment = Alignment.Top) {
-        val context = LocalContext.current
-        Button( // Regresar a pantalla SeleccionNivel
-            shape = RectangleShape,
-            onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        Nivel2::class.java
-                    )
-                )
-            },//shape = RoundedCornerShape(30.dp),
-            colors = ButtonDefaults.buttonColors(Orange)
-        ){
-            Text(
-                "Atrás",
-                style = TextStyle(fontSize = 35.sp)
-            )
-        }
     }
 }
 

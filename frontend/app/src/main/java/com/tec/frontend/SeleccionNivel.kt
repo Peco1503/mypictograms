@@ -127,6 +127,7 @@ fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
                                 val intent = Intent(context1, Nivel1::class.java)
                                 intent.putExtra("studentId", studentId)
                                 intent.putExtra("studentName", studentName)
+                                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                                 context1.startActivity(intent)
                             } else {
                                 ErrorDialog.show(context1, "No puedes acceder a este nivel")
@@ -153,6 +154,7 @@ fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
                                 val intent = Intent(context1, Nivel2::class.java)
                                 intent.putExtra("studentId", studentId)
                                 intent.putExtra("studentName", studentName)
+                                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                                 context1.startActivity(intent)
                             } else {
 
@@ -181,6 +183,7 @@ fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
                                 val intent = Intent(context1, Nivel3::class.java)
                                 intent.putExtra("studentId", studentId)
                                 intent.putExtra("studentName", studentName)
+                                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                                 context1.startActivity(intent)
                             } else {
 
@@ -213,6 +216,7 @@ fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
                                     val intent = Intent(context4, Comunicador::class.java)
                                     intent.putExtra("studentId", studentId)
                                     intent.putExtra("studentName", studentName)
+                                    intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                                     context1.startActivity(intent)
                                 } else {
 
@@ -242,6 +246,7 @@ fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
                                     val intent = Intent(context5, SubirImagenes::class.java)
                                     intent.putExtra("studentId", studentId)
                                     intent.putExtra("studentName", studentName)
+                                    intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                                     context1.startActivity(intent)
                                 } else {
                                     ErrorDialog.show(context1, "No puedes acceder a este nivel")

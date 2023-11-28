@@ -57,7 +57,7 @@ class Nivel2 : ComponentActivity() {
                 Surface(modifier = Modifier.fillMaxSize()) {
                     BackgroundImage()
                     BackButton(studentId, studentName, MaximumNivelAcesso)
-                    RandomBubbles()
+                    RandomBubbles(modifier = Modifier, studentId, studentName, MaximumNivelAcesso)
                 }
             }
         }
@@ -74,15 +74,11 @@ fun BackButton(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
-                if (MaximumNivelAcesso >= 2) {
-                    val intent = Intent(context, SeleccionNivel::class.java)
-                    intent.putExtra("studentId", studentId)
-                    intent.putExtra("studentName", studentName)
-                    intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
-                    context.startActivity(intent)
-                } else {
-
-                }
+                val intent = Intent(context, SeleccionNivel::class.java)
+                intent.putExtra("studentId", studentId)
+                intent.putExtra("studentName", studentName)
+                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
+                context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)
         ){
@@ -106,7 +102,7 @@ fun BackgroundImage() {
 }
 
 @Composable
-fun RandomBubbles(modifier: Modifier = Modifier) {
+fun RandomBubbles(modifier: Modifier = Modifier, studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     val context = LocalContext.current
     val bubbles = remember { mutableStateListOf<Bubble>() }
     val bubblePainter: Painter = painterResource(id = R.drawable.burbuja)
@@ -145,6 +141,9 @@ fun RandomBubbles(modifier: Modifier = Modifier) {
                         val randomIndex = Random.nextInt(pantallas.size)
                         val nextPantalla = pantallas[randomIndex]
                         val intent = Intent(context, nextPantalla)
+                        intent.putExtra("studentId", studentId)
+                        intent.putExtra("studentName", studentName)
+                        intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                         context.startActivity(intent)
                     }
             )
@@ -166,14 +165,3 @@ fun Modifier.randomBubbleModifier(bubble: Bubble): Modifier = this.then(
     }
 )
 
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FrontendTheme {
-        Surface(modifier = Modifier.fillMaxSize()) {
-            BackgroundImage()
-            RandomBubbles()
-        }
-    }
-}

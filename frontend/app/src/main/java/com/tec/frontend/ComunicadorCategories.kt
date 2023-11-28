@@ -69,6 +69,7 @@ class ComunicadorCategories : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
     private var categoryName: String = " "
+    private var MaximumNivelAcesso: Int = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,6 +78,7 @@ class ComunicadorCategories : ComponentActivity() {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
                 categoryName = intent.getStringExtra("categoryName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
 
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -88,7 +90,7 @@ class ComunicadorCategories : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonImages(studentId, studentName)
+                        BackButtonImages(studentId, studentName, MaximumNivelAcesso)
                         ImageGridCategories(studentId, categoryName)
                     }
                 }
@@ -98,7 +100,7 @@ class ComunicadorCategories : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonImages(studentId: Int, studentName : String) {
+fun BackButtonImages(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -110,6 +112,7 @@ fun BackButtonImages(studentId: Int, studentName : String) {
                 val intent = Intent(context, Comunicador::class.java)
                 intent.putExtra("studentId", studentId)
                 intent.putExtra("studentName", studentName)
+                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                 context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)

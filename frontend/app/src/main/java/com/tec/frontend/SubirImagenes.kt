@@ -80,18 +80,20 @@ import kotlinx.coroutines.withContext
 class SubirImagenes : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     SubirImagenesPantalla(studentId, studentName)
-                    BackButtonUI(studentId, studentName)
+                    BackButtonUI(studentId, studentName, MaximumNivelAcesso)
                 }
             }
         }
@@ -99,7 +101,7 @@ class SubirImagenes : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonUI(studentId: Int, studentName : String) {
+fun BackButtonUI(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -111,6 +113,7 @@ fun BackButtonUI(studentId: Int, studentName : String) {
                 val intent = Intent(context, SeleccionNivel::class.java)
                 intent.putExtra("studentId", studentId)
                 intent.putExtra("studentName", studentName)
+                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                 context.startActivity(intent)
             }, colors = ButtonDefaults.buttonColors(Orange)
         ) {

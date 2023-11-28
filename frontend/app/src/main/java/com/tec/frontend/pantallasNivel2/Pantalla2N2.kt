@@ -42,6 +42,9 @@ import com.tec.frontend.R
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class Pantalla2N2 : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +55,12 @@ class Pantalla2N2 : ComponentActivity() {
         }
         setContent {
             FrontendTheme {
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 Surface(modifier = Modifier.fillMaxSize()){
                     BackgroundImage2(tts)
-                    BackButton2()
+                    BackButtonBubble(studentId, studentName, MaximumNivelAcesso)
                     CenteredContent2(tts)
                 }
             }
@@ -66,33 +72,6 @@ class Pantalla2N2 : ComponentActivity() {
     }
 }
 
-
-@Composable
-fun BackButton2() {
-    Row(modifier = Modifier
-        .fillMaxWidth()
-        .padding(16.dp),
-        verticalAlignment = Alignment.Top) {
-        val context = LocalContext.current
-        Button( // Regresar a pantalla SeleccionNivel
-            shape = RectangleShape,
-            onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        Nivel2::class.java
-                    )
-                )
-            },
-            colors = ButtonDefaults.buttonColors(Orange)
-        ){
-            Text(
-                "Atrás",
-                style = TextStyle(fontSize = 35.sp)
-            )
-        }
-    }
-}
 @Composable
 fun BackgroundImage2(tts: TextToSpeech?) {
     val context = LocalContext.current
