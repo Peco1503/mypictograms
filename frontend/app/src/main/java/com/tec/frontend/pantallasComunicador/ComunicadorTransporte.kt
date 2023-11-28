@@ -65,7 +65,7 @@ class ComunicadorTransporte : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         // BackButtonComunicador(activityContext=this@ComunicadorTransporte)
-                        BarraComunicador()
+                        // BarraComunicador()
                         GridTrans(tts)
                     }
                 }

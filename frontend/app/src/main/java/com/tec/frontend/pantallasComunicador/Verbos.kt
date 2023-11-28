@@ -56,7 +56,7 @@ class Verbos : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BarraComunicador()
+                        // BarraComunicador()
                         GridVerbos()
                     }
                 }

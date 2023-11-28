@@ -65,7 +65,7 @@ class ComunicadorClima : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                        // BackButtonComunicador(activityContext=this@ComunicadorClima)
-                        BarraComunicador()
+                        //BarraComunicador()
                         GridCli(tts)
                     }
                 }
