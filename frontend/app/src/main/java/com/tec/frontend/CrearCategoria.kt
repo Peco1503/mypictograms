@@ -58,6 +58,7 @@ import com.tec.frontend.util.ImageUploader
 class CrearCategoria : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -65,11 +66,12 @@ class CrearCategoria : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
                     CrearCategoriaPantalla(studentId, studentName)
-                    BackButtonCC(studentId, studentName)
+                    BackButtonCC(studentId, studentName, MaximumNivelAcesso)
                 }
             }
         }
@@ -77,7 +79,7 @@ class CrearCategoria : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonCC(studentId: Int, studentName : String) {
+fun BackButtonCC(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -90,6 +92,7 @@ fun BackButtonCC(studentId: Int, studentName : String) {
                 val intent = Intent(context, SubirImagenes::class.java)
                 intent.putExtra("studentId", studentId)
                 intent.putExtra("studentName", studentName)
+                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                 context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)

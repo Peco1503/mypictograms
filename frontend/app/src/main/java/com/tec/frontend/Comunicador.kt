@@ -80,21 +80,23 @@ import kotlinx.coroutines.withContext
 class Comunicador : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonComunicador(studentId, studentName)
+                        BackButtonComunicador(studentId, studentName, MaximumNivelAcesso)
                         BarraComunicador()
-                        ImageGrid(studentId, studentName)
+                        ImageGrid(studentId, studentName, MaximumNivelAcesso)
                     }
                 }
             }
@@ -103,7 +105,7 @@ class Comunicador : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonComunicador(studentId: Int, studentName : String) {
+fun BackButtonComunicador(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -115,6 +117,8 @@ fun BackButtonComunicador(studentId: Int, studentName : String) {
                 val intent = Intent(context, SeleccionNivel::class.java)
                 intent.putExtra("studentId", studentId)
                 intent.putExtra("studentName", studentName)
+                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
+                SharedViewModel.data.clear()
                 context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)
@@ -232,7 +236,7 @@ fun BarraComunicador() {
 
 
 @Composable
-fun ImageGrid(studentId: Int, studentName: String) {
+fun ImageGrid(studentId: Int, studentName: String, MaximumNivelAcesso: Int) {
     var categories by remember { mutableStateOf<List<Category>>(emptyList()) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -292,6 +296,7 @@ fun ImageGrid(studentId: Int, studentName: String) {
                             intent.putExtra("studentId", studentId)
                             intent.putExtra("studentName", studentName)
                             intent.putExtra("categoryName", imageLabels[index])
+                            intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                             //val intent = Intent(context, destinations[index])
                             context.startActivity(intent)
                         }

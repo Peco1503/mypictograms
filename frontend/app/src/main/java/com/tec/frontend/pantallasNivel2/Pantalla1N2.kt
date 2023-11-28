@@ -43,6 +43,10 @@ import com.tec.frontend.SeleccionNivel
 import com.tec.frontend.ui.theme.FrontendTheme
 
 class Pantalla1N2 : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
+
     private var tts: TextToSpeech? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,9 +57,12 @@ class Pantalla1N2 : ComponentActivity() {
         }
         setContent {
             FrontendTheme {
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 Surface(modifier = Modifier.fillMaxSize()){
                     BackgroundImage(tts)
-                    BackButton()
+                    BackButtonBubble(studentId, studentName, MaximumNivelAcesso)
                     CenteredContent(tts)
                 }
             }
@@ -68,7 +75,7 @@ class Pantalla1N2 : ComponentActivity() {
 }
 
 @Composable
-fun BackButton() {
+fun BackButtonBubble(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -77,12 +84,11 @@ fun BackButton() {
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        Nivel2::class.java
-                    )
-                )
+                val intent = Intent(context, Nivel2::class.java)
+                intent.putExtra("studentId", studentId)
+                intent.putExtra("studentName", studentName)
+                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
+                context.startActivity(intent)
             }, //shape = RoundedCornerShape(30.dp),
             colors = ButtonDefaults.buttonColors(Orange)
         ){
