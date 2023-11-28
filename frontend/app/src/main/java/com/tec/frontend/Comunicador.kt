@@ -80,14 +80,12 @@ import kotlinx.coroutines.withContext
 class Comunicador : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
-    private var imagePhrase: MutableList<Images> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
-                imagePhrase = intent.getParcelableExtra("imagePhrase") as? MutableList<Images> ?: mutableListOf()
                 Surface(modifier = Modifier.fillMaxSize(), color = Color(0xFF4169CF)) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
@@ -95,8 +93,8 @@ class Comunicador : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         BackButtonComunicador(studentId, studentName)
-                        BarraComunicador(imagePhrase)
-                        ImageGrid(studentId, studentName, imagePhrase)
+                        BarraComunicador()
+                        ImageGrid(studentId, studentName)
                     }
                 }
             }
@@ -130,11 +128,11 @@ fun BackButtonComunicador(studentId: Int, studentName : String) {
 }
 
 @Composable
-fun BarraComunicador(imagePhrase : MutableList<Images>) {
+fun BarraComunicador() {
     var imageIds = listOf<String>()
     var imageLabels = listOf<String>()
 
-    imagePhrase.forEach { image ->
+    SharedViewModel.data.forEach { image ->
         imageIds = imageIds + image.url.toString()
         imageLabels = imageLabels + image.name.toString()
     }
@@ -170,7 +168,9 @@ fun BarraComunicador(imagePhrase : MutableList<Images>) {
             }
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { /* TODO: Acción del botón RESET */ },
+                onClick = {
+                    SharedViewModel.data.clear()
+                },
                 colors = ButtonDefaults.buttonColors(Color(0xFFFF9800)),
                 modifier = Modifier
                     .height(50.dp)
@@ -188,7 +188,7 @@ fun BarraComunicador(imagePhrase : MutableList<Images>) {
             rows = GridCells.Fixed(1),
             contentPadding = PaddingValues(16.dp)
         ) {
-            items(imagePhrase.size) { index ->
+            items(SharedViewModel.data.size) { index ->
                 Column(
                     modifier = Modifier.padding(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -232,7 +232,7 @@ fun BarraComunicador(imagePhrase : MutableList<Images>) {
 
 
 @Composable
-fun ImageGrid(studentId: Int, studentName: String, imagePhrase : MutableList<Images>) {
+fun ImageGrid(studentId: Int, studentName: String) {
     var categories by remember { mutableStateOf<List<Category>>(emptyList()) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -292,7 +292,6 @@ fun ImageGrid(studentId: Int, studentName: String, imagePhrase : MutableList<Ima
                             intent.putExtra("studentId", studentId)
                             intent.putExtra("studentName", studentName)
                             intent.putExtra("categoryName", imageLabels[index])
-                            intent.putExtra("imagePhrase", ArrayList(imagePhrase))
                             //val intent = Intent(context, destinations[index])
                             context.startActivity(intent)
                         }

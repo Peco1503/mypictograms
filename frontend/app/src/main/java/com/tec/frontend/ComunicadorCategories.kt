@@ -73,12 +73,10 @@ class ComunicadorCategories : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            var imagePhrase by remember { mutableStateOf<List<Images>>(emptyList()) }
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
                 categoryName = intent.getStringExtra("categoryName").toString()
-                imagePhrase = intent.getParcelableExtra("imagePhrase") as? MutableList<Images> ?: mutableListOf()
 
                 // A surface container using the 'background' color from the theme
                 Surface(
@@ -90,8 +88,8 @@ class ComunicadorCategories : ComponentActivity() {
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        BackButtonImages(studentId, studentName, imagePhrase)
-                        ImageGridCategories(studentId, categoryName, imagePhrase)
+                        BackButtonImages(studentId, studentName)
+                        ImageGridCategories(studentId, categoryName)
                     }
                 }
             }
@@ -100,7 +98,7 @@ class ComunicadorCategories : ComponentActivity() {
 }
 
 @Composable
-fun BackButtonImages(studentId: Int, studentName : String, imagePhrase : List<Images>) {
+fun BackButtonImages(studentId: Int, studentName : String) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -112,7 +110,6 @@ fun BackButtonImages(studentId: Int, studentName : String, imagePhrase : List<Im
                 val intent = Intent(context, Comunicador::class.java)
                 intent.putExtra("studentId", studentId)
                 intent.putExtra("studentName", studentName)
-                intent.putExtra("imagePhrase", ArrayList(imagePhrase))
                 context.startActivity(intent)
             },
             colors = ButtonDefaults.buttonColors(Orange)
@@ -126,12 +123,12 @@ fun BackButtonImages(studentId: Int, studentName : String, imagePhrase : List<Im
 }
 
 @Composable
-fun ImageGridCategories(studentId: Int, categoryName: String, imagePhrase : List<Images>) {
+fun ImageGridCategories(studentId: Int, categoryName: String) {
 
     var imageIdsPhrase = listOf<String>()
     var imageLabelsPhrase = listOf<String>()
 
-    imagePhrase.forEach { image ->
+    SharedViewModel.data.forEach { image ->
         imageIdsPhrase = imageIdsPhrase + image.url.toString()
         imageLabelsPhrase = imageLabelsPhrase + image.name.toString()
     }
@@ -167,7 +164,7 @@ fun ImageGridCategories(studentId: Int, categoryName: String, imagePhrase : List
             }
             Spacer(modifier = Modifier.weight(1f))
             Button(
-                onClick = { /* TODO: Acción del botón RESET */ },
+                onClick = { SharedViewModel.data.clear() },
                 colors = ButtonDefaults.buttonColors(Color(0xFFFF9800)),
                 modifier = Modifier
                     .height(50.dp)
@@ -185,7 +182,7 @@ fun ImageGridCategories(studentId: Int, categoryName: String, imagePhrase : List
             rows = GridCells.Fixed(1),
             contentPadding = PaddingValues(16.dp)
         ) {
-            items(imagePhrase.size) { index ->
+            items(SharedViewModel.data.size) { index ->
                 Column(
                     modifier = Modifier.padding(8.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -280,7 +277,7 @@ fun ImageGridCategories(studentId: Int, categoryName: String, imagePhrase : List
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
-                            imagePhrase.add(index, images[index])
+                            SharedViewModel.data.add(index, images[index])
                         }
                 )
                 Box(
