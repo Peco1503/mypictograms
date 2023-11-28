@@ -67,7 +67,7 @@ class ComunicadorSalud : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         // BackButtonComunicador(activityContext=this@ComunicadorSalud)
-                        BarraComunicador()
+                        // BarraComunicador()
                         GridSalud(tts)
                     }
                 }

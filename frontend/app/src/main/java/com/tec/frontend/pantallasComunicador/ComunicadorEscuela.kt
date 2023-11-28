@@ -76,7 +76,7 @@ class ComunicadorEscuela : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         // BackButtonComunicador(activityContext=this@ComunicadorEscuela)
-                        BarraComunicador()
+                        // BarraComunicador()
                         GridEscuela(tts)
                     }
                 }
