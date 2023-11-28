@@ -3,6 +3,7 @@ package com.tec.frontend
 import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -71,8 +72,15 @@ class ComunicadorCategories : ComponentActivity() {
     private var categoryName: String = " "
     private var MaximumNivelAcesso: Int = 1
 
+    private var tts: TextToSpeech? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        tts = TextToSpeech(this) { status ->
+            if (status != TextToSpeech.ERROR) {
+                // Set the language here if needed
+            }
+        }
         setContent {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
@@ -91,11 +99,16 @@ class ComunicadorCategories : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         BackButtonImages(studentId, studentName, MaximumNivelAcesso)
+                        BarraComunicador(tts = tts)
                         ImageGridCategories(studentId, categoryName)
                     }
                 }
             }
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        tts?.shutdown()
     }
 }
 
@@ -127,105 +140,6 @@ fun BackButtonImages(studentId: Int, studentName : String, MaximumNivelAcesso: I
 
 @Composable
 fun ImageGridCategories(studentId: Int, categoryName: String) {
-
-    var imageIdsPhrase = listOf<String>()
-    var imageLabelsPhrase = listOf<String>()
-
-    SharedViewModel.data.forEach { image ->
-        imageIdsPhrase = imageIdsPhrase + image.url.toString()
-        imageLabelsPhrase = imageLabelsPhrase + image.name.toString()
-    }
-    Row(
-        modifier = Modifier
-            .fillMaxWidth(0.96f)
-            .height(150.dp)
-            .background(Color(0xFFE0E0E0)) // Fondo de la barra
-            .padding(horizontal = 16.dp, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    )
-    {
-        Column(
-            modifier = Modifier.padding(8.dp),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        )
-        {
-            IconButton(
-                onClick = { /* TODO: Acción del icono de volumen */ },
-                modifier = Modifier
-                    .size(65.dp)
-                    .background(color = Color.Transparent)
-            ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.baseline_volume_up_24),
-                    contentDescription = "Icono de Volumen",
-                    tint = Color(0xFFFF9800),
-                    modifier = Modifier
-                        .size(40.dp)
-                )
-            }
-            Spacer(modifier = Modifier.weight(1f))
-            Button(
-                onClick = { SharedViewModel.data.clear() },
-                colors = ButtonDefaults.buttonColors(Color(0xFFFF9800)),
-                modifier = Modifier
-                    .height(50.dp)
-                    .clip(RoundedCornerShape(25.dp))
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Refresh,
-                    contentDescription = "Reset",
-                    tint = Color.White
-                )
-                Text("RESET", color = Color.White, modifier = Modifier.padding(start = 8.dp))
-            }
-        }
-        LazyHorizontalGrid(
-            rows = GridCells.Fixed(1),
-            contentPadding = PaddingValues(16.dp)
-        ) {
-            items(SharedViewModel.data.size) { index ->
-                Column(
-                    modifier = Modifier.padding(8.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(
-                            ImageRequest.Builder(LocalContext.current).data(data = imageIdsPhrase[index])
-                                .apply(block = fun ImageRequest.Builder.() {
-                                    crossfade(true)
-                                }).build()
-                        ),
-                        contentDescription = imageLabelsPhrase[index],
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .aspectRatio(1f)
-                            .clip(RoundedCornerShape(10.dp))
-                    )
-                    Box(
-                        contentAlignment = Alignment.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp)
-                            .background(Color.Black.copy(alpha = 0.5f), RoundedCornerShape(4.dp))
-                    ) {
-                        Text(
-                            text = imageLabelsPhrase[index],
-                            textAlign = TextAlign.Center,
-                            style = MaterialTheme.typography.bodyMedium.copy(
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 20.sp,
-                                letterSpacing = 1.5.sp
-                            ),
-                            color = Color.White
-                        )
-                    }
-                }
-            }
-        }
-    }
-
     var images by remember { mutableStateOf<List<Images>>(emptyList()) }
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
