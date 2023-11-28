@@ -41,18 +41,20 @@ import com.tec.frontend.ui.theme.FrontendTheme
 class SeleccionNivel : ComponentActivity() {
     private var studentId: Int = -1
     private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    NivelS(studentId, studentName)
+                    NivelS(studentId, studentName,MaximumNivelAcesso)
                     BackButtonSN()
                 }
             }
@@ -88,7 +90,7 @@ fun BackButtonSN() {
 }
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NivelS(studentId: Int, studentName : String) {
+fun NivelS(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = Color(0xFF4169CF)
@@ -118,37 +120,44 @@ fun NivelS(studentId: Int, studentName : String) {
                     )
                     Spacer(modifier = Modifier.height(50.dp))
                     val context1 = LocalContext.current
-                    Button( //1
+                    Button(
                         shape = RectangleShape,
                         onClick = {
-                            val intent = Intent(context1, Nivel1::class.java)
-                            intent.putExtra("studentId", studentId)
-                            intent.putExtra("studentName", studentName)
-                            context1.startActivity(intent)
+                            if (MaximumNivelAcesso >= 1) {
+                                val intent = Intent(context1, Nivel1::class.java)
+                                intent.putExtra("studentId", studentId)
+                                intent.putExtra("studentName", studentName)
+                                context1.startActivity(intent)
+                            } else {
+                                ErrorDialog.show(context1, "No puedes acceder a este nivel")
+
+                            }
                         },
                         modifier = Modifier
-
-                            .width(300.dp) // Specify the width you desire
-                            .height(60.dp), //shape = RoundedCornerShape(30.dp),
+                            .width(300.dp)
+                            .height(60.dp),
                         colors = ButtonDefaults.buttonColors(Orange)
-
                     ) {
                         Text(
                             "Nivel 1",
                             style = TextStyle(fontSize = 25.sp),
                             fontWeight = FontWeight.SemiBold
                         )
-
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     val context2 = LocalContext.current
                     Button( //2
                         shape = RectangleShape,
                         onClick = {
-                            val intent = Intent(context2, Nivel2::class.java)
-                            intent.putExtra("studentId", studentId)
-                            intent.putExtra("studentName", studentName)
-                            context1.startActivity(intent)
+                            if (MaximumNivelAcesso >= 2) {
+                                val intent = Intent(context1, Nivel2::class.java)
+                                intent.putExtra("studentId", studentId)
+                                intent.putExtra("studentName", studentName)
+                                context1.startActivity(intent)
+                            } else {
+
+                                ErrorDialog.show(context1, "No puedes acceder a este nivel")
+                            }
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
@@ -168,10 +177,15 @@ fun NivelS(studentId: Int, studentName : String) {
                     Button( // 3
                         shape = RectangleShape,
                         onClick = {
-                            val intent = Intent(context3, Nivel3::class.java)
-                            intent.putExtra("studentId", studentId)
-                            intent.putExtra("studentName", studentName)
-                            context1.startActivity(intent)
+                            if (MaximumNivelAcesso >= 3) {
+                                val intent = Intent(context1, Nivel3::class.java)
+                                intent.putExtra("studentId", studentId)
+                                intent.putExtra("studentName", studentName)
+                                context1.startActivity(intent)
+                            } else {
+
+                                ErrorDialog.show(context1, "No puedes acceder a este nivel")
+                            }
                         },
                         modifier = Modifier
                             .width(300.dp) // Specify the width you desire
@@ -195,10 +209,16 @@ fun NivelS(studentId: Int, studentName : String) {
                         Button( // Botón existente
                             shape = RectangleShape,
                             onClick = {
-                                val intent = Intent(context4, Comunicador::class.java)
-                                intent.putExtra("studentId", studentId)
-                                intent.putExtra("studentName", studentName)
-                                context1.startActivity(intent)
+                                if (MaximumNivelAcesso >= 4) {
+                                    val intent = Intent(context4, Comunicador::class.java)
+                                    intent.putExtra("studentId", studentId)
+                                    intent.putExtra("studentName", studentName)
+                                    context1.startActivity(intent)
+                                } else {
+
+                                    ErrorDialog.show(context1, "No puedes acceder a este nivel")
+
+                                }
                             },
                             modifier = Modifier
                                 .width(220.dp) // Ancho fijo para el botón Comunicador
@@ -218,10 +238,14 @@ fun NivelS(studentId: Int, studentName : String) {
                         Button( // Nuevo botón
                             shape = RectangleShape,
                             onClick = {
-                                val intent = Intent(context5, SubirImagenes::class.java)
-                                intent.putExtra("studentId", studentId)
-                                intent.putExtra("studentName", studentName)
-                                context1.startActivity(intent)
+                                if (MaximumNivelAcesso >= 4) {
+                                    val intent = Intent(context5, SubirImagenes::class.java)
+                                    intent.putExtra("studentId", studentId)
+                                    intent.putExtra("studentName", studentName)
+                                    context1.startActivity(intent)
+                                } else {
+                                    ErrorDialog.show(context1, "No puedes acceder a este nivel")
+                                }
                             },
                             modifier = Modifier
                                 .width(64.dp) // Ancho fijo para el nuevo botón

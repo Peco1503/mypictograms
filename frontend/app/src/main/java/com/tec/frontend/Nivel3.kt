@@ -71,6 +71,9 @@ import kotlin.math.sqrt
 
 
 class Nivel3 : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     private var tts: TextToSpeech? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,9 +91,13 @@ class Nivel3 : ComponentActivity() {
 
         setContent {
             FrontendTheme {
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
+
                 Box(modifier = Modifier.fillMaxSize()) {
                     BackgroundImageN3()
-                    BackButtonN3()
+                    BackButtonN3(studentId, studentName, MaximumNivelAcesso)
 
                     Row(
                         modifier = Modifier
@@ -235,7 +242,7 @@ fun checkCollision(offsetX: Float, offsetY: Float): Boolean {
 
 
 @Composable
-fun BackButtonN3() {
+fun BackButtonN3(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -244,12 +251,15 @@ fun BackButtonN3() {
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        SeleccionNivel::class.java
-                    )
-                )
+                if (MaximumNivelAcesso >= 3) {
+                    val intent = Intent(context, SeleccionNivel::class.java)
+                    intent.putExtra("studentId", studentId)
+                    intent.putExtra("studentName", studentName)
+                    intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
+                    context.startActivity(intent)
+                } else {
+
+                }
             },
             colors = ButtonDefaults.buttonColors(Orange)
         ){

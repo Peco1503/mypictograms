@@ -43,14 +43,20 @@ import kotlin.random.Random
 data class Bubble(val x: Float, val y: Float)
 
 class Nivel2 : ComponentActivity() {
+    private var studentId: Int = -1
+    private var studentName: String = " "
+    private var MaximumNivelAcesso: Int = 1
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FrontendTheme {
-                // A surface container using the full size of the screen
+                studentId = intent.getIntExtra("studentId", -1)
+                studentName = intent.getStringExtra("studentName").toString()
+                MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
+
                 Surface(modifier = Modifier.fillMaxSize()) {
                     BackgroundImage()
-                    BackButton()
+                    BackButton(studentId, studentName, MaximumNivelAcesso)
                     RandomBubbles()
                 }
             }
@@ -59,7 +65,7 @@ class Nivel2 : ComponentActivity() {
 }
 
 @Composable
-fun BackButton() {
+fun BackButton(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
     Row(modifier = Modifier
         .fillMaxWidth()
         .padding(16.dp),
@@ -68,12 +74,15 @@ fun BackButton() {
         Button( // Regresar a pantalla SeleccionNivel
             shape = RectangleShape,
             onClick = {
-                context.startActivity(
-                    Intent(
-                        context,
-                        SeleccionNivel::class.java
-                    )
-                )
+                if (MaximumNivelAcesso >= 2) {
+                    val intent = Intent(context, SeleccionNivel::class.java)
+                    intent.putExtra("studentId", studentId)
+                    intent.putExtra("studentName", studentName)
+                    intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
+                    context.startActivity(intent)
+                } else {
+
+                }
             },
             colors = ButtonDefaults.buttonColors(Orange)
         ){
