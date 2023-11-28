@@ -85,7 +85,7 @@ class Comunicador : ComponentActivity() {
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         BackButtonComunicador(studentId, studentName)
-                        ImageGrid(studentId)
+                        ImageGrid(studentId, studentName)
                     }
                 }
             }
@@ -119,7 +119,7 @@ fun BackButtonComunicador(studentId: Int, studentName : String) {
 }
 
 @Composable
-fun ImageGrid(studentId: Int) {
+fun ImageGrid(studentId: Int, studentName: String) {
     var categories by remember { mutableStateOf<List<Category>>(emptyList()) }
 
     val coroutineScope = rememberCoroutineScope()
@@ -140,25 +140,11 @@ fun ImageGrid(studentId: Int) {
         }
     }
 
-    var imagesCategories by remember { mutableStateOf<List<Images>>(emptyList()) }
-    LaunchedEffect(Unit) {
-        coroutineScope.launch {
-            try {
-                // Make Retrofit API call on the background thread
-                val response = withContext(Dispatchers.IO) {
-                    RetrofitInstance.apiService.getComunicadorCategory("Animales")
-                }
-                imagesCategories = response
 
-            } catch (e: Exception) {
-                Log.d(ContentValues.TAG, e.toString())
-            }
-        }
-    }
 
     var imageLabels = listOf<String>()
     var imageIds = listOf<String>()
-    var destinations = listOf<String>()
+    //var destinations = listOf<String>()
 
     // Variables para Category
     //var listOfCategoryNames = arrayOf("")
@@ -169,10 +155,6 @@ fun ImageGrid(studentId: Int) {
     //var listOfCategoryThumbnail = arrayOf("")
     categories.forEach { categorie ->
         imageIds = imageIds + categorie.thumbnail.toString()
-    }
-
-    imagesCategories.forEach { imgsCat ->
-        destinations = destinations + (imgsCat.url ?: "")
     }
 
 
@@ -210,8 +192,12 @@ fun ImageGrid(studentId: Int) {
                         .aspectRatio(1f)
                         .clip(RoundedCornerShape(10.dp))
                         .clickable {
+                            val intent = Intent(context, ComunicadorCategories::class.java)
+                            intent.putExtra("studentId", studentId)
+                            intent.putExtra("studentName", studentName)
+                            intent.putExtra("categoryName", imageLabels[index])
                             //val intent = Intent(context, destinations[index])
-                            //context.startActivity(intent)
+                            context.startActivity(intent)
                         }
                 )
                 Box(
