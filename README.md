@@ -99,7 +99,7 @@ npm start
 - [x] Dropdown list con el nombre para seleccionar el alumno (Galindo)
 - [x] Hacer fetch en pantalla de `Mi hij@` (Galindo)
 - [x] Hacer fetch en pantalla de los detalles del alumno para el papá (Galindo)
-- [ ] Estilos del dropdown en `selecciona tu nombre` (Galindo)
+- [x] Estilos del dropdown en `selecciona tu nombre` (Galindo)
 - [ ] Corregir las diapositivas
 - [ ] Crear manual para Firebase
 - [ ] Instalar app en tu cel
