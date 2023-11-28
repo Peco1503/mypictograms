@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
@@ -64,7 +62,6 @@ class PerfilAlumnoPadre : ComponentActivity() {
 @Composable
 // @Preview(name = "Landscape Mode", showBackground = true, device = Devices.PIXEL_C, widthDp = 1280)
 fun PerfilAlumnoPadres(EstudianteId: Int, activityContext: ComponentActivity) {
-    val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     var Estudiante by remember { mutableStateOf(Alumno()) }
     var Terapia by remember { mutableStateOf<List<Terapeuta>>(emptyList()) }
@@ -109,7 +106,6 @@ fun PerfilAlumnoPadres(EstudianteId: Int, activityContext: ComponentActivity) {
                 modifier = Modifier
                     .width(770.dp)
                     .background(Color.White)
-                    .verticalScroll(scrollState)
             ) {
                 Column(
                     modifier = Modifier
