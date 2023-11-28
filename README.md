@@ -91,7 +91,7 @@ npm start
 - [x] Drag & Drop (Yuvan)
 - [ ] Comunicador (Franco)
 - [ ] Integrar el comunicador con el back (Franco y Yuvan)
-- [ ] Lock level access based for students based on the allowed one (Yuvan y Franco)
+- [x] Lock level access based for students based on the allowed one (Yuvan y Franco)
 
 ## Galindo
 - [x] Subir imagenes a firebase (Galindo)
