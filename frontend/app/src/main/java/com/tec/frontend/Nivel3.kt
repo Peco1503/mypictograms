@@ -80,7 +80,7 @@ class Nivel3 : ComponentActivity() {
         super.onCreate(savedInstanceState)
         tts = TextToSpeech(this) { status ->
             if (status != TextToSpeech.ERROR) {
-                // Set the language here if needed
+
             }
         }
 
@@ -122,12 +122,10 @@ class Nivel3 : ComponentActivity() {
 
                         Spacer(modifier = Modifier.width(500.dp))
 
-                        // Column 2 - Non-draggable images
                         Column(
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            // Images in the second column without drag functionality
                             NonDraggableObject(imageRes = R.drawable.tortugris)
                             NonDraggableObject(imageRes = R.drawable.serpgris)
                             NonDraggableObject(imageRes = R.drawable.peligris)
@@ -213,13 +211,10 @@ fun NonDraggableObject(imageRes: Int, modifier: Modifier = Modifier) {
 }
 
 
-// Function to check for collision with non-draggable objects
 fun checkCollision(offsetX: Float, offsetY: Float): Boolean {
-    // Adjust these values based on your layout and collision criteria
     val collisionThreshold = 60.dp
     val nonDraggableObjects = listOf(
         Offset(1100f, 0f),
-        // Add more non-draggable object positions as needed
     )
 
     for (nonDraggableObject in nonDraggableObjects) {
