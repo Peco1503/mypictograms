@@ -92,7 +92,7 @@ class SubirImagenes : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    SubirImagenesPantalla(studentId, studentName)
+                    SubirImagenesPantalla(studentId, studentName, MaximumNivelAcesso)
                     BackButtonUI(studentId, studentName, MaximumNivelAcesso)
                 }
             }
@@ -126,7 +126,7 @@ fun BackButtonUI(studentId: Int, studentName : String, MaximumNivelAcesso: Int) 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SubirImagenesPantalla(studentId: Int, studentName : String) {
+fun SubirImagenesPantalla(studentId: Int, studentName : String, MaximumNivelAcesso: Int) {
 
     // Variables que identifican a la imagen
     var name by remember { mutableStateOf("") }
@@ -281,6 +281,7 @@ fun SubirImagenesPantalla(studentId: Int, studentName : String) {
                                 val intent = Intent(contextDrop, CrearCategoria::class.java)
                                 intent.putExtra("studentId", studentId)
                                 intent.putExtra("studentName", studentName)
+                                intent.putExtra("MaximumNivelAcesso", MaximumNivelAcesso)
                                 contextDrop.startActivity(intent)
                             },
                         ) {
