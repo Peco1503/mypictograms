@@ -122,7 +122,7 @@ fun RandomBubbles(modifier: Modifier = Modifier, studentId: Int, studentName : S
 
         LaunchedEffect(bubbleLimit) {
             while (bubbles.size < bubbleLimit) {
-                val bubbleSize = 100f // Asumiendo que es el tamaño de la burbuja
+                val bubbleSize = 100f
                 val randomX = Random.nextFloat() * (maxWidth - bubbleSize)
                 val randomY = Random.nextFloat() * (maxHeight - bubbleSize)
                 bubbles.add(Bubble(x = randomX, y = randomY))
@@ -137,7 +137,7 @@ fun RandomBubbles(modifier: Modifier = Modifier, studentId: Int, studentName : S
                 modifier = Modifier
                     .randomBubbleModifier(bubble)
                     .clickable {
-                        // Selecciona aleatoriamente de la lista "pantallas"
+
                         val randomIndex = Random.nextInt(pantallas.size)
                         val nextPantalla = pantallas[randomIndex]
                         val intent = Intent(context, nextPantalla)
@@ -156,7 +156,7 @@ fun Modifier.randomBubbleModifier(bubble: Bubble): Modifier = this.then(
     Modifier.layout { measurable, constraints ->
         val placeable = measurable.measure(constraints)
 
-        // Colocar la burbuja en las posiciones X e Y aleatorias dentro de los límites de la pantalla
+
         layout(placeable.width, placeable.height) {
             val xPosition = bubble.x.toInt().coerceIn(0, constraints.maxWidth - placeable.width)
             val yPosition = bubble.y.toInt().coerceIn(0, constraints.maxHeight - placeable.height)
