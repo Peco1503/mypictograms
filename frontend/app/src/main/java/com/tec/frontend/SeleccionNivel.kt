@@ -49,7 +49,7 @@ class SeleccionNivel : ComponentActivity() {
                 studentId = intent.getIntExtra("studentId", -1)
                 studentName = intent.getStringExtra("studentName").toString()
                 MaximumNivelAcesso = intent.getIntExtra("MaximumNivelAcesso", -1)
-                // A surface container using the 'background' color from the theme
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
